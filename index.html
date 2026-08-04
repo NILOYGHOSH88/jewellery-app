@@ -208,24 +208,28 @@
     document.getElementById('calcDate').valueAsDate = new Date();
 
     const display = document.getElementById('display');
-    let calculationString = ''; // আসল হিসাব মনে রাখার জন্য
+    let calculationString = ''; // ব্যাকগ্রাউন্ডের আসল হিসাব
+    let userVisibleExpression = ''; // ইউজার যা স্ক্রিনে দেখছে (যেমন: 8×6)
 
     function appendValue(value, displayChar) {
         if (display.value === 'ত্রুটি') {
             clearDisplay();
         }
         calculationString += value;
-        display.value += displayChar;
+        userVisibleExpression += displayChar;
+        display.value = userVisibleExpression;
     }
 
     function clearDisplay() {
         display.value = '';
         calculationString = '';
+        userVisibleExpression = '';
     }
 
     function deleteDigit() {
         display.value = display.value.slice(0, -1);
         calculationString = calculationString.slice(0, -1);
+        userVisibleExpression = userVisibleExpression.slice(0, -1);
     }
 
     function calculateResult() {
@@ -234,23 +238,30 @@
             if (result === undefined || result === null || !isFinite(result)) {
                 throw new Error("Invalid");
             }
-            display.value = result;
-            calculationString = result.toString();
             
-            saveToGoogleSheet(result);
+            // সম্পূর্ণ হিসাব এবং ফলাফল একসাথে তৈরি করা (যেমন: 8×6 = 48)
+            let fullRecord = userVisibleExpression + ' = ' + result;
+
+            display.value = result;
+            
+            // গুগল শিটে পুরো হিসাবসহ ডেটা পাঠানো
+            saveToGoogleSheet(fullRecord);
+
+            calculationString = result.toString();
+            userVisibleExpression = result.toString();
 
         } catch (error) {
             display.value = 'ত্রুটি';
-            calculationString = '';
+            clearDisplay();
             setTimeout(clearDisplay, 1500);
         }
     }
 
-    function saveToGoogleSheet(calcValue) {
+    function saveToGoogleSheet(recordValue) {
         let dateVal = document.getElementById('calcDate').value;
         let descVal = document.getElementById('calcDesc').value;
 
-        if (!calcValue || calcValue === 'ত্রুটি') return;
+        if (!recordValue || recordValue.includes('ত্রুটি')) return;
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwzXmqzhBmUsk1YD1c0kiYi5nRgItzP8mBx2DNcCpHmmxoFZHd6Zy0MJioI8NJN6Jbp/exec';
 
@@ -258,7 +269,7 @@
             type: "Calculator",
             date: dateVal,
             itemDesc: descVal,
-            totalPrice: calcValue
+            totalPrice: recordValue // এখানে পুরো হিসাব (যেমন: 8×6 = 48) সেভ হবে
         };
 
         fetch(scriptURL, {
@@ -267,7 +278,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Saved successfully!', data);
+            console.log('Expression saved successfully!', data);
             document.getElementById('calcDesc').value = '';
         })
         .catch(error => {
