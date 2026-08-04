@@ -1,291 +1,1086 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রিমিয়াম জুয়েলারি বিজনেস ক্যালকুলেটর</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Hind+Siliguri:wght@500;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            background: radial-gradient(circle at center, #111827 0%, #030712 100%);
-            font-family: 'Hind Siliguri', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            color: #f3f4f6;
-        }
+<title>JewelCalc Pro | Jewellery Calculator</title>
 
-        .calculator-container {
-            background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(3, 7, 18, 0.95));
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 20px;
-            width: 350px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.15);
-            border: 2px solid #d4af37;
-            position: relative;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .calculator-container::before {
-            content: '★ গোল্ড বিজনেস ★';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #d4af37;
-            color: #030712;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 12px;
-            border-radius: 10px;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
+<style>
 
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            background: rgba(212, 175, 55, 0.05);
-            padding: 4px;
-            border-radius: 10px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            margin-top: 8px;
-        }
+:root{
+    --bg:#080808;
+    --card:#151515;
+    --card2:#1d1d1d;
+    --gold:#d4af37;
+    --gold-light:#f5e6c8;
+    --text:#ffffff;
+    --muted:#aaa;
+    --border:rgba(212,175,55,.18);
+    --green:#22c55e;
+    --red:#ef4444;
+}
 
-        .nav-buttons button {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 6px 4px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            color: #9ca3af;
-            font-size: 12px;
-            font-family: 'Hind Siliguri', sans-serif;
-            transition: all 0.3s ease;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .nav-buttons button.active {
-            background: linear-gradient(135deg, #d4af37, #aa7c11);
-            color: #030712;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-        }
+body{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top,#30220b,transparent 35%),
+    linear-gradient(180deg,#080808,#101010);
+    color:var(--text);
+    font-family:Inter,sans-serif;
+}
 
-        .input-group {
-            margin-bottom: 10px;
-            display: flex;
-            gap: 8px;
-        }
 
-        .input-group input {
-            width: 50%;
-            background: #0b0f19;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            padding: 6px 10px;
-            font-size: 13px;
-            font-family: 'Hind Siliguri', sans-serif;
-        }
+/* HEADER */
 
-        #display {
-            width: 100%;
-            height: 50px;
-            background: #0b0f19;
-            border-radius: 10px;
-            color: #f3e5ab;
-            font-family: 'Cinzel', serif;
-            font-size: 24px;
-            font-weight: 700;
-            text-align: right;
-            padding: 8px 12px;
-            box-sizing: border-box;
-            margin-bottom: 12px;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9);
-        }
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(15px);
+    background:rgba(8,8,8,.85);
+    border-bottom:1px solid var(--border);
+}
 
-        .buttons-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
+.container{
+    width:min(1200px,92%);
+    margin:auto;
+}
 
-        button.calc-btn {
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #1f2937;
-            color: #f3f4f6;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.2s ease;
-        }
 
-        button.calc-btn:active {
-            transform: scale(0.95);
-        }
+.navbar{
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-        .btn-clear {
-            background: linear-gradient(135deg, #991b1b, #7f1d1d) !important;
-            color: #fff;
-        }
 
-        .btn-back {
-            background: linear-gradient(135deg, #1e3a8a, #172554) !important;
-            color: #fff;
-        }
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
 
-        .btn-operator {
-            background: linear-gradient(135deg, #d4af37, #997a15) !important;
-            color: #030712;
-            font-weight: 900;
-        }
 
-        .btn-equal {
-            grid-column: span 4;
-            background: linear-gradient(135deg, #b45309, #78350f) !important;
-            color: #fef3c7;
-            padding: 12px;
-            font-size: 18px;
-            margin-top: 8px;
-            border-radius: 8px;
-            font-weight: 700;
-            border: 1px solid #d4af37;
-        }
-    </style>
-</head>
-<body>
+.logo-icon{
 
-<div class="calculator-container">
-    <div class="nav-buttons">
-        <button class="active">ক্যালকুলেটর</button>
-        <button onclick="location.href='polish.html'">লিশের হিসাব</button>
-        <button onclick="location.href='price.html'">দামের হিসাব</button>
-    </div>
+    width:50px;
+    height:50px;
+    border-radius:15px;
 
-    <div class="input-group">
-        <input type="date" id="calcDate">
-        <input type="text" id="calcDesc" placeholder="বিবরণ (যেমন: আংটি)">
-    </div>
+    display:grid;
+    place-items:center;
 
-    <input type="text" id="display" readonly placeholder="0">
+    background:
+    linear-gradient(135deg,var(--gold-light),var(--gold));
 
-    <div class="buttons-grid">
-        <button class="calc-btn btn-clear" onclick="clearDisplay()">C</button>
-        <button class="calc-btn btn-back" onclick="deleteDigit()">⌫</button>
-        <button class="calc-btn btn-operator" onclick="appendValue('/', '÷')">÷</button>
-        <button class="calc-btn btn-operator" onclick="appendValue('*', '×')">×</button>
+    color:#111;
+    font-weight:900;
+    font-size:25px;
 
-        <button class="calc-btn" onclick="appendValue('7', '7')">7</button>
-        <button class="calc-btn" onclick="appendValue('8', '8')">8</button>
-        <button class="calc-btn" onclick="appendValue('9', '9')">9</button>
-        <button class="calc-btn btn-operator" onclick="appendValue('-', '-')">-</button>
+    box-shadow:
+    0 0 25px rgba(212,175,55,.35);
+}
 
-        <button class="calc-btn" onclick="appendValue('4', '4')">4</button>
-        <button class="calc-btn" onclick="appendValue('5', '5')">5</button>
-        <button class="calc-btn" onclick="appendValue('6', '6')">6</button>
-        <button class="calc-btn btn-operator" onclick="appendValue('+', '+')">+</button>
 
-        <button class="calc-btn" onclick="appendValue('1', '1')">1</button>
-        <button class="calc-btn" onclick="appendValue('2', '2')">2</button>
-        <button class="calc-btn" onclick="appendValue('3', '3')">3</button>
-        <button class="calc-btn" onclick="appendValue('0', '0')">0</button>
-    </div>
+.logo h1{
 
-    <button class="btn-equal calc-btn" onclick="calculateResult()">=</button>
-</div>
+    font-family:Cinzel,serif;
+    color:var(--gold-light);
+    font-size:26px;
 
-<script>
-    document.getElementById('calcDate').valueAsDate = new Date();
+}
 
-    const display = document.getElementById('display');
-    let calculationString = ''; // ব্যাকগ্রাউন্ডের আসল হিসাব
-    let userVisibleExpression = ''; // ইউজার যা স্ক্রিনে দেখছে (যেমন: 8×6)
 
-    function appendValue(value, displayChar) {
-        if (display.value === 'ত্রুটি') {
-            clearDisplay();
-        }
-        calculationString += value;
-        userVisibleExpression += displayChar;
-        display.value = userVisibleExpression;
-    }
+.logo span{
+    color:var(--gold);
+}
 
-    function clearDisplay() {
-        display.value = '';
-        calculationString = '';
-        userVisibleExpression = '';
-    }
 
-    function deleteDigit() {
-        display.value = display.value.slice(0, -1);
-        calculationString = calculationString.slice(0, -1);
-        userVisibleExpression = userVisibleExpression.slice(0, -1);
-    }
 
-    function calculateResult() {
-        try {
-            let result = eval(calculationString);
-            if (result === undefined || result === null || !isFinite(result)) {
-                throw new Error("Invalid");
-            }
-            
-            // সম্পূর্ণ হিসাব এবং ফলাফল একসাথে তৈরি করা (যেমন: 8×6 = 48)
-            let fullRecord = userVisibleExpression + ' = ' + result;
+.nav-menu{
 
-            display.value = result;
-            
-            // গুগল শিটে পুরো হিসাবসহ ডেটা পাঠানো
-            saveToGoogleSheet(fullRecord);
+    display:flex;
+    gap:20px;
+}
 
-            calculationString = result.toString();
-            userVisibleExpression = result.toString();
 
-        } catch (error) {
-            display.value = 'ত্রুটি';
-            clearDisplay();
-            setTimeout(clearDisplay, 1500);
-        }
-    }
+.nav-menu a{
 
-    function saveToGoogleSheet(recordValue) {
-        let dateVal = document.getElementById('calcDate').value;
-        let descVal = document.getElementById('calcDesc').value;
+    color:#ddd;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:10px;
+    transition:.3s;
 
-        if (!recordValue || recordValue.includes('ত্রুটি')) return;
+}
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwzXmqzhBmUsk1YD1c0kiYi5nRgItzP8mBx2DNcCpHmmxoFZHd6Zy0MJioI8NJN6Jbp/exec';
 
-        let payload = {
-            type: "Calculator",
-            date: dateVal,
-            itemDesc: descVal,
-            totalPrice: recordValue // এখানে পুরো হিসাব (যেমন: 8×6 = 48) সেভ হবে
-        };
+.nav-menu a:hover{
 
-        fetch(scriptURL, {
-            method: 'POST',
-            body: JSON.stringify(payload)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Expression saved successfully!', data);
-            document.getElementById('calcDesc').value = '';
-        })
-        .catch(error => {
-            console.error('Error!', error);
-        });
-    }
-</script>
+    color:var(--gold);
+    background:rgba(212,175,55,.08);
 
-</body>
-</html>
+}
+
+
+
+/* HERO */
+
+
+.hero{
+
+    padding:70px 0 40px;
+
+}
+
+
+.hero-box{
+
+    background:
+    linear-gradient(180deg,#181818,#111);
+
+    border:1px solid var(--border);
+
+    border-radius:30px;
+
+    padding:50px;
+
+    box-shadow:
+    0 30px 70px rgba(0,0,0,.5);
+
+}
+
+
+.hero h2{
+
+    font-family:Cinzel,serif;
+
+    font-size:clamp(35px,5vw,60px);
+
+    line-height:1.2;
+
+}
+
+
+.gold{
+
+    color:var(--gold);
+
+}
+
+
+.hero p{
+
+    margin-top:20px;
+
+    color:#ccc;
+
+    max-width:700px;
+
+    line-height:1.8;
+
+}
+
+
+
+/* BUTTON */
+
+
+.btn{
+
+    margin-top:25px;
+
+    padding:15px 30px;
+
+    border-radius:14px;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+
+.btn-gold{
+
+    background:
+    linear-gradient(135deg,var(--gold-light),var(--gold));
+
+    color:#111;
+
+}
+
+
+.btn-gold:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 30px rgba(212,175,55,.35);
+
+}
+
+
+
+/* MAIN LAYOUT */
+
+
+.main-grid{
+
+    display:grid;
+
+    grid-template-columns:380px 1fr;
+
+    gap:25px;
+
+    padding-bottom:60px;
+
+}
+
+
+.card{
+
+    background:
+    linear-gradient(180deg,var(--card),#111);
+
+    border:1px solid var(--border);
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.4);
+
+}
+
+
+.card-header{
+
+    padding:22px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+
+.card-header h3{
+
+    color:var(--gold);
+
+    font-family:Cinzel,serif;
+
+}
+
+
+.card-body{
+
+    padding:25px;
+
+}
+
+
+
+/* FORM */
+
+
+.group{
+
+    margin-bottom:18px;
+
+}
+
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#ddd;
+
+    font-size:14px;
+
+}
+
+
+input,
+select{
+
+    width:100%;
+
+    height:52px;
+
+    background:#090909;
+
+    border:1px solid var(--border);
+
+    color:white;
+
+    border-radius:12px;
+
+    padding:0 15px;
+
+    outline:none;
+
+}
+
+
+input:focus,
+select:focus{
+
+    border-color:var(--gold);
+
+    box-shadow:
+    0 0 0 3px rgba(212,175,55,.12);
+
+}
+
+
+.row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JewelCalc Pro | Jewellery Calculator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#080808;
+    --card:#151515;
+    --card2:#1d1d1d;
+    --gold:#d4af37;
+    --gold-light:#f5e6c8;
+    --text:#ffffff;
+    --muted:#aaa;
+    --border:rgba(212,175,55,.18);
+    --green:#22c55e;
+    --red:#ef4444;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top,#30220b,transparent 35%),
+    linear-gradient(180deg,#080808,#101010);
+    color:var(--text);
+    font-family:Inter,sans-serif;
+}
+
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(15px);
+    background:rgba(8,8,8,.85);
+    border-bottom:1px solid var(--border);
+}
+
+.container{
+    width:min(1200px,92%);
+    margin:auto;
+}
+
+
+.navbar{
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+
+.logo-icon{
+
+    width:50px;
+    height:50px;
+    border-radius:15px;
+
+    display:grid;
+    place-items:center;
+
+    background:
+    linear-gradient(135deg,var(--gold-light),var(--gold));
+
+    color:#111;
+    font-weight:900;
+    font-size:25px;
+
+    box-shadow:
+    0 0 25px rgba(212,175,55,.35);
+}
+
+
+.logo h1{
+
+    font-family:Cinzel,serif;
+    color:var(--gold-light);
+    font-size:26px;
+
+}
+
+
+.logo span{
+    color:var(--gold);
+}
+
+
+
+.nav-menu{
+
+    display:flex;
+    gap:20px;
+}
+
+
+.nav-menu a{
+
+    color:#ddd;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:10px;
+    transition:.3s;
+
+}
+
+
+.nav-menu a:hover{
+
+    color:var(--gold);
+    background:rgba(212,175,55,.08);
+
+}
+
+
+
+/* HERO */
+
+
+.hero{
+
+    padding:70px 0 40px;
+
+}
+
+
+.hero-box{
+
+    background:
+    linear-gradient(180deg,#181818,#111);
+
+    border:1px solid var(--border);
+
+    border-radius:30px;
+
+    padding:50px;
+
+    box-shadow:
+    0 30px 70px rgba(0,0,0,.5);
+
+}
+
+
+.hero h2{
+
+    font-family:Cinzel,serif;
+
+    font-size:clamp(35px,5vw,60px);
+
+    line-height:1.2;
+
+}
+
+
+.gold{
+
+    color:var(--gold);
+
+}
+
+
+.hero p{
+
+    margin-top:20px;
+
+    color:#ccc;
+
+    max-width:700px;
+
+    line-height:1.8;
+
+}
+
+
+
+/* BUTTON */
+
+
+.btn{
+
+    margin-top:25px;
+
+    padding:15px 30px;
+
+    border-radius:14px;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+
+.btn-gold{
+
+    background:
+    linear-gradient(135deg,var(--gold-light),var(--gold));
+
+    color:#111;
+
+}
+
+
+.btn-gold:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 30px rgba(212,175,55,.35);
+
+}
+
+
+
+/* MAIN LAYOUT */
+
+
+.main-grid{
+
+    display:grid;
+
+    grid-template-columns:380px 1fr;
+
+    gap:25px;
+
+    padding-bottom:60px;
+
+}
+
+
+.card{
+
+    background:
+    linear-gradient(180deg,var(--card),#111);
+
+    border:1px solid var(--border);
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.4);
+
+}
+
+
+.card-header{
+
+    padding:22px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+
+.card-header h3{
+
+    color:var(--gold);
+
+    font-family:Cinzel,serif;
+
+}
+
+
+.card-body{
+
+    padding:25px;
+
+}
+
+
+
+/* FORM */
+
+
+.group{
+
+    margin-bottom:18px;
+
+}
+
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#ddd;
+
+    font-size:14px;
+
+}
+
+
+input,
+select{
+
+    width:100%;
+
+    height:52px;
+
+    background:#090909;
+
+    border:1px solid var(--border);
+
+    color:white;
+
+    border-radius:12px;
+
+    padding:0 15px;
+
+    outline:none;
+
+}
+
+
+input:focus,
+select:focus{
+
+    border-color:var(--gold);
+
+    box-shadow:
+    0 0 0 3px rgba(212,175,55,.12);
+
+}
+
+
+.row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JewelCalc Pro | Jewellery Calculator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#080808;
+    --card:#151515;
+    --card2:#1d1d1d;
+    --gold:#d4af37;
+    --gold-light:#f5e6c8;
+    --text:#ffffff;
+    --muted:#aaa;
+    --border:rgba(212,175,55,.18);
+    --green:#22c55e;
+    --red:#ef4444;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top,#30220b,transparent 35%),
+    linear-gradient(180deg,#080808,#101010);
+    color:var(--text);
+    font-family:Inter,sans-serif;
+}
+
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(15px);
+    background:rgba(8,8,8,.85);
+    border-bottom:1px solid var(--border);
+}
+
+.container{
+    width:min(1200px,92%);
+    margin:auto;
+}
+
+
+.navbar{
+    height:80px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+
+.logo-icon{
+
+    width:50px;
+    height:50px;
+    border-radius:15px;
+
+    display:grid;
+    place-items:center;
+
+    background:
+    linear-gradient(135deg,var(--gold-light),var(--gold));
+
+    color:#111;
+    font-weight:900;
+    font-size:25px;
+
+    box-shadow:
+    0 0 25px rgba(212,175,55,.35);
+}
+
+
+.logo h1{
+
+    font-family:Cinzel,serif;
+    color:var(--gold-light);
+    font-size:26px;
+
+}
+
+
+.logo span{
+    color:var(--gold);
+}
+
+
+
+.nav-menu{
+
+    display:flex;
+    gap:20px;
+}
+
+
+.nav-menu a{
+
+    color:#ddd;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:10px;
+    transition:.3s;
+
+}
+
+
+.nav-menu a:hover{
+
+    color:var(--gold);
+    background:rgba(212,175,55,.08);
+
+}
+
+
+
+/* HERO */
+
+
+.hero{
+
+    padding:70px 0 40px;
+
+}
+
+
+.hero-box{
+
+    background:
+    linear-gradient(180deg,#181818,#111);
+
+    border:1px solid var(--border);
+
+    border-radius:30px;
+
+    padding:50px;
+
+    box-shadow:
+    0 30px 70px rgba(0,0,0,.5);
+
+}
+
+
+.hero h2{
+
+    font-family:Cinzel,serif;
+
+    font-size:clamp(35px,5vw,60px);
+
+    line-height:1.2;
+
+}
+
+
+.gold{
+
+    color:var(--gold);
+
+}
+
+
+.hero p{
+
+    margin-top:20px;
+
+    color:#ccc;
+
+    max-width:700px;
+
+    line-height:1.8;
+
+}
+
+
+
+/* BUTTON */
+
+
+.btn{
+
+    margin-top:25px;
+
+    padding:15px 30px;
+
+    border-radius:14px;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+
+.btn-gold{
+
+    background:
+    linear-gradient(135deg,var(--gold-light),var(--gold));
+
+    color:#111;
+
+}
+
+
+.btn-gold:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 30px rgba(212,175,55,.35);
+
+}
+
+
+
+/* MAIN LAYOUT */
+
+
+.main-grid{
+
+    display:grid;
+
+    grid-template-columns:380px 1fr;
+
+    gap:25px;
+
+    padding-bottom:60px;
+
+}
+
+
+.card{
+
+    background:
+    linear-gradient(180deg,var(--card),#111);
+
+    border:1px solid var(--border);
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.4);
+
+}
+
+
+.card-header{
+
+    padding:22px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+
+.card-header h3{
+
+    color:var(--gold);
+
+    font-family:Cinzel,serif;
+
+}
+
+
+.card-body{
+
+    padding:25px;
+
+}
+
+
+
+/* FORM */
+
+
+.group{
+
+    margin-bottom:18px;
+
+}
+
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#ddd;
+
+    font-size:14px;
+
+}
+
+
+input,
+select{
+
+    width:100%;
+
+    height:52px;
+
+    background:#090909;
+
+    border:1px solid var(--border);
+
+    color:white;
+
+    border-radius:12px;
+
+    padding:0 15px;
+
+    outline:none;
+
+}
+
+
+input:focus,
+select:focus{
+
+    border-color:var(--gold);
+
+    box-shadow:
+    0 0 0 3px rgba(212,175,55,.12);
+
+}
+
+
+.row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:15px;
+
+}
