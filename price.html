@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JewelCalc Pro - গোল্ড ও সাধারণ ক্যালকুলেটর</title>
+<title>JewelCalc Pro - প্রফেশনাল জুয়েলারি সিস্টেম</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -101,7 +101,7 @@ body{
     100% { background-position: 0% 50%; }
 }
 
-/* App Title Bar */
+/* Top Bar */
 .app-top-bar {
     display: flex;
     justify-content: space-between;
@@ -136,7 +136,6 @@ body{
 }
 
 .tab-btn {
-    text-decoration: none;
     text-align: center;
     padding: 8px 2px;
     font-size: 11px;
@@ -197,14 +196,10 @@ body{
 }
 
 /* Views */
-.view-section {
-    display: none;
-}
-.view-section.active {
-    display: block;
-}
+.view-section { display: none; }
+.view-section.active { display: block; }
 
-/* Form Elements (Gold Calculator) */
+/* Form Elements */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -299,7 +294,13 @@ input:focus, select:focus{
 
 .btn:hover { transform: translateY(-1px); }
 
-/* History Section */
+/* Google Sheet Sync Special Button Style */
+.btn-sheet {
+    background: linear-gradient(135deg, #4285F4, #34A853);
+    color: #fff !important;
+}
+
+/* History */
 .section-title {
     font-size: 11px;
     color: var(--gold);
@@ -311,7 +312,7 @@ input:focus, select:focus{
 }
 
 .history-list {
-    max-height: 100px;
+    max-height: 90px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -339,7 +340,7 @@ input:focus, select:focus{
     font-size: 9px;
 }
 
-/* General Calculator UI (Like Screenshot 2) */
+/* General Calculator UI */
 .calc-screen {
     background: var(--input-bg);
     border: 1px solid var(--border-color);
@@ -387,24 +388,13 @@ input:focus, select:focus{
     align-items: center;
 }
 
-.calc-btn:hover {
-    background: var(--btn-calc-hover);
-}
-
-.calc-btn.operator {
-    color: #e67e22;
-    font-size: 20px;
-}
-
-.calc-btn.ac {
-    color: #e74c3c;
-}
-
+.calc-btn:hover { background: var(--btn-calc-hover); }
+.calc-btn.operator { color: #e67e22; font-size: 20px; }
+.calc-btn.ac { color: #e74c3c; }
 .calc-btn.equal {
     background: linear-gradient(135deg, #f39c12, #d35400);
     color: #fff;
     border: none;
-    box-shadow: 0 4px 12px rgba(211, 84, 0, 0.4);
 }
 
 #toast {
@@ -437,12 +427,12 @@ input:focus, select:focus{
         <div class="app-icon-badge">✨</div>
     </div>
 
-    <!-- Nav Tabs -->
+    <!-- 4 Tabs -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchView('priceView', this)">দাম লেয়ার</button>
-        <button class="tab-btn" onclick="switchView('calcView', this)">ক্যালকুলেটর</button>
-        <button class="tab-btn" onclick="showToast('কাস্টমার লেয়ার শীঘ্রই আসছে!')">কাস্টমার</button>
-        <button class="tab-btn" onclick="document.getElementById('historySearch').focus(); switchView('priceView', document.querySelectorAll('.tab-btn')[0]);">হিস্ট্রি</button>
+        <button class="tab-btn" onclick="switchView('polishView', this)">পলিশ লেয়ার</button>
+        <button class="tab-btn" onclick="switchView('customerView', this)">কাস্টমার</button>
+        <button class="tab-btn" onclick="switchView('priceView', document.querySelectorAll('.tab-btn')[0]); document.getElementById('historySearch').focus();">হিস্ট্রি</button>
     </div>
 
     <div class="header-box">
@@ -450,7 +440,7 @@ input:focus, select:focus{
             <div class="jc-logo">JC</div>
             <div class="logo-text">
                 <h2>জুয়েলারি কর্নার</h2>
-                <span>প্রফেশনাল সিস্টেম</span>
+                <span>মাল্টি-লেয়ার সিস্টেম</span>
             </div>
         </div>
         <button class="theme-btn" onclick="toggleTheme()">☀️ থিম</button>
@@ -537,8 +527,8 @@ input:focus, select:focus{
             <div class="total-highlight" id="finalPriceResult">০.০০</div>
             <div class="btn-row">
                 <button class="btn" onclick="copyResult()">📋 কপি</button>
-                <button class="btn" onclick="saveData()">💾 সেভ ও সিঙ্ক</button>
-                <button class="btn" onclick="generateInvoice()">🖨️ ক্যাশ মেমো</button>
+                <button class="btn btn-sheet" onclick="sendToGoogleSheet()">☁️ গুগল শিটে সেভ</button>
+                <button class="btn" onclick="generateInvoice()">🖨️ মেমো</button>
             </div>
         </div>
 
@@ -549,38 +539,46 @@ input:focus, select:focus{
         <div class="history-list" id="priceHistoryList"></div>
     </div>
 
-    <!-- VIEW 2: GENERAL CALCULATOR (সাধারণ ক্যালকুলেটর) -->
-    <div id="calcView" class="view-section">
-        <div class="calc-screen">
-            <div class="calc-history-exp" id="calcExp"></div>
-            <div class="calc-current-val" id="calcDisplay">0</div>
+    <!-- VIEW 2: POLISH LAYER (পলিশ লেয়ার) -->
+    <div id="polishView" class="view-section">
+        <div class="form-group">
+            <label>গ্রাহকের নাম</label>
+            <input type="text" id="polishCustName" placeholder="নাম লিখুন">
         </div>
-        <div class="calc-keypad">
-            <button class="calc-btn ac" onclick="calcClear()">AC</button>
-            <button class="calc-btn operator" onclick="calcAppend('⌫')">⌫</button>
-            <button class="calc-btn operator" onclick="calcAppend('%')">%</button>
-            <button class="calc-btn operator" onclick="calcAppend('/')">÷</button>
-
-            <button class="calc-btn" onclick="calcAppend('7')">7</button>
-            <button class="calc-btn" onclick="calcAppend('8')">8</button>
-            <button class="calc-btn" onclick="calcAppend('9')">9</button>
-            <button class="calc-btn operator" onclick="calcAppend('*')">×</button>
-
-            <button class="calc-btn" onclick="calcAppend('4')">4</button>
-            <button class="calc-btn" onclick="calcAppend('5')">5</button>
-            <button class="calc-btn" onclick="calcAppend('6')">6</button>
-            <button class="calc-btn operator" onclick="calcAppend('-')">-</button>
-
-            <button class="calc-btn" onclick="calcAppend('1')">1</button>
-            <button class="calc-btn" onclick="calcAppend('2')">2</button>
-            <button class="calc-btn" onclick="calcAppend('3')">3</button>
-            <button class="calc-btn operator" onclick="calcAppend('+')">+</button>
-
-            <button class="calc-btn" onclick="switchView('priceView', document.querySelectorAll('.tab-btn')[0])">✨</button>
-            <button class="calc-btn" onclick="calcAppend('0')">0</button>
-            <button class="calc-btn" onclick="calcAppend('.')">.</button>
-            <button class="calc-btn equal" onclick="calcCalculate()">=</button>
+        <div class="form-row">
+            <div class="form-group">
+                <label>আইটেমের বিবরণ</label>
+                <input type="text" id="polishItem" placeholder="যেমন: স্বর্ণের চেইন">
+            </div>
+            <div class="form-group">
+                <label>পলিশ খরচ (টাকা)</label>
+                <input type="number" id="polishCost" value="500">
+            </div>
         </div>
+        <div class="result-box">
+            <div style="font-size: 10px; color: var(--muted);">পলিশ লেয়ার ফি</div>
+            <div class="total-highlight" id="polishTotalDisplay">৳ ৫০০</div>
+            <div class="btn-row">
+                <button class="btn btn-sheet" onclick="sendPolishToSheet()">☁️ শিটে সেভ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 3: CUSTOMER LAYER (কাস্টমার লেয়ার) -->
+    <div id="customerView" class="view-section">
+        <div class="form-group">
+            <label>কাস্টমারের নাম</label>
+            <input type="text" id="cName" placeholder="পূর্ণ নাম">
+        </div>
+        <div class="form-group">
+            <label>মোবাইল নম্বর</label>
+            <input type="text" id="cPhone" placeholder="017xxxxxxxx">
+        </div>
+        <div class="form-group">
+            <label>ঠিকানা</label>
+            <input type="text" id="cAddress" placeholder="এলাকা/শহর">
+        </div>
+        <button class="btn btn-sheet" style="width:100%; margin-top:10px;" onclick="saveCustomer()">💾 কাস্টমার সেভ করুন</button>
     </div>
 </div>
 
@@ -634,7 +632,7 @@ function playBeep(freq = 600, duration = 0.05) {
     } catch(e) {}
 }
 
-// Particles
+// Particles Background
 const canvas = document.getElementById("particlesCanvas");
 const ctx = canvas.getContext("2d");
 let particles = [];
@@ -642,4 +640,8 @@ function resize() { canvas.width = window.innerWidth; canvas.height = window.inn
 window.onresize = resize; resize();
 
 for(let i=0; i<30; i++) {
-    particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+    particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2+1, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3 });
+}
+function drawParticles() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "
