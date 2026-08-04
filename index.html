@@ -19,15 +19,14 @@
             color: #f3f4f6;
         }
 
-        /* গোল্ডেন বিজনেস লুক কন্টেইনার */
         .calculator-container {
             background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(3, 7, 18, 0.95));
             backdrop-filter: blur(15px);
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             width: 350px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.15);
-            border: 2px solid #d4af37; /* খাঁটি সোনালী বর্ডার */
+            border: 2px solid #d4af37;
             position: relative;
         }
 
@@ -47,28 +46,27 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        /* ওপরের নেভিগেশন */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             background: rgba(212, 175, 55, 0.05);
-            padding: 5px;
-            border-radius: 12px;
+            padding: 4px;
+            border-radius: 10px;
             border: 1px solid rgba(212, 175, 55, 0.2);
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .nav-buttons button {
             flex: 1;
             background: transparent;
             border: none;
-            padding: 8px 4px;
+            padding: 6px 4px;
             border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
             color: #9ca3af;
-            font-size: 13px;
+            font-size: 12px;
             font-family: 'Hind Siliguri', sans-serif;
             transition: all 0.3s ease;
         }
@@ -79,117 +77,109 @@
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
         }
 
-        .nav-buttons button:hover:not(.active) {
-            color: #d4af37;
-            background: rgba(212, 175, 55, 0.1);
+        .input-group {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 8px;
         }
 
-        /* বিজনেস ডিসপ্লে */
+        .input-group input {
+            width: 50%;
+            background: #0b0f19;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            padding: 6px 10px;
+            font-size: 13px;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
         #display {
             width: 100%;
-            height: 65px;
+            height: 50px;
             background: #0b0f19;
-            border-radius: 12px;
-            color: #f3e5ab; /* প্রিমিয়াম গোল্ডেন টেক্সট কালার */
+            border-radius: 10px;
+            color: #f3e5ab;
             font-family: 'Cinzel', serif;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             text-align: right;
-            padding: 10px 15px;
+            padding: 8px 12px;
             box-sizing: border-box;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             border: 1px solid rgba(212, 175, 55, 0.4);
             box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9);
-            letter-spacing: 1px;
         }
 
-        /* বাটন গ্রিড */
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
 
-        /* এক্সিকিউটিভ বাটন স্টাইল */
         button.calc-btn {
-            padding: 15px;
-            font-size: 18px;
+            padding: 12px;
+            font-size: 16px;
             font-weight: 700;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             background: #1f2937;
             color: #f3f4f6;
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
         button.calc-btn:active {
             transform: scale(0.95);
         }
 
-        button.calc-btn:hover {
-            background: #374151;
-            border-color: rgba(212, 175, 55, 0.3);
-        }
-
-        /* বিশেষ গোল্ড বিজনেস কালার ভ্যারিয়েশন */
         .btn-clear {
             background: linear-gradient(135deg, #991b1b, #7f1d1d) !important;
             color: #fff;
-            border-color: #b91c1c;
         }
 
         .btn-back {
             background: linear-gradient(135deg, #1e3a8a, #172554) !important;
             color: #fff;
-            border-color: #2563eb;
         }
 
         .btn-operator {
             background: linear-gradient(135deg, #d4af37, #997a15) !important;
             color: #030712;
             font-weight: 900;
-            border-color: #fef08a;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
-        /* সমান (=) গোল্ডেন বাটন */
         .btn-equal {
             grid-column: span 4;
             background: linear-gradient(135deg, #b45309, #78350f) !important;
             color: #fef3c7;
-            padding: 15px;
-            font-size: 20px;
-            margin-top: 10px;
-            border-radius: 10px;
+            padding: 12px;
+            font-size: 18px;
+            margin-top: 8px;
+            border-radius: 8px;
             font-weight: 700;
             border: 1px solid #d4af37;
-            box-shadow: 0 4px 15px rgba(180, 83, 9, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn-equal:hover {
-            background: linear-gradient(135deg, #d97706, #92400e) !important;
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
         }
     </style>
 </head>
 <body>
 
 <div class="calculator-container">
-    <!-- ওপরের নেভিগেশন বাটন -->
     <div class="nav-buttons">
         <button class="active">ক্যালকুলেটর</button>
         <button onclick="location.href='polish.html'">লিশের হিসাব</button>
         <button onclick="location.href='price.html'">দামের হিসাব</button>
     </div>
 
-    <!-- ডিসপ্লে -->
+    <!-- তারিখ এবং বিবরণ ইনপুট ফিল্ড -->
+    <div class="input-group">
+        <input type="date" id="calcDate">
+        <input type="text" id="calcDesc" placeholder="বিবরণ (যেমন: আংটি)">
+    </div>
+
     <input type="text" id="display" readonly placeholder="0">
 
-    <!-- কিপ্যাড -->
     <div class="buttons-grid">
         <button class="calc-btn btn-clear" onclick="clearDisplay()">C</button>
         <button class="calc-btn btn-back" onclick="deleteDigit()">⌫</button>
@@ -216,6 +206,9 @@
 </div>
 
 <script>
+    // স্বয়ংক্রয়ভাবে আজকের তারিখ সেট করা
+    document.getElementById('calcDate').valueAsDate = new Date();
+
     const display = document.getElementById('display');
 
     function appendValue(value) {
@@ -240,27 +233,52 @@
                 throw new Error("Invalid");
             }
             display.value = result;
+            
+            // '=' এ চাপ দেওয়ার সাথে সাথেই অটোমেটিক শিটে সেভ হবে
+            saveToGoogleSheet(result);
+
         } catch (error) {
             display.value = 'ত্রুটি';
             setTimeout(clearDisplay, 1500);
         }
     }
 
-    // কিবোর্ড শর্টকাট সাপোর্ট
-    document.addEventListener('keydown', function(event) {
-        const key = event.key;
-        if (/[0-9]/.test(key)) {
-            appendValue(key);
-        } else if (['+', '-', '*', '/'].includes(key)) {
-            appendValue(key);
-        } else if (key === 'Enter') {
-            calculateResult();
-        } else if (key === 'Backspace') {
-            deleteDigit();
-        } else if (key === 'c' || key === 'C') {
-            clearDisplay();
+    function saveToGoogleSheet(calcValue) {
+        let dateVal = document.getElementById('calcDate').value;
+        let descVal = document.getElementById('calcDesc').value;
+
+        if (!calcValue || calcValue === 'ত্রুটি') return;
+
+        // আপনার গুগল অ্যাপস স্ক্রিপ্ট থেকে পাওয়া Web App URL টি এখানে বসাবেন
+        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+        if (scriptURL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+            return; // লিংক না থাকলে সাইলেন্ট থাকবে বা চাইলে অ্যালার্ট রাখতে পারেন
         }
-    });
+
+        let payload = {
+            type: "Calculator",
+            date: dateVal,
+            itemDesc: descVal,
+            totalPrice: calcValue
+        };
+
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            console.log('Saved to Google Sheet automatically!');
+            document.getElementById('calcDesc').value = ''; // সেভ হওয়ার পর বিবরণ ঘরটি খালি করে দিবে
+        })
+        .catch(error => {
+            console.error('Error!', error.message);
+        });
+    }
 </script>
 
 </body>
