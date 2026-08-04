@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>পলিশের হিসাব - গোল্ডেন লাক্সারি</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', 'Baloo Da 2', sans-serif;
+      background: linear-gradient(135deg, #0B1120 0%, #1A2332 100%);
+      color: #F7E7A0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    /* ব্যাকগ্রাউন্ড স্পার্কল বা ভাসমান গোল্ডেন ডট অ্যানিমেশন */
+    .sparkle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #F7E7A0;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #D4AF37, 0 0 20px #F7E7A0;
+      animation: floatSparkle 6s infinite ease-in-out;
+      z-index: 1;
+    }
+    .sparkle:nth-child(1) { top: 15%; left: 15%; animation-delay: 0s; }
+    .sparkle:nth-child(2) { top: 75%; left: 85%; animation-delay: 3s; }
+
+    @keyframes floatSparkle {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+      50% { transform: translateY(-20px) scale(1.4); opacity: 0.9; }
+    }
+
+    /* ট্যাব বার (উপরের ৩টি বাটন) */
+    .navbar {
+      margin-bottom: 25px;
+      display: flex;
+      gap: 12px;
+      background: rgba(20, 30, 50, 0.6);
+      padding: 8px 15px;
+      border-radius: 50px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      z-index: 2;
+    }
+    .navbar a {
+      text-decoration: none;
+      padding: 10px 22px;
+      color: #F7E7A0;
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.4s ease;
+    }
+    .navbar a:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: #D4AF37;
+    }
+    .navbar a.active {
+      background: linear-gradient(135deg, #D4AF37, #F7E7A0);
+      color: #0B1120;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ফর্ম কার্ড (Luxury Jewelry Box লুক) */
+    .container {
+      background: rgba(26, 35, 50, 0.75);
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      width: 330px;
+      z-index: 2;
+      animation: fadeInUp 0.8s ease-out;
+      backdrop-filter: blur(15px);
+    }
+
+    /* হেডিং: গোল্ড গ্র্যাডিয়েন্ট টেক্সট এবং গ্লো */
+    h2 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 24px;
+      font-family: 'Baloo Da 2', sans-serif;
+      background: linear-gradient(135deg, #F7E7A0, #D4AF37);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    /* লেবেল টেক্সট */
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #F0E6C8;
+    }
+
+    /* ইনপুট ফিল্ড ডিজাইন */
+    input {
+      width: 100%;
+      padding: 12px;
+      box-sizing: border-box;
+      background: rgba(10, 15, 25, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 10px;
+      font-size: 15px;
+      color: #F7E7A0;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      backdrop-filter: blur(8px);
+    }
+
+    input::placeholder {
+      color: #A89968;
+    }
+
+    input:focus {
+      border-color: #D4AF37;
+      outline: none;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+      background: rgba(15, 22, 36, 0.85);
+    }
+    
+    /* সেভ বাটন উইথ গ্র্যাডিয়েন্ট ও শাইন অ্যানিমেশন */
+    .save-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      background: linear-gradient(135deg, #D4AF37, #F7E7A0, #D4AF37);
+      background-size: 200% auto;
+      color: #0B1120;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+      animation: shineEffect 4s linear infinite;
+    }
+
+    @keyframes shineEffect {
+      to { background-position: 200% center; }
+    }
+
+    .save-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(247, 231, 160, 0.6);
+    }
+
+    #statusMsg {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #F7E7A0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ভাসমান স্পার্কল ইফেক্ট -->
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+
+  <div class="navbar">
+    <a href="index.html">ক্যালকুলেটর</a>
+    <a href="polish.html" class="active">পলিশের হিসাব</a>
+    <a href="price.html">দামের হিসাব</a>
+  </div>
+
+  <div class="container">
+    <h2>পলিশের হিসাব</h2>
+    <div class="form-group">
+      <label>গ্রাহকের নাম:</label>
+      <input type="text" id="custName" placeholder="গ্রাহকের নাম লিখুন">
+    </div>
+    <div class="form-group">
+      <label>আইটেমের বিবরণ:</label>
+      <input type="text" id="itemName" placeholder="যেমন: স্বর্ণের চেইন">
+    </div>
+    <div class="form-group">
+      <label>ওজন (গ্রাম):</label>
+      <input type="number" step="any" id="itemWeight" placeholder="ওজন লিখুন">
+    </div>
+    <div class="form-group">
+      <label>পলিশ চার্জ:</label>
+      <input type="number" step="any" id="polishCharge" placeholder="পলিশের খরচ লিখুন">
+    </div>
+    <button class="save-btn" onclick="saveToSheet()">গুগল শিটে সেভ করুন</button>
+    <div id="statusMsg"></div>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXVzelPSzdxSwqPboXn4DPsfPUC0ZxJ_bNEkDgx766V8AzBzNwVLxDsE4uqP8GdWVe/exec";
+    
+    function saveToSheet() {
+      let cust = document.getElementById('custName').value || "সাধারণ ক্রেতা";
+      let item = document.getElementById('itemName').value || "পলিশ আইটেম";
+      let weight = parseFloat(document.getElementById('itemWeight').value) || 0;
+      let charge = parseFloat(document.getElementById('polishCharge').value) || 0;
+      
+      let data = { 
+        type: "Polish", 
+        date: new Date().toLocaleDateString(), 
+        cust: cust, 
+        itemDesc: item, 
+        weight: weight.toFixed(3), 
+        polishFee: charge.toFixed(2), 
+        totalPrice: charge.toFixed(2) 
+      };
+      
+      const msg = document.getElementById('statusMsg');
+      msg.textContent = 'সেভ হচ্ছে...';
+      
+      fetch(SCRIPT_URL, { 
+        method: 'POST', 
+        mode: 'no-cors', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data) 
+      })
+      .then(() => { 
+        msg.textContent = 'সফলভাবে জমা হয়েছে!'; 
+        setTimeout(() => msg.textContent = '', 4000); 
+      });
+    }
+  </script>
+</body>
+</html>
