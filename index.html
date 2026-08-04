@@ -172,7 +172,6 @@
         <button onclick="location.href='price.html'">দামের হিসাব</button>
     </div>
 
-    <!-- তারিখ এবং বিবরণ ইনপুট ফিল্ড -->
     <div class="input-group">
         <input type="date" id="calcDate">
         <input type="text" id="calcDesc" placeholder="বিবরণ (যেমন: আংটি)">
@@ -183,62 +182,66 @@
     <div class="buttons-grid">
         <button class="calc-btn btn-clear" onclick="clearDisplay()">C</button>
         <button class="calc-btn btn-back" onclick="deleteDigit()">⌫</button>
-        <button class="calc-btn btn-operator" onclick="appendValue('/')">÷</button>
-        <button class="calc-btn btn-operator" onclick="appendValue('*')">×</button>
+        <button class="calc-btn btn-operator" onclick="appendValue('/', '÷')">÷</button>
+        <button class="calc-btn btn-operator" onclick="appendValue('*', '×')">×</button>
 
-        <button class="calc-btn" onclick="appendValue('7')">7</button>
-        <button class="calc-btn" onclick="appendValue('8')">8</button>
-        <button class="calc-btn" onclick="appendValue('9')">9</button>
-        <button class="calc-btn btn-operator" onclick="appendValue('-')">-</button>
+        <button class="calc-btn" onclick="appendValue('7', '7')">7</button>
+        <button class="calc-btn" onclick="appendValue('8', '8')">8</button>
+        <button class="calc-btn" onclick="appendValue('9', '9')">9</button>
+        <button class="calc-btn btn-operator" onclick="appendValue('-', '-')">-</button>
 
-        <button class="calc-btn" onclick="appendValue('4')">4</button>
-        <button class="calc-btn" onclick="appendValue('5')">5</button>
-        <button class="calc-btn" onclick="appendValue('6')">6</button>
-        <button class="calc-btn btn-operator" onclick="appendValue('+')">+</button>
+        <button class="calc-btn" onclick="appendValue('4', '4')">4</button>
+        <button class="calc-btn" onclick="appendValue('5', '5')">5</button>
+        <button class="calc-btn" onclick="appendValue('6', '6')">6</button>
+        <button class="calc-btn btn-operator" onclick="appendValue('+', '+')">+</button>
 
-        <button class="calc-btn" onclick="appendValue('1')">1</button>
-        <button class="calc-btn" onclick="appendValue('2')">2</button>
-        <button class="calc-btn" onclick="appendValue('3')">3</button>
-        <button class="calc-btn" onclick="appendValue('0')">0</button>
+        <button class="calc-btn" onclick="appendValue('1', '1')">1</button>
+        <button class="calc-btn" onclick="appendValue('2', '2')">2</button>
+        <button class="calc-btn" onclick="appendValue('3', '3')">3</button>
+        <button class="calc-btn" onclick="appendValue('0', '0')">0</button>
     </div>
 
     <button class="btn-equal calc-btn" onclick="calculateResult()">=</button>
 </div>
 
 <script>
-    // স্বয়ংক্রয়ভাবে আজকের তারিখ সেট করা
     document.getElementById('calcDate').valueAsDate = new Date();
 
     const display = document.getElementById('display');
+    let calculationString = ''; // আসল হিসাব মনে রাখার জন্য
 
-    function appendValue(value) {
+    function appendValue(value, displayChar) {
         if (display.value === 'ত্রুটি') {
-            display.value = '';
+            clearDisplay();
         }
-        display.value += value;
+        calculationString += value;
+        display.value += displayChar;
     }
 
     function clearDisplay() {
         display.value = '';
+        calculationString = '';
     }
 
     function deleteDigit() {
         display.value = display.value.slice(0, -1);
+        calculationString = calculationString.slice(0, -1);
     }
 
     function calculateResult() {
         try {
-            let result = eval(display.value);
+            let result = eval(calculationString);
             if (result === undefined || result === null || !isFinite(result)) {
                 throw new Error("Invalid");
             }
             display.value = result;
+            calculationString = result.toString();
             
-            // '=' এ চাপ দেওয়ার সাথে সাথেই অটোমেটিক শিটে সেভ হবে
             saveToGoogleSheet(result);
 
         } catch (error) {
             display.value = 'ত্রুটি';
+            calculationString = '';
             setTimeout(clearDisplay, 1500);
         }
     }
@@ -249,7 +252,6 @@
 
         if (!calcValue || calcValue === 'ত্রুটি') return;
 
-        // আপনার প্রদান করা গুগল অ্যাপস স্ক্রিপ্ট লিংক
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwzXmqzhBmUsk1YD1c0kiYi5nRgItzP8mBx2DNcCpHmmxoFZHd6Zy0MJioI8NJN6Jbp/exec';
 
         let payload = {
@@ -261,18 +263,15 @@
 
         fetch(scriptURL, {
             method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(payload)
         })
-        .then(() => {
-            console.log('Saved to Google Sheet automatically!');
-            document.getElementById('calcDesc').value = ''; // সেভ হওয়ার পর বিবরণ ঘরটি খালি করে দিবে
+        .then(response => response.json())
+        .then(data => {
+            console.log('Saved successfully!', data);
+            document.getElementById('calcDesc').value = '';
         })
         .catch(error => {
-            console.error('Error!', error.message);
+            console.error('Error!', error);
         });
     }
 </script>
