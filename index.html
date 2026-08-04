@@ -3,449 +3,310 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JewelCalc Pro | Gold Calculator</title>
+<title>স্বর্ণের হিসাব ক্যালকুলেটর</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-    --bg:#080808;
-    --card:#151515;
-    --card2:#1d1d1d;
-    --gold:#d4af37;
-    --gold-light:#f5e6c8;
-    --text:#ffffff;
-    --muted:#aaa;
-    --border:rgba(212,175,55,.18);
-    --green:#22c55e;
-    --red:#ef4444;
+/* CSS Variables & Theme Setup */
+:root {
+    --bg: #121212;
+    --card: #1e1e1e;
+    --gold: #d4af37;
+    --gold-light: #f3e5ab;
+    --text: #ffffff;
+    --muted: #aaaaaa;
+    --border: rgba(212, 175, 55, 0.3);
+    --input-bg: #2a2a2a;
+    --input-text: #ffffff;
+}
+
+[data-theme="light"] {
+    --bg: #f2f4f7;
+    --card: #ffffff;
+    --gold: #b8860b;
+    --gold-light: #fff8e1;
+    --text: #333333;
+    --muted: #666666;
+    --border: #dddddd;
+    --input-bg: #fafafa;
+    --input-text: #333333;
 }
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background 0.3s, color 0.3s, border 0.3s;
 }
 
 body{
-    min-height:100vh;
-    background:
-    radial-gradient(circle at top,#30220b,transparent 35%),
-    linear-gradient(180deg,#080808,#101010);
-    color:var(--text);
-    font-family:Inter,sans-serif;
-    padding-bottom: 50px;
-}
-
-/* HEADER */
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    backdrop-filter:blur(15px);
-    background:rgba(8,8,8,.85);
-    border-bottom:1px solid var(--border);
-    margin-bottom: 40px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container{
-    width:min(1200px,92%);
-    margin:auto;
+    width: 100%;
+    max-width: 500px;
+    background: var(--card);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-.navbar{
-    height:80px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+/* Header & Theme Toggle */
+.header-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
+h2{
+    color: var(--gold);
+    font-size: 22px;
 }
 
-.logo-icon{
-    width:50px;
-    height:50px;
-    border-radius:15px;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,var(--gold-light),var(--gold));
-    color:#111;
-    font-weight:900;
-    font-size:25px;
-    box-shadow:0 0 25px rgba(212,175,55,.35);
+.theme-btn {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-.logo h1{
-    font-family:Cinzel,serif;
-    color:var(--gold-light);
-    font-size:26px;
+.theme-btn:hover {
+    border-color: var(--gold);
 }
 
-.logo span{
-    color:var(--gold);
-}
-
-/* MAIN LAYOUT */
-.main-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:25px;
-}
-
-@media(max-width:900px){
-    .main-grid{
-        grid-template-columns:1fr;
-    }
-}
-
-.card{
-    background:linear-gradient(180deg,var(--card),#111);
-    border:1px solid var(--border);
-    border-radius:25px;
-    overflow:hidden;
-    box-shadow:0 20px 50px rgba(0,0,0,.4);
-}
-
-.card-header{
-    padding:22px;
-    border-bottom:1px solid var(--border);
-}
-
-.card-header h3{
-    color:var(--gold);
-    font-family:Cinzel,serif;
-}
-
-.card-body{
-    padding:25px;
-}
-
-/* FORM */
-.group{
-    margin-bottom:18px;
+.form-group{
+    margin-bottom: 15px;
 }
 
 label{
-    display:block;
-    margin-bottom:8px;
-    color:#ddd;
-    font-size:14px;
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 15px;
 }
 
-input,
-select{
-    width:100%;
-    height:52px;
-    background:#090909;
-    border:1px solid var(--border);
-    color:white;
-    border-radius:12px;
-    padding:0 15px;
-    outline:none;
+input, select{
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    font-size: 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+    background: var(--input-bg);
+    color: var(--input-text);
 }
 
-input:focus,
-select:focus{
-    border-color:var(--gold);
-    box-shadow:0 0 0 3px rgba(212,175,55,.12);
+input:focus, select:focus{
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
 }
 
 .row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
 }
 
-/* BUTTON */
+/* Buttons with Gold Gradient */
 .btn{
-    margin-top:10px;
     width: 100%;
-    padding:15px 30px;
-    border-radius:14px;
-    border:none;
-    cursor:pointer;
-    font-weight:700;
-    transition:.3s;
+    height: 52px;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: #111;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.btn:hover{
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.btn-save{
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+}
+
+/* Result Box */
+.result-box{
+    margin-top: 20px;
+    background: var(--input-bg);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.result-box p{
     font-size: 16px;
-}
-
-.btn-gold{
-    background:linear-gradient(135deg,var(--gold-light),var(--gold));
-    color:#111;
-}
-
-.btn-gold:hover{
-    transform:translateY(-3px);
-    box-shadow:0 10px 30px rgba(212,175,55,.35);
-}
-
-.card-body p {
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
-    font-size: 16px;
-    color: #ccc;
+    color: var(--muted);
 }
 
-.card-body hr {
-    border: none;
+.result-box p span {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.total-amount{
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: var(--gold) !important;
     border-top: 1px solid var(--border);
-    margin: 20px 0;
+    padding-top: 10px;
+    margin-top: 10px;
 }
 
-/* TABLE STYLING */
-th, td {
-    border: 1px solid var(--border);
-    text-align: left;
-    color: #ddd;
-    font-size: 14px;
-}
-th {
-    background: #1a1a1a;
-}
-td {
-    padding: 10px;
-}
-
-/* PRINT MEDIA STYLING */
-@media print {
+/* Mobile Responsive */
+@media(max-width: 480px) {
     body {
-        background: white;
-        color: black;
+        padding: 10px;
     }
-    header, .main-grid, .btn, footer {
-        display: none !important;
+    .container {
+        padding: 15px;
     }
-    .card {
-        border: none;
-        box-shadow: none;
-        background: white;
-    }
-    th, td {
-        border: 1px solid #ccc;
-        color: black;
-    }
-    th {
-        background: #f1f1f1 !important;
-        color: black !important;
+    h2 {
+        font-size: 18px;
     }
 }
 </style>
 </head>
-<body>
+<body data-theme="dark">
 
-<header>
-    <div class="container navbar">
-        <div class="logo">
-            <div class="logo-icon">JC</div>
-            <h1>JewelCalc <span>Pro</span></h1>
-        </div>
+<div class="container">
+    <div class="header-box">
+        <h2>🪙 স্বর্ণের হিসাব</h2>
+        <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">☀️ লাইট মোড</button>
     </div>
-</header>
 
-<main class="container">
-    <section class="main-grid">
+    <div class="form-group">
+        <label>হিসাবের নাম বা গহনার বিবরণ</label>
+        <input id="itemDesc" type="text" placeholder="যেমন: গলার হার বা আংটি">
+    </div>
 
-        <!-- Calculator Input Card -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Gold Calculator</h3>
-            </div>
-            <div class="card-body">
-                <div class="group">
-                    <label>Item Description</label>
-                    <input id="itemDesc" type="text" placeholder="e.g. Gold Necklace">
-                </div>
+    <div class="form-group">
+        <label>প্রতি গ্রাম স্বর্ণের দাম (টাকা)</label>
+        <input id="goldRate" type="number" placeholder="গ্রাম প্রতি দাম লিখুন">
+    </div>
 
-                <div class="group">
-                    <label>Gold Rate (Per Gram)</label>
-                    <input id="goldRate" type="number" placeholder="Rate per gram">
-                </div>
-
-                <div class="row">
-                    <div class="group">
-                        <label>Weight</label>
-                        <input id="weight" type="number" step="0.001" placeholder="0.000">
-                    </div>
-                    <div class="group">
-                        <label>Unit</label>
-                        <select id="unit">
-                            <option value="gram">Gram</option>
-                            <option value="vori">Vori</option>
-                            <option value="ana">Ana</option>
-                            <option value="rati">Rati</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="group">
-                    <label>Purity</label>
-                    <select id="purity">
-                        <option value="1">24K (99.99%)</option>
-                        <option value="0.916">22K (91.6%)</option>
-                        <option value="0.875">21K (87.5%)</option>
-                        <option value="0.750">18K (75%)</option>
-                    </select>
-                </div>
-
-                <div class="row">
-                    <div class="group">
-                        <label>Making Charge</label>
-                        <input id="making" type="number" value="0">
-                    </div>
-                    <div class="group">
-                        <label>Stone Charge</label>
-                        <input id="stone" type="number" value="0">
-                    </div>
-                </div>
-
-                <div class="group">
-                    <label>VAT (%)</label>
-                    <input id="vat" type="number" value="0">
-                </div>
-
-                <button class="btn btn-gold" id="calculate">Calculate</button>
-            </div>
-        </div>
-
-        <!-- Result Card -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Calculation Result</h3>
-            </div>
-            <div class="card-body">
-                <p>Gold Value: <b id="goldValue">৳ 0</b></p>
-                <p>Making: <b id="makingValue">৳ 0</b></p>
-                <p>Stone: <b id="stoneValue">৳ 0</b></p>
-                <p>VAT: <b id="vatValue">৳ 0</b></p>
-
-                <hr>
-
-                <h2 style="color:#d4af37; display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
-                    Total:
-                    <span id="total">৳ 0</span>
-                </h2>
-
-                <button class="btn btn-gold" onclick="sendToGoogleSheet()">
-                    Save Calculation
-                </button>
-
-                <button class="btn btn-gold" onclick="clearHistory()" style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--red); color: var(--red);">
-                    Clear History
-                </button>
-            </div>
-        </div>
-
-    </section>
-
-    <!-- Calculation History Section -->
-    <div class="card" style="margin-top:25px;">
-        <div class="card-header">
-            <h3>Calculation History</h3>
-        </div>
-        <div class="card-body">
-            <div style="overflow-x:auto">
-                <table id="historyTable" style="width:100%; border-collapse:collapse;">
-                    <thead>
-                        <tr style="color:#d4af37;">
-                            <th style="padding:10px;">Date</th>
-                            <th style="padding:10px;">Item</th>
-                            <th style="padding:10px;">Weight</th>
-                            <th style="padding:10px;">Total</th>
-                            <th style="padding:10px;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyBody">
-                        <!-- History will be loaded here -->
-                    </tbody>
-                </table>
-            </div>
-
-            <button class="btn btn-gold" onclick="printHistory()" style="margin-top: 20px;">
-                Print Invoice
-            </button>
+    <div class="form-group">
+        <label>স্বর্ণের ওজন</label>
+        <div class="row">
+            <input id="weight" type="number" step="0.001" placeholder="ওজন লিখুন">
+            <select id="unit">
+                <option value="gram">গ্রাম</option>
+                <option value="vori">ভরি</option>
+                <option value="ana">আনা</option>
+                <option value="rati">রতি</option>
+            </select>
         </div>
     </div>
 
-    <!-- Navigation Section -->
-    <section class="card" style="margin-top:30px;">
-        <div class="card-header">
-            <h3>Navigation</h3>
-        </div>
-        <div class="card-body">
-            <button class="btn btn-gold" onclick="location.href='index.html'">
-                🏠 Main Calculator
-            </button>
+    <div class="form-group">
+        <label>স্বর্ণের মান (ক্যাারেট)</label>
+        <select id="purity">
+            <option value="1">২৪ ক্যারেট (খাঁটি)</option>
+            <option value="0.916">২২ ক্যারেট</option>
+            <option value="0.875">২১ ক্যারেট</option>
+            <option value="0.750">১৮ ক্যারেট</option>
+        </select>
+    </div>
 
-            <button class="btn btn-gold" onclick="location.href='polish.html'">
-                💎 Polish Calculator
-            </button>
+    <div class="form-group">
+        <label>মজুরি বা তৈরি খরচ (টাকা)</label>
+        <input id="making" type="number" value="0">
+    </div>
 
-            <button class="btn btn-gold" onclick="location.href='price.html'">
-                💰 Price Calculator
-            </button>
-        </div>
-    </section>
-</main>
+    <div class="form-group">
+        <label>পাথরের দাম (যদি থাকে)</label>
+        <input id="stone" type="number" value="0">
+    </div>
 
-<!-- Footer -->
-<footer style="
-margin-top:40px;
-text-align:center;
-color:#aaa;
-padding:25px;
-border-top:1px solid rgba(212,175,55,.18);
-">
-    <p>
-        © 2026 JewelCalc Pro  
-        <br>
-        Professional Jewellery Calculation System
-    </p>
-</footer>
+    <button class="btn" id="calculate">হিসাব করুন</button>
+
+    <div class="result-box">
+        <p>স্বর্ণের দাম: <span id="goldValue">৳ ০</span></p>
+        <p>মজুরি ও পাথর: <span id="otherValue">৳ ০</span></p>
+        <p class="total-amount">সর্বমোট টাকা: <span id="total">৳ ০</span></p>
+    </div>
+
+    <button class="btn btn-save" onclick="sendToGoogleSheet()">💾 গুগল শিটে সেভ করুন</button>
+</div>
 
 <script>
+// Theme Toggle & LocalStorage Logic
+const bodyElement = document.body;
+const themeToggleBtn = document.getElementById("themeToggle");
+
+// পেজ লোড হওয়ার সময় ইউজারের আগের থিম চেক করা
+const savedTheme = localStorage.getItem("jewelTheme") || "dark";
+bodyElement.setAttribute("data-theme", savedTheme);
+updateThemeButtonText(savedTheme);
+
+function toggleTheme() {
+    let currentTheme = bodyElement.getAttribute("data-theme");
+    let newTheme = currentTheme === "dark" ? "light" : "dark";
+    
+    bodyElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("jewelTheme", newTheme);
+    updateThemeButtonText(newTheme);
+}
+
+function updateThemeButtonText(theme) {
+    if (theme === "dark") {
+        themeToggleBtn.innerHTML = "☀️ লাইট মোড";
+    } else {
+        themeToggleBtn.innerHTML = "🌙 ডার্ক মোড";
+    }
+}
+
+// Calculator Logic
 const goldRate = document.getElementById("goldRate");
 const weight = document.getElementById("weight");
 const unit = document.getElementById("unit");
 const purity = document.getElementById("purity");
 const itemDesc = document.getElementById("itemDesc");
-
 const making = document.getElementById("making");
 const stone = document.getElementById("stone");
-const vat = document.getElementById("vat");
 
 const goldValue = document.getElementById("goldValue");
-const makingValue = document.getElementById("makingValue");
-const stoneValue = document.getElementById("stoneValue");
-const vatValue = document.getElementById("vatValue");
+const otherValue = document.getElementById("otherValue");
 const total = document.getElementById("total");
 
 function convertWeight(){
     let w = Number(weight.value) || 0;
-
-    if(unit.value == "vori"){
-        w = w * 11.664;
-    } else if(unit.value == "ana"){
-        w = w * 0.729;
-    } else if(unit.value == "rati"){
-        w = w * 0.1215;
-    }
-
+    if(unit.value == "vori") w = w * 11.664;
+    else if(unit.value == "ana") w = w * 0.729;
+    else if(unit.value == "rati") w = w * 0.1215;
     return w;
 }
 
 function money(value){
-    return "৳ " + value.toLocaleString(
-        "en-IN",
-        {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }
-    );
+    return "৳ " + value.toLocaleString("en-IN", {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
 document.getElementById("calculate").onclick = function(){
@@ -456,36 +317,22 @@ document.getElementById("calculate").onclick = function(){
     let gold = grams * rate * purityValue;
     let make = Number(making.value) || 0;
     let stoneCharge = Number(stone.value) || 0;
-    let subtotal = gold + make + stoneCharge;
-    let tax = subtotal * (Number(vat.value) || 0) / 100;
-    let grand = subtotal + tax;
+    let others = make + stoneCharge;
+    let grand = gold + others;
 
     goldValue.innerHTML = money(gold);
-    makingValue.innerHTML = money(make);
-    stoneValue.innerHTML = money(stoneCharge);
-    vatValue.innerHTML = money(tax);
+    otherValue.innerHTML = money(others);
     total.innerHTML = money(grand);
 };
 
-function clearHistory(){
-    localStorage.removeItem("jewelHistory");
-    alert("History Deleted");
-    loadHistory();
-}
-
-function printHistory(){
-    window.print();
-}
-
-// Google Apps Script Integration
+// Google Sheet Integration
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTLynJfnG9mjZnckvhFJUyIh51GUjkXGW_5_5x5rbIZxuGORgaBBohm50-982_IMsR/exec";
 
 function sendToGoogleSheet(){
-    // প্রথমে Calculate বাটনটি অটো ক্লিক করে মান আপডেট করে নেওয়া
     document.getElementById("calculate").click();
 
     const data = {
-        item: itemDesc.value || "Gold Item",
+        item: itemDesc.value || "স্বর্ণের গহনা",
         rate: goldRate.value,
         weight: weight.value + " " + unit.value,
         purity: purity.options[purity.selectedIndex].text,
@@ -496,13 +343,11 @@ function sendToGoogleSheet(){
     fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     });
 
-    alert("Calculation Sent to Google Sheet Successfully!");
+    alert("সফলভাবে গুগল শিটে জমা হয়ে গেছে!");
 }
 </script>
 
