@@ -249,12 +249,8 @@
 
         if (!calcValue || calcValue === 'ত্রুটি') return;
 
-        // আপনার গুগল অ্যাপস স্ক্রিপ্ট থেকে পাওয়া Web App URL টি এখানে বসাবেন
-        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
-
-        if (scriptURL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-            return; // লিংক না থাকলে সাইলেন্ট থাকবে বা চাইলে অ্যালার্ট রাখতে পারেন
-        }
+        // আপনার প্রদান করা গুগল অ্যাপস স্ক্রিপ্ট লিংক
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwzXmqzhBmUsk1YD1c0kiYi5nRgItzP8mBx2DNcCpHmmxoFZHd6Zy0MJioI8NJN6Jbp/exec';
 
         let payload = {
             type: "Calculator",
