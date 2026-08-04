@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>JewelCalc Pro | Jewellery Calculator</title>
+<title>JewelCalc Pro | Gold Calculator</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
     --bg:#080808;
     --card:#151515;
@@ -36,11 +34,10 @@ body{
     linear-gradient(180deg,#080808,#101010);
     color:var(--text);
     font-family:Inter,sans-serif;
+    padding-bottom: 50px;
 }
 
-
 /* HEADER */
-
 header{
     position:sticky;
     top:0;
@@ -48,13 +45,13 @@ header{
     backdrop-filter:blur(15px);
     background:rgba(8,8,8,.85);
     border-bottom:1px solid var(--border);
+    margin-bottom: 40px;
 }
 
 .container{
     width:min(1200px,92%);
     margin:auto;
 }
-
 
 .navbar{
     height:80px;
@@ -63,1024 +60,451 @@ header{
     align-items:center;
 }
 
-
 .logo{
     display:flex;
     align-items:center;
     gap:12px;
 }
 
-
 .logo-icon{
-
     width:50px;
     height:50px;
     border-radius:15px;
-
     display:grid;
     place-items:center;
-
-    background:
-    linear-gradient(135deg,var(--gold-light),var(--gold));
-
+    background:linear-gradient(135deg,var(--gold-light),var(--gold));
     color:#111;
     font-weight:900;
     font-size:25px;
-
-    box-shadow:
-    0 0 25px rgba(212,175,55,.35);
+    box-shadow:0 0 25px rgba(212,175,55,.35);
 }
 
-
 .logo h1{
-
     font-family:Cinzel,serif;
     color:var(--gold-light);
     font-size:26px;
-
 }
-
 
 .logo span{
     color:var(--gold);
 }
 
-
-
-.nav-menu{
-
-    display:flex;
-    gap:20px;
-}
-
-
-.nav-menu a{
-
-    color:#ddd;
-    text-decoration:none;
-    padding:10px 15px;
-    border-radius:10px;
-    transition:.3s;
-
-}
-
-
-.nav-menu a:hover{
-
-    color:var(--gold);
-    background:rgba(212,175,55,.08);
-
-}
-
-
-
-/* HERO */
-
-
-.hero{
-
-    padding:70px 0 40px;
-
-}
-
-
-.hero-box{
-
-    background:
-    linear-gradient(180deg,#181818,#111);
-
-    border:1px solid var(--border);
-
-    border-radius:30px;
-
-    padding:50px;
-
-    box-shadow:
-    0 30px 70px rgba(0,0,0,.5);
-
-}
-
-
-.hero h2{
-
-    font-family:Cinzel,serif;
-
-    font-size:clamp(35px,5vw,60px);
-
-    line-height:1.2;
-
-}
-
-
-.gold{
-
-    color:var(--gold);
-
-}
-
-
-.hero p{
-
-    margin-top:20px;
-
-    color:#ccc;
-
-    max-width:700px;
-
-    line-height:1.8;
-
-}
-
-
-
-/* BUTTON */
-
-
-.btn{
-
-    margin-top:25px;
-
-    padding:15px 30px;
-
-    border-radius:14px;
-
-    border:none;
-
-    cursor:pointer;
-
-    font-weight:700;
-
-    transition:.3s;
-
-}
-
-
-.btn-gold{
-
-    background:
-    linear-gradient(135deg,var(--gold-light),var(--gold));
-
-    color:#111;
-
-}
-
-
-.btn-gold:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:
-    0 10px 30px rgba(212,175,55,.35);
-
-}
-
-
-
 /* MAIN LAYOUT */
-
-
 .main-grid{
-
     display:grid;
-
-    grid-template-columns:380px 1fr;
-
+    grid-template-columns:1fr 1fr;
     gap:25px;
-
-    padding-bottom:60px;
-
 }
 
+@media(max-width:900px){
+    .main-grid{
+        grid-template-columns:1fr;
+    }
+}
 
 .card{
-
-    background:
-    linear-gradient(180deg,var(--card),#111);
-
+    background:linear-gradient(180deg,var(--card),#111);
     border:1px solid var(--border);
-
     border-radius:25px;
-
     overflow:hidden;
-
-    box-shadow:
-    0 20px 50px rgba(0,0,0,.4);
-
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
 }
-
 
 .card-header{
-
     padding:22px;
-
     border-bottom:1px solid var(--border);
-
 }
-
 
 .card-header h3{
-
     color:var(--gold);
-
     font-family:Cinzel,serif;
-
 }
-
 
 .card-body{
-
     padding:25px;
-
 }
-
-
 
 /* FORM */
-
-
 .group{
-
     margin-bottom:18px;
-
 }
-
 
 label{
-
     display:block;
-
     margin-bottom:8px;
-
     color:#ddd;
-
     font-size:14px;
-
 }
-
 
 input,
 select{
-
     width:100%;
-
     height:52px;
-
     background:#090909;
-
     border:1px solid var(--border);
-
     color:white;
-
     border-radius:12px;
-
     padding:0 15px;
-
     outline:none;
-
 }
-
 
 input:focus,
 select:focus{
-
     border-color:var(--gold);
-
-    box-shadow:
-    0 0 0 3px rgba(212,175,55,.12);
-
+    box-shadow:0 0 0 3px rgba(212,175,55,.12);
 }
-
 
 .row{
-
     display:grid;
-
     grid-template-columns:1fr 1fr;
-
     gap:15px;
-
 }
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>JewelCalc Pro | Jewellery Calculator</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-:root{
-    --bg:#080808;
-    --card:#151515;
-    --card2:#1d1d1d;
-    --gold:#d4af37;
-    --gold-light:#f5e6c8;
-    --text:#ffffff;
-    --muted:#aaa;
-    --border:rgba(212,175,55,.18);
-    --green:#22c55e;
-    --red:#ef4444;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    min-height:100vh;
-    background:
-    radial-gradient(circle at top,#30220b,transparent 35%),
-    linear-gradient(180deg,#080808,#101010);
-    color:var(--text);
-    font-family:Inter,sans-serif;
-}
-
-
-/* HEADER */
-
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    backdrop-filter:blur(15px);
-    background:rgba(8,8,8,.85);
-    border-bottom:1px solid var(--border);
-}
-
-.container{
-    width:min(1200px,92%);
-    margin:auto;
-}
-
-
-.navbar{
-    height:80px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-
-.logo-icon{
-
-    width:50px;
-    height:50px;
-    border-radius:15px;
-
-    display:grid;
-    place-items:center;
-
-    background:
-    linear-gradient(135deg,var(--gold-light),var(--gold));
-
-    color:#111;
-    font-weight:900;
-    font-size:25px;
-
-    box-shadow:
-    0 0 25px rgba(212,175,55,.35);
-}
-
-
-.logo h1{
-
-    font-family:Cinzel,serif;
-    color:var(--gold-light);
-    font-size:26px;
-
-}
-
-
-.logo span{
-    color:var(--gold);
-}
-
-
-
-.nav-menu{
-
-    display:flex;
-    gap:20px;
-}
-
-
-.nav-menu a{
-
-    color:#ddd;
-    text-decoration:none;
-    padding:10px 15px;
-    border-radius:10px;
-    transition:.3s;
-
-}
-
-
-.nav-menu a:hover{
-
-    color:var(--gold);
-    background:rgba(212,175,55,.08);
-
-}
-
-
-
-/* HERO */
-
-
-.hero{
-
-    padding:70px 0 40px;
-
-}
-
-
-.hero-box{
-
-    background:
-    linear-gradient(180deg,#181818,#111);
-
-    border:1px solid var(--border);
-
-    border-radius:30px;
-
-    padding:50px;
-
-    box-shadow:
-    0 30px 70px rgba(0,0,0,.5);
-
-}
-
-
-.hero h2{
-
-    font-family:Cinzel,serif;
-
-    font-size:clamp(35px,5vw,60px);
-
-    line-height:1.2;
-
-}
-
-
-.gold{
-
-    color:var(--gold);
-
-}
-
-
-.hero p{
-
-    margin-top:20px;
-
-    color:#ccc;
-
-    max-width:700px;
-
-    line-height:1.8;
-
-}
-
-
 
 /* BUTTON */
-
-
 .btn{
-
-    margin-top:25px;
-
+    margin-top:10px;
+    width: 100%;
     padding:15px 30px;
-
     border-radius:14px;
-
     border:none;
-
     cursor:pointer;
-
     font-weight:700;
-
     transition:.3s;
-
+    font-size: 16px;
 }
-
 
 .btn-gold{
-
-    background:
-    linear-gradient(135deg,var(--gold-light),var(--gold));
-
+    background:linear-gradient(135deg,var(--gold-light),var(--gold));
     color:#111;
-
 }
-
 
 .btn-gold:hover{
-
     transform:translateY(-3px);
-
-    box-shadow:
-    0 10px 30px rgba(212,175,55,.35);
-
+    box-shadow:0 10px 30px rgba(212,175,55,.35);
 }
 
-
-
-/* MAIN LAYOUT */
-
-
-.main-grid{
-
-    display:grid;
-
-    grid-template-columns:380px 1fr;
-
-    gap:25px;
-
-    padding-bottom:60px;
-
+.card-body p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #ccc;
 }
 
-
-.card{
-
-    background:
-    linear-gradient(180deg,var(--card),#111);
-
-    border:1px solid var(--border);
-
-    border-radius:25px;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 20px 50px rgba(0,0,0,.4);
-
+.card-body hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
 }
 
-
-.card-header{
-
-    padding:22px;
-
-    border-bottom:1px solid var(--border);
-
+/* TABLE STYLING */
+th, td {
+    border: 1px solid var(--border);
+    text-align: left;
+    color: #ddd;
+    font-size: 14px;
+}
+th {
+    background: #1a1a1a;
+}
+td {
+    padding: 10px;
 }
 
+/* PRINT MEDIA STYLING */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    header, .main-grid, .btn, footer {
+        display: none !important;
+    }
+    .card {
+        border: none;
+        box-shadow: none;
+        background: white;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        color: black;
+    }
+    th {
+        background: #f1f1f1 !important;
+        color: black !important;
+    }
+}
+</style>
+</head>
+<body>
 
-.card-header h3{
+<header>
+    <div class="container navbar">
+        <div class="logo">
+            <div class="logo-icon">JC</div>
+            <h1>JewelCalc <span>Pro</span></h1>
+        </div>
+    </div>
+</header>
 
-    color:var(--gold);
+<main class="container">
+    <section class="main-grid">
 
-    font-family:Cinzel,serif;
+        <!-- Calculator Input Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Gold Calculator</h3>
+            </div>
+            <div class="card-body">
+                <div class="group">
+                    <label>Item Description</label>
+                    <input id="itemDesc" type="text" placeholder="e.g. Gold Necklace">
+                </div>
 
+                <div class="group">
+                    <label>Gold Rate (Per Gram)</label>
+                    <input id="goldRate" type="number" placeholder="Rate per gram">
+                </div>
+
+                <div class="row">
+                    <div class="group">
+                        <label>Weight</label>
+                        <input id="weight" type="number" step="0.001" placeholder="0.000">
+                    </div>
+                    <div class="group">
+                        <label>Unit</label>
+                        <select id="unit">
+                            <option value="gram">Gram</option>
+                            <option value="vori">Vori</option>
+                            <option value="ana">Ana</option>
+                            <option value="rati">Rati</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <label>Purity</label>
+                    <select id="purity">
+                        <option value="1">24K (99.99%)</option>
+                        <option value="0.916">22K (91.6%)</option>
+                        <option value="0.875">21K (87.5%)</option>
+                        <option value="0.750">18K (75%)</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="group">
+                        <label>Making Charge</label>
+                        <input id="making" type="number" value="0">
+                    </div>
+                    <div class="group">
+                        <label>Stone Charge</label>
+                        <input id="stone" type="number" value="0">
+                    </div>
+                </div>
+
+                <div class="group">
+                    <label>VAT (%)</label>
+                    <input id="vat" type="number" value="0">
+                </div>
+
+                <button class="btn btn-gold" id="calculate">Calculate</button>
+            </div>
+        </div>
+
+        <!-- Result Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Calculation Result</h3>
+            </div>
+            <div class="card-body">
+                <p>Gold Value: <b id="goldValue">৳ 0</b></p>
+                <p>Making: <b id="makingValue">৳ 0</b></p>
+                <p>Stone: <b id="stoneValue">৳ 0</b></p>
+                <p>VAT: <b id="vatValue">৳ 0</b></p>
+
+                <hr>
+
+                <h2 style="color:#d4af37; display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                    Total:
+                    <span id="total">৳ 0</span>
+                </h2>
+
+                <button class="btn btn-gold" onclick="sendToGoogleSheet()">
+                    Save Calculation
+                </button>
+
+                <button class="btn btn-gold" onclick="clearHistory()" style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--red); color: var(--red);">
+                    Clear History
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Calculation History Section -->
+    <div class="card" style="margin-top:25px;">
+        <div class="card-header">
+            <h3>Calculation History</h3>
+        </div>
+        <div class="card-body">
+            <div style="overflow-x:auto">
+                <table id="historyTable" style="width:100%; border-collapse:collapse;">
+                    <thead>
+                        <tr style="color:#d4af37;">
+                            <th style="padding:10px;">Date</th>
+                            <th style="padding:10px;">Item</th>
+                            <th style="padding:10px;">Weight</th>
+                            <th style="padding:10px;">Total</th>
+                            <th style="padding:10px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody">
+                        <!-- History will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-gold" onclick="printHistory()" style="margin-top: 20px;">
+                Print Invoice
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation Section -->
+    <section class="card" style="margin-top:30px;">
+        <div class="card-header">
+            <h3>Navigation</h3>
+        </div>
+        <div class="card-body">
+            <button class="btn btn-gold" onclick="location.href='index.html'">
+                🏠 Main Calculator
+            </button>
+
+            <button class="btn btn-gold" onclick="location.href='polish.html'">
+                💎 Polish Calculator
+            </button>
+
+            <button class="btn btn-gold" onclick="location.href='price.html'">
+                💰 Price Calculator
+            </button>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer style="
+margin-top:40px;
+text-align:center;
+color:#aaa;
+padding:25px;
+border-top:1px solid rgba(212,175,55,.18);
+">
+    <p>
+        © 2026 JewelCalc Pro  
+        <br>
+        Professional Jewellery Calculation System
+    </p>
+</footer>
+
+<script>
+const goldRate = document.getElementById("goldRate");
+const weight = document.getElementById("weight");
+const unit = document.getElementById("unit");
+const purity = document.getElementById("purity");
+const itemDesc = document.getElementById("itemDesc");
+
+const making = document.getElementById("making");
+const stone = document.getElementById("stone");
+const vat = document.getElementById("vat");
+
+const goldValue = document.getElementById("goldValue");
+const makingValue = document.getElementById("makingValue");
+const stoneValue = document.getElementById("stoneValue");
+const vatValue = document.getElementById("vatValue");
+const total = document.getElementById("total");
+
+function convertWeight(){
+    let w = Number(weight.value) || 0;
+
+    if(unit.value == "vori"){
+        w = w * 11.664;
+    } else if(unit.value == "ana"){
+        w = w * 0.729;
+    } else if(unit.value == "rati"){
+        w = w * 0.1215;
+    }
+
+    return w;
 }
 
-
-.card-body{
-
-    padding:25px;
-
+function money(value){
+    return "৳ " + value.toLocaleString(
+        "en-IN",
+        {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    );
 }
 
+document.getElementById("calculate").onclick = function(){
+    let grams = convertWeight();
+    let rate = Number(goldRate.value) || 0;
+    let purityValue = Number(purity.value) || 1;
 
+    let gold = grams * rate * purityValue;
+    let make = Number(making.value) || 0;
+    let stoneCharge = Number(stone.value) || 0;
+    let subtotal = gold + make + stoneCharge;
+    let tax = subtotal * (Number(vat.value) || 0) / 100;
+    let grand = subtotal + tax;
 
-/* FORM */
+    goldValue.innerHTML = money(gold);
+    makingValue.innerHTML = money(make);
+    stoneValue.innerHTML = money(stoneCharge);
+    vatValue.innerHTML = money(tax);
+    total.innerHTML = money(grand);
+};
 
-
-.group{
-
-    margin-bottom:18px;
-
+function clearHistory(){
+    localStorage.removeItem("jewelHistory");
+    alert("History Deleted");
+    loadHistory();
 }
 
-
-label{
-
-    display:block;
-
-    margin-bottom:8px;
-
-    color:#ddd;
-
-    font-size:14px;
-
+function printHistory(){
+    window.print();
 }
 
+// Google Apps Script Integration
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTLynJfnG9mjZnckvhFJUyIh51GUjkXGW_5_5x5rbIZxuGORgaBBohm50-982_IMsR/exec";
 
-input,
-select{
+function sendToGoogleSheet(){
+    // প্রথমে Calculate বাটনটি অটো ক্লিক করে মান আপডেট করে নেওয়া
+    document.getElementById("calculate").click();
 
-    width:100%;
+    const data = {
+        item: itemDesc.value || "Gold Item",
+        rate: goldRate.value,
+        weight: weight.value + " " + unit.value,
+        purity: purity.options[purity.selectedIndex].text,
+        total: total.innerText,
+        date: new Date().toLocaleString()
+    };
 
-    height:52px;
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
 
-    background:#090909;
-
-    border:1px solid var(--border);
-
-    color:white;
-
-    border-radius:12px;
-
-    padding:0 15px;
-
-    outline:none;
-
+    alert("Calculation Sent to Google Sheet Successfully!");
 }
+</script>
 
-
-input:focus,
-select:focus{
-
-    border-color:var(--gold);
-
-    box-shadow:
-    0 0 0 3px rgba(212,175,55,.12);
-
-}
-
-
-.row{
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:15px;
-
-}
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>JewelCalc Pro | Jewellery Calculator</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-
-:root{
-    --bg:#080808;
-    --card:#151515;
-    --card2:#1d1d1d;
-    --gold:#d4af37;
-    --gold-light:#f5e6c8;
-    --text:#ffffff;
-    --muted:#aaa;
-    --border:rgba(212,175,55,.18);
-    --green:#22c55e;
-    --red:#ef4444;
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    min-height:100vh;
-    background:
-    radial-gradient(circle at top,#30220b,transparent 35%),
-    linear-gradient(180deg,#080808,#101010);
-    color:var(--text);
-    font-family:Inter,sans-serif;
-}
-
-
-/* HEADER */
-
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    backdrop-filter:blur(15px);
-    background:rgba(8,8,8,.85);
-    border-bottom:1px solid var(--border);
-}
-
-.container{
-    width:min(1200px,92%);
-    margin:auto;
-}
-
-
-.navbar{
-    height:80px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-
-.logo-icon{
-
-    width:50px;
-    height:50px;
-    border-radius:15px;
-
-    display:grid;
-    place-items:center;
-
-    background:
-    linear-gradient(135deg,var(--gold-light),var(--gold));
-
-    color:#111;
-    font-weight:900;
-    font-size:25px;
-
-    box-shadow:
-    0 0 25px rgba(212,175,55,.35);
-}
-
-
-.logo h1{
-
-    font-family:Cinzel,serif;
-    color:var(--gold-light);
-    font-size:26px;
-
-}
-
-
-.logo span{
-    color:var(--gold);
-}
-
-
-
-.nav-menu{
-
-    display:flex;
-    gap:20px;
-}
-
-
-.nav-menu a{
-
-    color:#ddd;
-    text-decoration:none;
-    padding:10px 15px;
-    border-radius:10px;
-    transition:.3s;
-
-}
-
-
-.nav-menu a:hover{
-
-    color:var(--gold);
-    background:rgba(212,175,55,.08);
-
-}
-
-
-
-/* HERO */
-
-
-.hero{
-
-    padding:70px 0 40px;
-
-}
-
-
-.hero-box{
-
-    background:
-    linear-gradient(180deg,#181818,#111);
-
-    border:1px solid var(--border);
-
-    border-radius:30px;
-
-    padding:50px;
-
-    box-shadow:
-    0 30px 70px rgba(0,0,0,.5);
-
-}
-
-
-.hero h2{
-
-    font-family:Cinzel,serif;
-
-    font-size:clamp(35px,5vw,60px);
-
-    line-height:1.2;
-
-}
-
-
-.gold{
-
-    color:var(--gold);
-
-}
-
-
-.hero p{
-
-    margin-top:20px;
-
-    color:#ccc;
-
-    max-width:700px;
-
-    line-height:1.8;
-
-}
-
-
-
-/* BUTTON */
-
-
-.btn{
-
-    margin-top:25px;
-
-    padding:15px 30px;
-
-    border-radius:14px;
-
-    border:none;
-
-    cursor:pointer;
-
-    font-weight:700;
-
-    transition:.3s;
-
-}
-
-
-.btn-gold{
-
-    background:
-    linear-gradient(135deg,var(--gold-light),var(--gold));
-
-    color:#111;
-
-}
-
-
-.btn-gold:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:
-    0 10px 30px rgba(212,175,55,.35);
-
-}
-
-
-
-/* MAIN LAYOUT */
-
-
-.main-grid{
-
-    display:grid;
-
-    grid-template-columns:380px 1fr;
-
-    gap:25px;
-
-    padding-bottom:60px;
-
-}
-
-
-.card{
-
-    background:
-    linear-gradient(180deg,var(--card),#111);
-
-    border:1px solid var(--border);
-
-    border-radius:25px;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 20px 50px rgba(0,0,0,.4);
-
-}
-
-
-.card-header{
-
-    padding:22px;
-
-    border-bottom:1px solid var(--border);
-
-}
-
-
-.card-header h3{
-
-    color:var(--gold);
-
-    font-family:Cinzel,serif;
-
-}
-
-
-.card-body{
-
-    padding:25px;
-
-}
-
-
-
-/* FORM */
-
-
-.group{
-
-    margin-bottom:18px;
-
-}
-
-
-label{
-
-    display:block;
-
-    margin-bottom:8px;
-
-    color:#ddd;
-
-    font-size:14px;
-
-}
-
-
-input,
-select{
-
-    width:100%;
-
-    height:52px;
-
-    background:#090909;
-
-    border:1px solid var(--border);
-
-    color:white;
-
-    border-radius:12px;
-
-    padding:0 15px;
-
-    outline:none;
-
-}
-
-
-input:focus,
-select:focus{
-
-    border-color:var(--gold);
-
-    box-shadow:
-    0 0 0 3px rgba(212,175,55,.12);
-
-}
-
-
-.row{
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:15px;
-
-}
+</body>
+</html>
