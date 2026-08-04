@@ -1,275 +1,267 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>সাধারণ ক্যালকুলেটর - গোল্ডেন লাক্সারি</title>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', 'Baloo Da 2', sans-serif;
-      background: linear-gradient(135deg, #0B1120 0%, #1A2332 100%);
-      color: #F7E7A0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      overflow-x: hidden;
-      position: relative;
-    }
-    
-    /* ব্যাকগ্রাউন্ড স্পার্কল বা ভাসমান গোল্ডেন ডট অ্যানিমেশন */
-    .sparkle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #F7E7A0;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #D4AF37, 0 0 20px #F7E7A0;
-      animation: floatSparkle 6s infinite ease-in-out;
-      z-index: 1;
-    }
-    .sparkle:nth-child(1) { top: 15%; left: 20%; animation-delay: 0s; }
-    .sparkle:nth-child(2) { top: 75%; left: 80%; animation-delay: 2s; }
-    .sparkle:nth-child(3) { top: 40%; left: 85%; animation-delay: 4s; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রিমিয়াম জুয়েলারি বিজনেস ক্যালকুলেটর</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Hind+Siliguri:wght@500;700&display=swap');
 
-    @keyframes floatSparkle {
-      0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-      50% { transform: translateY(-20px) scale(1.4); opacity: 0.9; }
-    }
+        body {
+            background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+            font-family: 'Hind Siliguri', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            color: #f3f4f6;
+        }
 
-    /* নেভিগেশন বার */
-    .navbar {
-      margin-bottom: 25px;
-      display: flex;
-      gap: 12px;
-      background: rgba(20, 30, 50, 0.6);
-      padding: 8px 15px;
-      border-radius: 50px;
-      border: 1px solid #D4AF37;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      z-index: 2;
-      animation: fadeInDown 0.8s ease-out;
-    }
-    .navbar a {
-      text-decoration: none;
-      padding: 10px 22px;
-      color: #b2bec3;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 15px;
-      transition: all 0.4s ease;
-    }
-    .navbar a:hover {
-      color: #F7E7A0;
-      background: rgba(212, 175, 55, 0.15);
-    }
-    .navbar a.active {
-      background: linear-gradient(135deg, #D4AF37, #F7E7A0);
-      color: #0B1120;
-      font-weight: 700;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-    }
+        /* গোল্ডেন বিজনেস লুক কন্টেইনার */
+        .calculator-container {
+            background: linear-gradient(145deg, rgba(17, 24, 39, 0.9), rgba(3, 7, 18, 0.95));
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            width: 350px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(212, 175, 55, 0.15);
+            border: 2px solid #d4af37; /* খাঁটি সোনালী বর্ডার */
+            position: relative;
+        }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-      50% { box-shadow: 0 0 25px rgba(247, 231, 160, 0.8); }
-    }
+        .calculator-container::before {
+            content: '★ গোল্ড বিজনেস ★';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #d4af37;
+            color: #030712;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 12px;
+            border-radius: 10px;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
 
-    /* ক্যালকুলেটর মেইন কার্ড */
-    .calculator {
-      background: rgba(26, 35, 50, 0.75);
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px rgba(212, 175, 55, 0.15);
-      border: 1px solid #D4AF37;
-      width: 330px;
-      z-index: 2;
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      backdrop-filter: blur(15px);
-    }
+        /* ওপরের নেভিগেশন */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 5px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            margin-top: 10px;
+        }
 
-    #display {
-      width: 100%;
-      height: 65px;
-      font-size: 30px;
-      text-align: right;
-      margin-bottom: 20px;
-      padding: 10px 15px;
-      box-sizing: border-box;
-      border: 2px solid #D4AF37;
-      border-radius: 12px;
-      background: #0B1120;
-      color: #F7E7A0;
-      font-family: 'Inter', monospace;
-      font-weight: 700;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-    }
+        .nav-buttons button {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 8px 4px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #9ca3af;
+            font-size: 13px;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: all 0.3s ease;
+        }
 
-    /* বাটন গ্রিড */
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-    
-    button {
-      padding: 14px;
-      font-size: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      border-radius: 12px;
-      transition: all 0.25s ease;
-      font-family: 'Inter', sans-serif;
-    }
+        .nav-buttons button.active {
+            background: linear-gradient(135deg, #d4af37, #aa7c11);
+            color: #030712;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
 
-    /* ১. সংখ্যার বাটন: গ্লাসমরফিক ডার্ক নেভি উইথ গোল্ড বর্ডার */
-    .btn-num {
-      background: rgba(20, 30, 50, 0.6);
-      color: #F7E7A0;
-      border: 1px solid #D4AF37;
-      box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.1);
-    }
-    .btn-num:hover {
-      background: rgba(212, 175, 55, 0.2);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-    }
+        .nav-buttons button:hover:not(.active) {
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+        }
 
-    /* ২. অপারেটর: গোল্ড গ্র্যাডিয়েন্ট */
-    .btn-op {
-      background: linear-gradient(135deg, #D4AF37, #F7E7A0);
-      color: #0B1120;
-      border: none;
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
-    }
-    .btn-op:hover {
-      background: linear-gradient(135deg, #F7E7A0, #D4AF37);
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px rgba(247, 231, 160, 0.7);
-    }
+        /* বিজনেস ডিসপ্লে */
+        #display {
+            width: 100%;
+            height: 65px;
+            background: #0b0f19;
+            border-radius: 12px;
+            color: #f3e5ab; /* প্রিমিয়াম গোল্ডেন টেক্সট কালার */
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: right;
+            padding: 10px 15px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9);
+            letter-spacing: 1px;
+        }
 
-    /* ৩. ক্লিয়ার (C) বাটন: গাঢ় লাল-মেরুন */
-    .btn-clear {
-      background: #8B1E1E;
-      color: #ffffff;
-      border: 1px solid #ff4d4d;
-      grid-column: span 2;
-      box-shadow: 0 0 10px rgba(139, 30, 30, 0.5);
-    }
-    .btn-clear:hover {
-      background: #a82424;
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
-    }
+        /* বাটন গ্রিড */
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
 
-    /* ৪. "=" বাটন: বড় গোল্ড গ্র্যাডিয়েন্ট উইথ পালস অ্যানিমেশন */
-    .btn-eq {
-      background: linear-gradient(135deg, #D4AF37, #8B6914);
-      color: #FFFFFF;
-      border: 1px solid #F7E7A0;
-      grid-column: span 4;
-      font-size: 24px;
-      animation: pulseGlow 2s infinite;
-    }
-    .btn-eq:hover {
-      background: linear-gradient(135deg, #F7E7A0, #D4AF37);
-      color: #0B1120;
-      transform: scale(1.02);
-    }
+        /* এক্সিকিউটিভ বাটন স্টাইল */
+        button.calc-btn {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #1f2937;
+            color: #f3f4f6;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
 
-    /* গুগল শিট সেভ বাটন */
-    .save-btn {
-      width: 100%;
-      margin-top: 18px;
-      padding: 14px;
-      background: linear-gradient(135deg, #D4AF37, #F7E7A0);
-      color: #0B1120;
-      font-size: 16px;
-      font-weight: 700;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-    }
-    .save-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(247, 231, 160, 0.6);
-    }
-    #statusMsg { text-align: center; margin-top: 12px; font-size: 14px; font-weight: bold; color: #F7E7A0; }
-  </style>
+        button.calc-btn:active {
+            transform: scale(0.95);
+        }
+
+        button.calc-btn:hover {
+            background: #374151;
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        /* বিশেষ গোল্ড বিজনেস কালার ভ্যারিয়েশন */
+        .btn-clear {
+            background: linear-gradient(135deg, #991b1b, #7f1d1d) !important;
+            color: #fff;
+            border-color: #b91c1c;
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #1e3a8a, #172554) !important;
+            color: #fff;
+            border-color: #2563eb;
+        }
+
+        .btn-operator {
+            background: linear-gradient(135deg, #d4af37, #997a15) !important;
+            color: #030712;
+            font-weight: 900;
+            border-color: #fef08a;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        /* সমান (=) গোল্ডেন বাটন */
+        .btn-equal {
+            grid-column: span 4;
+            background: linear-gradient(135deg, #b45309, #78350f) !important;
+            color: #fef3c7;
+            padding: 15px;
+            font-size: 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            border: 1px solid #d4af37;
+            box-shadow: 0 4px 15px rgba(180, 83, 9, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-equal:hover {
+            background: linear-gradient(135deg, #d97706, #92400e) !important;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ভাসমান স্পার্কল ইফেক্ট -->
-  <div class="sparkle"></div>
-  <div class="sparkle"></div>
-  <div class="sparkle"></div>
-
-  <div class="navbar">
-    <a href="index.html" class="active">ক্যালকুলেটর</a>
-    <a href="polish.html">পলিশের হিসাব</a>
-    <a href="price.html">দামের হিসাব</a>
-  </div>
-
-  <div class="calculator">
-    <input type="text" id="display" readonly>
-    <div class="buttons">
-      <button class="btn-clear" onclick="clearDisplay()">C</button>
-      <button class="btn-op" onclick="appendValue('/')">÷</button>
-      <button class="btn-op" onclick="appendValue('*')">×</button>
-      
-      <button class="btn-num" onclick="appendValue('7')">7</button>
-      <button class="btn-num" onclick="appendValue('8')">8</button>
-      <button class="btn-num" onclick="appendValue('9')">9</button>
-      <button class="btn-op" onclick="appendValue('-')">-</button>
-      
-      <button class="btn-num" onclick="appendValue('4')">4</button>
-      <button class="btn-num" onclick="appendValue('5')">5</button>
-      <button class="btn-num" onclick="appendValue('6')">6</button>
-      <button class="btn-op" onclick="appendValue('+')">+</button>
-      
-      <button class="btn-num" onclick="appendValue('1')">1</button>
-      <button class="btn-num" onclick="appendValue('2')">2</button>
-      <button class="btn-num" onclick="appendValue('3')">3</button>
-      <button class="btn-num" onclick="appendValue('0')">0</button>
-      
-      <button class="btn-eq" onclick="calculate()">=</button>
+<div class="calculator-container">
+    <!-- ওপরের নেভিগেশন বাটন -->
+    <div class="nav-buttons">
+        <button class="active">ক্যালকুলেটর</button>
+        <button onclick="location.href='polish.html'">লিশের হিসাব</button>
+        <button onclick="location.href='price.html'">দামের হিসাব</button>
     </div>
-    <button class="save-btn" onclick="saveToSheet()">গুগল শিটে সেভ করুন</button>
-    <div id="statusMsg"></div>
-  </div>
 
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXVzelPSzdxSwqPboXn4DPsfPUC0ZxJ_bNEkDgx766V8AzBzNwVLxDsE4uqP8GdWVe/exec";
-    let currentInput = "", historyInput = "", lastResult = "";
+    <!-- ডিসপ্লে -->
+    <input type="text" id="display" readonly placeholder="0">
 
-    function appendValue(val) { currentInput += val; document.getElementById('display').value = currentInput; }
-    function clearDisplay() { currentInput = ""; historyInput = ""; lastResult = ""; document.getElementById('display').value = ""; }
-    function calculate() {
-      try { historyInput = currentInput; lastResult = eval(currentInput); document.getElementById('display').value = lastResult; currentInput = lastResult.toString(); }
-      catch (e) { document.getElementById('display').value = 'ত্রুটি'; currentInput = ""; }
+    <!-- কিপ্যাড -->
+    <div class="buttons-grid">
+        <button class="calc-btn btn-clear" onclick="clearDisplay()">C</button>
+        <button class="calc-btn btn-back" onclick="deleteDigit()">⌫</button>
+        <button class="calc-btn btn-operator" onclick="appendValue('/')">÷</button>
+        <button class="calc-btn btn-operator" onclick="appendValue('*')">×</button>
+
+        <button class="calc-btn" onclick="appendValue('7')">7</button>
+        <button class="calc-btn" onclick="appendValue('8')">8</button>
+        <button class="calc-btn" onclick="appendValue('9')">9</button>
+        <button class="calc-btn btn-operator" onclick="appendValue('-')">-</button>
+
+        <button class="calc-btn" onclick="appendValue('4')">4</button>
+        <button class="calc-btn" onclick="appendValue('5')">5</button>
+        <button class="calc-btn" onclick="appendValue('6')">6</button>
+        <button class="calc-btn btn-operator" onclick="appendValue('+')">+</button>
+
+        <button class="calc-btn" onclick="appendValue('1')">1</button>
+        <button class="calc-btn" onclick="appendValue('2')">2</button>
+        <button class="calc-btn" onclick="appendValue('3')">3</button>
+        <button class="calc-btn" onclick="appendValue('0')">0</button>
+    </div>
+
+    <button class="btn-equal calc-btn" onclick="calculateResult()">=</button>
+</div>
+
+<script>
+    const display = document.getElementById('display');
+
+    function appendValue(value) {
+        if (display.value === 'ত্রুটি') {
+            display.value = '';
+        }
+        display.value += value;
     }
-    function saveToSheet() {
-      const msg = document.getElementById('statusMsg');
-      let valToSave = lastResult || currentInput;
-      let data = { type: "Calculator", date: new Date().toLocaleDateString(), itemDesc: `হিসাব: ${historyInput ? historyInput + ' = ' + valToSave : valToSave}`, totalPrice: valToSave };
-      msg.textContent = 'সেভ হচ্ছে...';
-      fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-      .then(() => { msg.textContent = 'সফলভাবে জমা হয়েছে!'; setTimeout(() => msg.textContent = '', 4000); });
+
+    function clearDisplay() {
+        display.value = '';
     }
-  </script>
+
+    function deleteDigit() {
+        display.value = display.value.slice(0, -1);
+    }
+
+    function calculateResult() {
+        try {
+            let result = eval(display.value);
+            if (result === undefined || result === null || !isFinite(result)) {
+                throw new Error("Invalid");
+            }
+            display.value = result;
+        } catch (error) {
+            display.value = 'ত্রুটি';
+            setTimeout(clearDisplay, 1500);
+        }
+    }
+
+    // কিবোর্ড শর্টকাট সাপোর্ট
+    document.addEventListener('keydown', function(event) {
+        const key = event.key;
+        if (/[0-9]/.test(key)) {
+            appendValue(key);
+        } else if (['+', '-', '*', '/'].includes(key)) {
+            appendValue(key);
+        } else if (key === 'Enter') {
+            calculateResult();
+        } else if (key === 'Backspace') {
+            deleteDigit();
+        } else if (key === 'c' || key === 'C') {
+            clearDisplay();
+        }
+    });
+</script>
+
 </body>
 </html>
