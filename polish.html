@@ -3,66 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>প্রিমিয়াম জুয়েলারি পলিশ ও ওজন হিসাব সিস্টেম</title>
+<title>জুয়েলারি ম্যানেজমেন্ট সিস্টেম - মাল্টি-লেয়ার প্রিমিয়াম এডিশন</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
     --bg-gradient: radial-gradient(circle at top, #1a1a1a 0%, #0d0d0d 100%);
-    --card-bg: rgba(25, 25, 25, 0.75);
+    --card-bg: rgba(25, 25, 25, 0.85);
     --gold: #d4af37;
     --gold-light: #f3e5ab;
     --text: #ffffff;
     --muted: #b0b0b0;
     --border-color: rgba(212, 175, 55, 0.35);
-    --input-bg: rgba(35, 35, 35, 0.7);
+    --input-bg: rgba(35, 35, 35, 0.75);
     --input-text: #ffffff;
-    --shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(212, 175, 55, 0.1);
+    --shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.15);
 }
 
 [data-theme="light"] {
     --bg-gradient: radial-gradient(circle at top, #f9f9f9 0%, #e6eaeed9 100%);
-    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-bg: rgba(255, 255, 255, 0.9);
     --gold: #b8860b;
     --gold-light: #fff8e1;
     --text: #2c3e50;
     --muted: #7f8c8d;
     --border-color: rgba(184, 134, 11, 0.4);
-    --input-bg: rgba(240, 243, 246, 0.8);
+    --input-bg: rgba(240, 243, 246, 0.85);
     --input-text: #2c3e50;
-    --shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(184, 134, 11, 0.15);
+    --shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 0 0 25px rgba(184, 134, 11, 0.2);
 }
 
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    transition: background 0.35s ease, color 0.35s ease, border 0.35s ease, transform 0.25s ease;
+    transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
 }
 
 body{
     background: var(--bg-gradient);
+    background-size: 200% 200%;
+    animation: bgGradientMove 15s ease infinite;
     color: var(--text);
     font-family: 'Inter', sans-serif;
-    padding: 20px;
+    padding: 15px;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-x: hidden;
 }
 
-/* 1. & 2. Glassmorphism Card & Animated Gold Border */
+@keyframes bgGradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#particlesCanvas {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
 .container{
     width: 100%;
-    max-width: 580px;
+    max-width: 620px;
     background: var(--card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    padding: 28px;
-    border-radius: 24px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 24px;
+    border-radius: 26px;
     border: 2px solid transparent;
     background-clip: padding-box;
     position: relative;
     box-shadow: var(--shadow);
+    animation: containerEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes containerEntry {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .container::before {
@@ -72,8 +93,8 @@ body{
     background: linear-gradient(45deg, var(--gold), transparent, var(--gold), transparent, var(--gold));
     background-size: 400% 400%;
     z-index: -1;
-    border-radius: 26px;
-    animation: goldBorderGlow 7s ease infinite;
+    border-radius: 28px;
+    animation: goldBorderGlow 5s ease infinite;
 }
 
 @keyframes goldBorderGlow {
@@ -82,601 +103,466 @@ body{
     100% { background-position: 0% 50%; }
 }
 
-/* 3. Premium Logo Area & 6. Theme Toggle */
+/* Layer Switch Navigation */
+.layer-nav {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    scrollbar-width: none;
+}
+.layer-nav::-webkit-scrollbar { display: none; }
+
+.layer-btn {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.layer-btn.active {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    color: #111;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Header & Logo */
 .header-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 15px;
+    padding-bottom: 12px;
 }
 
 .logo-area {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
 }
 
 .jc-logo {
-    width: 50px;
-    height: 50px;
+    width: 46px;
+    height: 46px;
     background: linear-gradient(135deg, var(--gold-light), var(--gold));
     color: #111;
     font-weight: 800;
-    font-size: 22px;
+    font-size: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 14px;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-    animation: logoGlowAnim 3s infinite ease-in-out;
+    border-radius: 12px;
+    position: relative;
+    animation: logoPulse 3s infinite ease-in-out;
 }
 
-@keyframes logoGlowAnim {
-    0% { transform: scale(1); box-shadow: 0 0 8px var(--gold); }
-    50% { transform: scale(1.06); box-shadow: 0 0 22px var(--gold); }
-    100% { transform: scale(1); box-shadow: 0 0 8px var(--gold); }
+@keyframes logoPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(212,175,55,0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(212,175,55,0.8); }
 }
 
-.logo-text h2 {
-    font-size: 17px;
-    color: var(--gold);
-    font-weight: 700;
-    letter-spacing: 0.5px;
-}
-
-.logo-text span {
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 500;
-}
+.logo-text h2 { font-size: 15px; color: var(--gold); font-weight: 700; }
+.logo-text span { font-size: 11px; color: var(--muted); }
 
 .theme-btn {
     background: var(--input-bg);
     border: 1px solid var(--border-color);
     color: var(--text);
-    padding: 7px 14px;
+    padding: 8px 12px;
     border-radius: 10px;
     cursor: pointer;
     font-size: 12px;
-    font-weight: 600;
-}
-.theme-btn:hover {
-    transform: translateY(-2px);
-    border-color: var(--gold);
 }
 
-.form-group{
-    margin-bottom: 16px;
+/* Layer Content Sections */
+.layer-section {
+    display: none;
+    animation: fadeInLayer 0.4s ease forwards;
 }
-
-label{
+.layer-section.active {
     display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    color: var(--text);
-    font-size: 13px;
 }
 
-input, select{
+@keyframes fadeInLayer {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-group { margin-bottom: 12px; }
+label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 12px; color: var(--text); }
+input, select {
     width: 100%;
-    height: 48px;
-    padding: 0 16px;
-    font-size: 15px;
+    height: 42px;
+    padding: 0 12px;
+    font-size: 13px;
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 10px;
     outline: none;
     background: var(--input-bg);
     color: var(--input-text);
 }
-
-input:focus, select:focus{
+input:focus, select:focus {
     border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
 }
 
-.row{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 10px;
-}
-
-/* 4. Invoice Style Result Card */
-.invoice-card {
-    margin-top: 22px;
+.result-box {
+    margin-top: 15px;
     background: var(--input-bg);
-    padding: 18px;
-    border-radius: 14px;
+    padding: 14px;
+    border-radius: 12px;
     border: 1px dashed var(--gold);
-    position: relative;
-}
-
-.invoice-title {
     text-align: center;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 12px;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
 }
-
-.invoice-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: var(--muted);
-}
-
-.invoice-row span {
-    color: var(--text);
-    font-weight: 600;
-}
-
-.loss-row {
-    border-top: 1px solid var(--border-color);
-    padding-top: 10px;
-    margin-top: 10px;
-    font-size: 16px !important;
+.total-highlight {
+    font-size: 22px !important;
+    color: var(--gold) !important;
     font-weight: bold !important;
-    color: #ff5252 !important;
+    margin-top: 4px;
+    display: inline-block;
 }
 
-/* 5. Gold Progress Bar */
-.progress-container {
-    margin-top: 12px;
-}
-
-.progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 5px;
-}
-
-.progress-track {
-    width: 100%;
-    height: 8px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-.progress-fill {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, #e74c3c, var(--gold), #2ecc71);
-    border-radius: 4px;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 7. Button Gradient Theme */
-.btn-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 18px;
-}
-
-.btn{
-    width: 100%;
-    height: 48px;
+.btn-row { display: flex; gap: 8px; margin-top: 10px; }
+.btn {
+    flex: 1;
+    height: 40px;
     background: linear-gradient(135deg, var(--gold-light), var(--gold));
     color: #111;
     border: none;
-    border-radius: 12px;
-    font-size: 15px;
+    border-radius: 10px;
+    font-size: 12px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
+.btn:hover { transform: translateY(-1px); }
 
-.btn:hover{
-    opacity: 0.92;
-    transform: translateY(-2px);
-}
-
-.btn-save{
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
-    color: white;
-    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-}
-
-.btn-print {
-    background: linear-gradient(135deg, #2980b9, #3498db);
-    color: white;
-    grid-column: span 2;
-    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-}
-
-/* 8. History Card Theme */
-.history-box {
-    margin-top: 25px;
-    border-top: 1px solid var(--border-color);
-    padding-top: 16px;
-}
-
-.history-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    gap: 10px;
-}
-
-.history-header h3 {
-    font-size: 15px;
-    color: var(--gold);
-    white-space: nowrap;
-}
-
-.search-input {
-    height: 38px;
-    font-size: 13px;
-    padding: 0 12px;
-    border-radius: 10px;
-}
-
+/* History & Lists */
 .history-list {
-    max-height: 190px;
+    max-height: 140px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-right: 4px;
+    gap: 6px;
+    margin-top: 8px;
 }
-
 .history-item {
     background: var(--input-bg);
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
     border: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
-}
-
-.history-item:hover {
-    border-color: var(--gold);
-}
-
-.history-info b {
-    color: var(--gold);
-}
-
-.delete-btn {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 6px;
-    cursor: pointer;
     font-size: 11px;
-    font-weight: 600;
 }
-.delete-btn:hover {
-    background: #c0392b;
-}
+.delete-btn { background: #e74c3c; color: white; border: none; padding: 3px 7px; border-radius: 5px; cursor: pointer; }
 
-/* 10. Shop Footer Branding */
-.shop-footer {
-    margin-top: 25px;
-    text-align: center;
-    border-top: 1px dashed var(--border-color);
-    padding-top: 14px;
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.5;
+/* Toast */
+#toast {
+    position: fixed;
+    bottom: 25px; right: 25px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 12px; font-weight: 600;
+    display: none;
+    z-index: 1000;
 }
-
-.shop-footer b {
-    color: var(--gold);
-    font-size: 14px;
-}
-
-/* Hidden Print Template */
-@media print {
-    body * { visibility: hidden; }
-    #stickerPrintArea, #stickerPrintArea * { visibility: visible; }
-    #stickerPrintArea {
-        position: absolute; left: 0; top: 0; width: 58mm; padding: 5mm; background: #fff; color: #000;
-    }
-}
-#stickerPrintArea { display: none; }
 </style>
 </head>
 <body data-theme="dark">
 
-<div class="container">
-    <!-- 3. Premium Logo Area & 6. Dark/Light Header -->
+<canvas id="particlesCanvas"></canvas>
+
+<div class="container" id="mainContainer">
+    <!-- Layer Navigation Switcher -->
+    <div class="layer-nav">
+        <button class="layer-btn active" onclick="switchLayer('priceLayer')">দাম লেয়ার</button>
+        <button class="layer-btn" onclick="switchLayer('polishLayer')">পলিশ লেয়ার</button>
+        <button class="layer-btn" onclick="switchLayer('customerLayer')">কাস্টমার</button>
+        <button class="layer-btn" onclick="switchLayer('historyLayer')">হিস্ট্রি</button>
+        <button class="layer-btn" onclick="switchLayer('settingsLayer')">সেটিংস</button>
+    </div>
+
     <div class="header-box">
         <div class="logo-area">
             <div class="jc-logo">JC</div>
             <div class="logo-text">
-                <h2>মেসার্স জুয়েলারি কর্নার</h2>
-                <span>প্রিমিয়াম পলিশ ও ওজন হিসাব সিস্টেম</span>
+                <h2>জুয়েলারি কর্নার</h2>
+                <span>মাল্টি-লেয়ার সিস্টেম</span>
             </div>
         </div>
-        <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">☀️ থিম</button>
+        <button class="theme-btn" onclick="toggleTheme()">☀️ থিম</button>
     </div>
 
-    <div class="form-group">
-        <label>প্রোডাক্ট নির্বাচন করুন</label>
-        <select id="productName" onchange="liveCalculate()">
-            <option value="আংটি 💍">আংটি 💍</option>
-            <option value="চেইন 📿">চেইন 📿</option>
-            <option value="বালা ✨">বালা ✨</option>
-            <option value="কানের দুল 💎">কানের দুল 💎</option>
-            <option value="অন্যান্য 🏅">অন্যান্য 🏅</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label>পলিশের আগের ওজন</label>
-        <div class="row">
-            <input id="beforeWeight" type="number" step="0.001" placeholder="ওজন লিখুন" oninput="liveCalculate()">
-            <select id="beforeUnit" onchange="liveCalculate()">
-                <option value="gram">গ্রাম</option>
-                <option value="vori">ভরি</option>
-                <option value="ana">আনা</option>
-                <option value="rati">রতি</option>
+    <!-- 1. Price & Gold Purity Layer -->
+    <div id="priceLayer" class="layer-section active">
+        <div class="form-group">
+            <label>স্বর্ণের বিশুদ্ধতা (Gold Purity)</label>
+            <select id="goldPurity" onchange="calculatePrice()">
+                <option value="1">২৪ ক্যারেট (24K - 100%)</option>
+                <option value="0.916" selected>২২ ক্যারেট (22K - 91.6%)</option>
+                <option value="0.875">২১ ক্যারেট (21K - 87.5%)</option>
+                <option value="0.750">১৮ ক্যারেট (18K - 75%)</option>
             </select>
         </div>
+        <div class="form-group">
+            <label>প্রতি ভরি স্বর্ণের মূল্য (টাকা)</label>
+            <input type="number" id="goldRate" value="115000" placeholder="মূল্য লিখুন" oninput="calculatePrice()">
+        </div>
+        <div class="form-group">
+            <label>ওজন (ভরি)</label>
+            <input type="number" id="goldWeight" value="1" placeholder="ওজন লিখুন" oninput="calculatePrice()">
+        </div>
+        <div class="form-group">
+            <label>মজুরি ও অন্যান্য খরচ (টাকা)</label>
+            <input type="number" id="makingCharge" value="3000" placeholder="মজুরি লিখুন" oninput="calculatePrice()">
+        </div>
+
+        <div class="result-box">
+            <div style="font-size: 11px; color: var(--muted);">মোট প্রাক্কলিত মূল্য</div>
+            <div class="total-highlight" id="totalPriceResult">০.০০</div>
+            <div class="btn-row">
+                <button class="btn" onclick="copyText('totalPriceResult')">📋 কপি</button>
+                <button class="btn" onclick="saveTransaction('Price')">💾 সেভ ও সিঙ্ক</button>
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label>পলিশের পরের ওজন</label>
-        <div class="row">
-            <input id="afterWeight" type="number" step="0.001" placeholder="ওজন লিখুন" oninput="liveCalculate()">
-            <select id="afterUnit" onchange="liveCalculate()">
-                <option value="gram">গ্রাম</option>
-                <option value="vori">ভরি</option>
-                <option value="ana">আনা</option>
-                <option value="rati">রতি</option>
+    <!-- 2. Polish & Loss Layer -->
+    <div id="polishLayer" class="layer-section">
+        <div class="form-group">
+            <label>পণ্যের ক্যাটাগরি</label>
+            <select id="productCat">
+                <option>রিং (Ring)</option>
+                <option>চেইন (Chain)</option>
+                <option>ব্রেসলেট (Bracelet)</option>
+                <option>কানের দুল (Earring)</option>
+                <option>নেকলেস (Necklace)</option>
             </select>
         </div>
-    </div>
+        <div class="form-group">
+            <label>মূল ওজন (গ্রাম/ভরি)</label>
+            <input type="number" id="pWeight" placeholder="আগের ওজন" oninput="calcPolish()">
+        </div>
+        <div class="form-group">
+            <label>পলিশের পর ওজন</label>
+            <input type="number" id="paWeight" placeholder="বর্তমান ওজন" oninput="calcPolish()">
+        </div>
 
-    <!-- 4. & 5. Invoice Style Result Card & Gold Progress Bar -->
-    <div class="invoice-card">
-        <div class="invoice-title">📜 পলিশ রসিদ প্রিভিউ</div>
-        <div class="invoice-row">আগের ওজন: <span id="resBefore">০.০০০ গ্রাম</span></div>
-        <div class="invoice-row">পরের ওজন: <span id="resAfter">০.০০০ গ্রাম</span></div>
-        
-        <div class="progress-container">
-            <div class="progress-label">
-                <span>ওজন অবশিষ্ট মাত্রা</span>
-                <span id="progressText">১০০%</span>
+        <div class="result-box">
+            <div style="font-size: 11px; color: var(--muted);">লসের পরিমাণ (Loss)</div>
+            <div class="total-highlight" id="lossResult">০.০০</div>
+            <div class="btn-row">
+                <button class="btn" onclick="saveTransaction('Polish')">💾 সংরক্ষণ করুন</button>
             </div>
-            <div class="progress-track">
-                <div class="progress-fill" id="progressFill" style="width: 100%;"></div>
-            </div>
-        </div>
-
-        <div class="invoice-row loss-row">পলিশে ক্ষয়/কমতি: <span id="resLoss">০.০০০ গ্রাম</span></div>
-    </div>
-
-    <!-- 7. Button Gradient Theme -->
-    <div class="btn-group">
-        <button class="btn btn-save" onclick="saveToHistory()">💾 সেভ ও শিটে জমা</button>
-        <button class="btn" onclick="downloadPDF()" style="background: linear-gradient(135deg, #e67e22, #d35400); color:#fff;">📥 পিডিএফ</button>
-        <button class="btn btn-print" onclick="printSticker()">🖨️ স্টিকার প্রিন্ট</button>
-    </div>
-
-    <!-- 8. History Card Theme (Search & Delete) -->
-    <div class="history-box">
-        <div class="history-header">
-            <h3>📂 আগের হিসাব তালিকা</h3>
-            <input type="text" id="searchInput" class="search-input" placeholder="সার্চ করুন..." onkeyup="filterHistory()">
-        </div>
-        <div class="history-list" id="historyList">
-            <!-- Dynamic History -->
         </div>
     </div>
 
-    <!-- 10. Shop Footer Branding -->
-    <div class="shop-footer">
-        <b>মেসার্স জুয়েলারি কর্নার</b><br>
-        মোবাইল: ০১৭০০-০০০০০০ | ঠিকানা: স্বর্ণ বাজার, ঢাকা-১০০০।
+    <!-- 3. Customer Layer -->
+    <div id="customerLayer" class="layer-section">
+        <div class="form-group">
+            <label>গ্রাহকের নাম</label>
+            <input type="text" id="custName" placeholder="নাম লিখুন">
+        </div>
+        <div class="form-group">
+            <label>মোবাইল নম্বর</label>
+            <input type="text" id="custPhone" placeholder="০১৭xxxxxxxx">
+        </div>
+        <div class="form-group">
+            <label>বিবরণ / ঠিকানা</label>
+            <input type="text" id="custAddress" placeholder="ঠিকানা বা মেমো নম্বর">
+        </div>
+        <button class="btn" onclick="saveCustomer()" style="width:100%; margin-top:5px;">গ্রাহক তথ্য সেভ করুন</button>
+    </div>
+
+    <!-- 4. History Layer -->
+    <div id="historyLayer" class="layer-section">
+        <h3 style="font-size: 12px; color: var(--gold); margin-bottom: 5px;">সকল লেয়ার হিস্ট্রি ও ব্যাকআপ</h3>
+        <div class="history-list" id="mainHistoryList"></div>
+        <button class="btn" onclick="clearHistory()" style="background:#e74c3c; color:white; margin-top:10px; width:100%;">সব হিস্ট্রি ডিলিট করুন</button>
+    </div>
+
+    <!-- 5. Settings Layer -->
+    <div id="settingsLayer" class="layer-section">
+        <div class="form-group">
+            <label>দোকানের নাম</label>
+            <input type="text" id="shopNameSetting" value="মেসার্স জুয়েলারি কর্নার">
+        </div>
+        <div class="form-group">
+            <label>গুগল শিট ওয়েব অ্যাপ ইউআরএল (Google Sheet Sync)</label>
+            <input type="text" id="scriptUrlSetting" placeholder="https://script.google.com/macros/s/.../exec">
+        </div>
+        <button class="btn" onclick="saveSettings()" style="width:100%;">সেটিংস সেভ করুন</button>
     </div>
 </div>
 
-<!-- Hidden Sticker Print Template -->
-<div id="stickerPrintArea">
-    <h3 style="text-align:center; font-size:13px; margin-bottom:4px; border-bottom:1px dashed #000;">জুয়েলারি পলিশ স্লিপ</h3>
-    <p style="font-size:10px; margin:2px 0;">তারিখ: <span id="pDate"></span></p>
-    <p style="font-size:10px; margin:2px 0;">প্রোডাক্ট: <span id="pItem"></span></p>
-    <p style="font-size:10px; margin:2px 0;">আগের ওজন: <span id="pBefore"></span></p>
-    <p style="font-size:10px; margin:2px 0;">পরের ওজন: <span id="pAfter"></span></p>
-    <p style="font-size:10px; margin:2px 0; font-weight:bold;">ক্ষয়: <span id="pLoss"></span></p>
-    <div style="text-align:center; font-size:9px; margin-top:6px; border-top:1px dashed #000;">ধন্যবাদ!</div>
-</div>
+<div id="toast">সফলভাবে সম্পন্ন হয়েছে!</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-// Click Sound Feedback
-function playClickSound() {
+// Web Audio Beep
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playBeep(freq = 600, duration = 0.05) {
     try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioCtx.createOscillator();
-        const gainNode = audioCtx.createGain();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(550, audioCtx.currentTime);
-        gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.06);
-        oscillator.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-        oscillator.start();
-        oscillator.stop(audioCtx.currentTime + 0.06);
+        if(audioCtx.state === 'suspended') audioCtx.resume();
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + duration);
     } catch(e) {}
 }
 
-// Dark & Light Mode Handling
-const bodyElement = document.body;
-const themeToggleBtn = document.getElementById("themeToggle");
-const savedTheme = localStorage.getItem("jewelTheme") || "dark";
-bodyElement.setAttribute("data-theme", savedTheme);
-updateThemeButton(savedTheme);
+// Layer Switching System
+function switchLayer(layerId) {
+    playBeep(700, 0.04);
+    document.querySelectorAll('.layer-section').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.layer-btn').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(layerId).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
 
+// Particle Background
+const canvas = document.getElementById("particlesCanvas");
+const ctx = canvas.getContext("2d");
+let particles = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.onresize = resize; resize();
+
+for(let i=0; i<35; i++) {
+    particles.push({
+        x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
+        size: Math.random()*2+1, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3
+    });
+}
+function drawParticles() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "rgba(212, 175, 55, 0.4)";
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if(p.x<0 || p.x>canvas.width) p.vx*=-1;
+        if(p.y<0 || p.y>canvas.height) p.vy*=-1;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+    });
+    requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+// Theme Control
+let bodyEl = document.body;
+let savedTheme = localStorage.getItem("jc_theme") || "dark";
+bodyEl.setAttribute("data-theme", savedTheme);
 function toggleTheme() {
-    playClickSound();
-    let currentTheme = bodyElement.getAttribute("data-theme");
-    let newTheme = currentTheme === "dark" ? "light" : "dark";
-    bodyElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("jewelTheme", newTheme);
-    updateThemeButton(newTheme);
+    playBeep(850, 0.08);
+    let t = bodyEl.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    bodyEl.setAttribute("data-theme", t);
+    localStorage.setItem("jc_theme", t);
 }
 
-function updateThemeButton(theme) {
-    themeToggleBtn.innerText = theme === "dark" ? "☀️ লাইট" : "🌙 ডার্ক";
+// Price Calculation Logic
+function calculatePrice() {
+    playBeep(400, 0.02);
+    let purityFactor = parseFloat(document.getElementById("goldPurity").value) || 1;
+    let rate = parseFloat(document.getElementById("goldRate").value) || 0;
+    let weight = parseFloat(document.getElementById("goldWeight").value) || 0;
+    let making = parseFloat(document.getElementById("makingCharge").value) || 0;
+
+    let total = (rate * weight * purityFactor) + making;
+    document.getElementById("totalPriceResult").innerText = total.toLocaleString('en-IN', {maximumFractionDigits: 2});
+}
+calculatePrice();
+
+// Polish & Loss Calculation
+function calcPolish() {
+    let w1 = parseFloat(document.getElementById("pWeight").value) || 0;
+    let w2 = parseFloat(document.getElementById("paWeight").value) || 0;
+    let loss = w1 >= w2 ? w1 - w2 : 0;
+    document.getElementById("lossResult").innerText = loss.toFixed(3);
 }
 
-function convertToGram(val, unit){
-    let w = Number(val) || 0;
-    if(unit == "vori") w = w * 11.664;
-    else if(unit == "ana") w = w * 0.729;
-    else if(unit == "rati") w = w * 0.1215;
-    return w;
+// Toast Notification
+function showToast(msg) {
+    let t = document.getElementById("toast");
+    t.innerText = msg;
+    t.style.display = "block";
+    setTimeout(() => t.style.display = "none", 2500);
 }
 
-// Live Calculation & Progress Bar
-function liveCalculate(){
-    let bVal = document.getElementById("beforeWeight").value;
-    let bUnit = document.getElementById("beforeUnit").value;
-    let aVal = document.getElementById("afterWeight").value;
-    let aUnit = document.getElementById("afterUnit").value;
+// History & LocalStorage Sync
+let systemHistory = JSON.parse(localStorage.getItem("jc_system_history")) || [];
 
-    let bGram = convertToGram(bVal, bUnit);
-    let aGram = convertToGram(aVal, aUnit);
-    let lossGram = bGram - aGram;
-    if(lossGram < 0) lossGram = 0;
-
-    document.getElementById("resBefore").innerText = bGram.toFixed(3) + " গ্রাম";
-    document.getElementById("resAfter").innerText = aGram.toFixed(3) + " গ্রাম";
-    document.getElementById("resLoss").innerText = lossGram.toFixed(3) + " গ্রাম";
-
-    let percentage = 100;
-    if(bGram > 0) {
-        percentage = (aGram / bGram) * 100;
-        if(percentage > 100) percentage = 100;
-        if(percentage < 0) percentage = 0;
-    }
-    document.getElementById("progressFill").style.width = percentage + "%";
-    document.getElementById("progressText").innerText = percentage.toFixed(1) + "% অবশিষ্ট";
-
-    return { bGram, aGram, lossGram };
-}
-
-// History & LocalStorage Management
-let historyData = JSON.parse(localStorage.getItem("polishHistory")) || [];
-
-function renderHistory(dataToRender = historyData){
-    const listContainer = document.getElementById("historyList");
-    listContainer.innerHTML = "";
-
-    if(dataToRender.length === 0){
-        listContainer.innerHTML = `<div style="text-align:center; color:var(--muted); font-size:12px; padding:12px;">কোনো হিসাবের তথ্য নেই</div>`;
-        return;
-    }
-
-    dataToRender.forEach((item, index) => {
-        let div = document.createElement("div");
-        div.className = "history-item";
-        div.innerHTML = `
-            <div class="history-info">
-                <b>${item.item}</b> (${item.date})<br>
-                ক্ষয়: <span style="color:#ff5252; font-weight:600;">${item.loss}</span>
-            </div>
-            <button class="delete-btn" onclick="deleteHistory(${index})">ডিলিট</button>
-        `;
-        listContainer.appendChild(div);
+function renderHistory() {
+    let list = document.getElementById("mainHistoryList");
+    list.innerHTML = systemHistory.length ? "" : "<div style='text-align:center; color:var(--muted); font-size:11px;'>কোনো রেকর্ড নেই</div>";
+    systemHistory.forEach((h, i) => {
+        list.innerHTML += `<div class="history-item"><span><b>[${h.type}]</b> ${h.info} - <span style="color:var(--gold);">${h.val}</span></span> <button class="delete-btn" onclick="deleteHistory(${i})">X</button></div>`;
     });
 }
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTLynJfnG9mjZnckvhFJUyIh51GUjkXGW_5_5x5rbIZxuGORgaBBohm50-982_IMsR/exec";
-
-function saveToHistory(){
-    playClickSound();
-    let res = liveCalculate();
-    let itemName = document.getElementById("productName").value;
-    let currentDate = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-    if(res.bGram <= 0){
-        alert("দয়া করে পলিশের আগের সঠিক ওজন লিখুন!");
-        return;
-    }
-
-    let record = {
-        item: itemName,
-        before: res.bGram.toFixed(3) + " গ্রাম",
-        after: res.aGram.toFixed(3) + " গ্রাম",
-        loss: res.lossGram.toFixed(3) + " গ্রাম",
-        date: currentDate
-    };
-
-    historyData.unshift(record);
-    localStorage.setItem("polishHistory", JSON.stringify(historyData));
+function saveTransaction(type) {
+    playBeep(1000, 0.1);
+    let val = type === 'Price' ? document.getElementById("totalPriceResult").innerText : document.getElementById("lossResult").innerText;
+    let info = type === 'Price' ? `${document.getElementById("goldWeight").value} ভরি` : `${document.getElementById("productCat").value}`;
+    
+    let record = { type: type, info: info, val: val, time: new Date().toLocaleTimeString() };
+    systemHistory.unshift(record);
+    if(systemHistory.length > 20) systemHistory.pop();
+    
+    localStorage.setItem("jc_system_history", JSON.stringify(systemHistory));
     renderHistory();
+    showToast("সফলভাবে সেভ হয়েছে!");
 
     // Background Google Sheet Sync
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(record)
-    });
-
-    alert("সফলভাবে সেভ ও গুগল শিটে জমা হয়েছে!");
+    let scriptUrl = localStorage.getItem("jc_script_url") || "";
+    if(scriptUrl) {
+        fetch(scriptUrl, { method: "POST", mode: "no-cors", body: JSON.stringify(record) }).catch(e=>{});
+    }
 }
 
-function deleteHistory(index){
-    playClickSound();
-    historyData.splice(index, 1);
-    localStorage.setItem("polishHistory", JSON.stringify(historyData));
+function saveCustomer() {
+    let name = document.getElementById("custName").value;
+    if(!name) { alert("গ্রাহকের নাম দিন"); return; }
+    saveTransaction('Customer', name);
+    showToast("গ্রাহক তথ্য সংরক্ষিত!");
+}
+
+function saveSettings() {
+    let url = document.getElementById("scriptUrlSetting").value;
+    localStorage.setItem("jc_script_url", url);
+    showToast("সেটিংস সংরক্ষিত হয়েছে!");
+}
+
+function deleteHistory(i) {
+    systemHistory.splice(i, 1);
+    localStorage.setItem("jc_system_history", JSON.stringify(systemHistory));
     renderHistory();
 }
 
-function filterHistory(){
-    let query = document.getElementById("searchInput").value.toLowerCase();
-    let filtered = historyData.filter(item => item.item.toLowerCase().includes(query) || item.date.toLowerCase().includes(query));
-    renderHistory(filtered);
+function clearHistory() {
+    systemHistory = [];
+    localStorage.removeItem("jc_system_history");
+    renderHistory();
 }
 
-function printSticker(){
-    playClickSound();
-    let res = liveCalculate();
-    document.getElementById("pDate").innerText = new Date().toLocaleString();
-    document.getElementById("pItem").innerText = document.getElementById("productName").value;
-    document.getElementById("pBefore").innerText = res.bGram.toFixed(3) + " গ্রাম";
-    document.getElementById("pAfter").innerText = res.aGram.toFixed(3) + " গ্রাম";
-    document.getElementById("pLoss").innerText = res.lossGram.toFixed(3) + " গ্রাম";
-    window.print();
+function copyText(elemId) {
+    navigator.clipboard.writeText(document.getElementById(elemId).innerText);
+    showToast("কপি করা হয়েছে!");
 }
 
-function downloadPDF(){
-    playClickSound();
-    let res = liveCalculate();
-    document.getElementById("pDate").innerText = new Date().toLocaleString();
-    document.getElementById("pItem").innerText = document.getElementById("productName").value;
-    document.getElementById("pBefore").innerText = res.bGram.toFixed(3) + " গ্রাম";
-    document.getElementById("pAfter").innerText = res.aGram.toFixed(3) + " গ্রাম";
-    document.getElementById("pLoss").innerText = res.lossGram.toFixed(3) + " গ্রাম";
-
-    const element = document.getElementById("stickerPrintArea");
-    element.style.display = "block";
-    
-    const opt = {
-        margin: 5,
-        filename: 'polish_invoice.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: [60, 80], orientation: 'portrait' }
-    };
-
-    html2pdf().from(element).set(opt).save().then(() => {
-        element.style.display = "n
+renderHistory();
+</script>
+</body>
+</html>
