@@ -3,34 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>JewelCalc Pro - Home / Calculator</title>
+<title>স্বর্ণ জ্যোতি হিসাব - সাধারণ ক্যালকুলেটর</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-color: #0f1115;
-    --card-bg: #1a1d23;
-    --text-main: #f0f2f5;
-    --text-muted: #9ba1a6;
-    --accent-gold: #D4AF37;
-    --border-color: rgba(255, 255, 255, 0.1);
-    --input-bg: #121418;
-    --success: #3DDC84;
+    --bg-main: #140c06;
+    --card-bg: #1f140a;
+    --panel-bg: #110904;
+    --accent-gold: #e6af2e;
+    --accent-gold-hover: #f4c430;
+    --text-main: #fcf6ec;
+    --text-muted: #b39c83;
+    --border-gold: rgba(230, 175, 46, 0.25);
+    --btn-num-bg: #2a1c10;
+    --btn-num-hover: #3a2717;
+    --btn-op-bg: #33210e;
+    --btn-clear: #8b2626;
+    --success: #22c55e;
     --primary-blue: #3b82f6;
-    --focus-ring: rgba(212, 175, 55, 0.4);
 }
 
-[data-theme="light"] {
-    --bg-color: #f4f6f9;
-    --card-bg: #ffffff;
-    --text-main: #1a1d23;
-    --text-muted: #6c757d;
-    --accent-gold: #b0802b;
-    --border-color: rgba(0, 0, 0, 0.1);
-    --input-bg: #f8f9fa;
-    --focus-ring: rgba(176, 128, 43, 0.4);
-}
-
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -38,212 +31,220 @@
 }
 
 body {
-    background: var(--bg-color);
+    background: var(--bg-main);
     color: var(--text-main);
     padding: 12px;
-    padding-bottom: calc(100px + env(safe-area-inset-bottom));
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
 }
 
-.container {
+.app-container {
     width: 100%;
-    max-width: 440px;
+    max-width: 420px;
     background: var(--card-bg);
-    padding: 16px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-gold);
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
-.header {
+.app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-gold);
 }
 
-.app-title {
-    font-size: 18px;
+.brand-info h1 {
+    font-size: 16px;
     font-weight: 700;
     color: var(--accent-gold);
 }
 
-.theme-btn {
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-    width: 40px; height: 40px;
+.brand-info p {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.logo-badge {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #e6af2e, #996515);
     border-radius: 50%;
-    font-size: 16px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-.theme-btn:active {
-    transform: scale(0.92);
-}
-
-/* Enhanced Focus Visibility */
-button:focus-visible, input:focus-visible, a:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--focus-ring);
-    border-color: var(--accent-gold);
-}
-
-/* Improved Step Indicator Tab Height (52px) */
-.steps-indicator {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    background: var(--input-bg);
-    padding: 4px;
-    border-radius: 12px;
-}
-
-.step-tab {
-    flex: 1;
-    min-height: 52px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 16px;
+    box-shadow: 0 3px 8px rgba(230,175,46,0.3);
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.nav-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
     font-size: 13px;
     font-weight: 600;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    text-align: center;
-    border-radius: 8px;
+    border-radius: 10px;
     text-decoration: none;
     transition: all 0.2s ease;
 }
 
-.step-tab.active {
-    background: var(--card-bg);
-    color: var(--accent-gold);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+.nav-tab.active {
+    background: var(--accent-gold);
+    color: #140c06;
+    box-shadow: 0 4px 12px rgba(230,175,46,0.3);
 }
 
-.form-group {
+.nav-tab.inactive {
+    background: var(--panel-bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border-gold);
+}
+
+/* Calculator Screen */
+.calc-screen {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-gold);
+    border-radius: 14px;
+    padding: 14px 16px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
     margin-bottom: 14px;
 }
 
-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-main);
-    margin-bottom: 6px;
-}
-
-.rate-status {
-    font-size: 11px;
-    color: var(--success);
-    font-weight: 500;
-    margin-left: 6px;
-}
-
-input {
-    width: 100%;
-    height: 52px;
-    padding: 0 16px;
-    font-size: 16px;
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    color: var(--text-main);
-    outline: none;
-}
-
-/* 1. Jewelry Cards as Semantic Buttons */
-.jewelry-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 14px;
-}
-
-.jewelry-card {
-    position: relative;
-    background: var(--input-bg);
-    border: 2px solid var(--border-color);
-    padding: 14px;
-    border-radius: 12px;
-    text-align: center;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-main);
-    transition: all 0.2s ease;
-    width: 100%;
-    font-family: inherit;
-}
-
-.jewelry-card.selected {
-    border-color: var(--accent-gold);
-    background: rgba(212, 175, 55, 0.1);
-    color: var(--accent-gold);
-    transform: scale(1.03);
-    box-shadow: 0 6px 18px rgba(212,175,55,0.25);
-}
-
-.jewelry-card.selected::after {
-    content: "✓";
-    position: absolute;
-    top: 6px;
-    right: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--accent-gold);
-}
-
-/* 8. Two-Line Scannable Total Display */
-.calc-display {
-    background: var(--input-bg);
-    padding: 20px 18px;
-    border-radius: 16px;
-    margin-top: 14px;
-    text-align: center;
-    border: 1px solid var(--border-color);
-}
-
-.calc-display .label {
+.calc-screen .expression {
     font-size: 14px;
     color: var(--text-muted);
-    margin-bottom: 6px;
+    min-height: 18px;
+    width: 100%;
+    text-align: right;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
-.calc-display .value {
-    font-size: 36px;
+.calc-screen .result {
+    font-size: 32px;
     font-weight: 700;
     color: var(--accent-gold);
-    letter-spacing: 0.5px;
+    width: 100%;
+    text-align: right;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
-/* 11. Respect Device Safe Areas & Action Bar */
+/* Keypad Grid */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.calc-btn {
+    height: 52px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.calc-btn:active {
+    transform: scale(0.93);
+}
+
+.btn-num {
+    background: var(--btn-num-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-gold);
+    font-size: 20px;
+}
+.btn-num:hover { background: var(--btn-num-hover); }
+
+.btn-op {
+    background: var(--btn-op-bg);
+    color: var(--accent-gold);
+    border: 1px solid var(--border-gold);
+}
+
+.btn-clear {
+    background: var(--btn-clear);
+    color: #fff;
+}
+
+.btn-equals {
+    background: var(--accent-gold);
+    color: #140c06;
+}
+.btn-equals:hover { background: var(--accent-gold-hover); }
+
+/* History Log */
+.history-section {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-gold);
+    border-radius: 12px;
+    padding: 10px 12px;
+}
+
+.history-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-gold);
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.history-list {
+    font-size: 12px;
+    color: var(--text-muted);
+    max-height: 80px;
+    overflow-y: auto;
+}
+
+.history-item {
+    padding: 3px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.05);
+}
+
+/* Fixed Bottom Action Bar */
 .bottom-action-bar {
     position: fixed;
     bottom: 0; left: 0; width: 100%;
     background: var(--card-bg);
-    border-top: 1px solid var(--border-color);
-    padding: 12px 16px;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border-gold);
+    padding: 10px 16px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
     display: flex;
     gap: 10px;
     z-index: 100;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
 }
 
 .action-btn {
     flex: 1;
-    height: 52px;
+    height: 48px;
     border: none;
     border-radius: 12px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -252,27 +253,24 @@ input {
     gap: 6px;
     transition: transform 0.15s ease;
 }
+.action-btn:active { transform: scale(0.97); }
 
-.action-btn:active {
-    transform: scale(0.97);
-}
-
-.btn-save { background: var(--success); color: #121212; }
+.btn-save { background: var(--success); color: #0d1a10; }
 .btn-print { background: var(--primary-blue); color: #fff; }
 
-/* 9. Adaptive Toast Positioning */
+/* Toast Notification */
 #toast {
     position: fixed;
-    bottom: calc(85px + env(safe-area-inset-bottom));
+    bottom: calc(75px + env(safe-area-inset-bottom));
     left: 50%;
     transform: translateX(-50%) translateY(20px);
     background: #22c55e;
     color: #fff;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 30px;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
@@ -282,161 +280,164 @@ input {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
-
-/* 5. Respect Reduced Motion Preferences */
-@media (prefers-reduced-motion: reduce) {
-    *, ::before, ::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
-}
 </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <div class="app-title">💍 জুয়েল ক্যালকুলেটর</div>
-        <button type="button" class="theme-btn" onclick="toggleTheme()" aria-label="থিম পরিবর্তন করুন">🌓</button>
+<div class="app-container">
+    <div class="app-header">
+        <div class="brand-info">
+            <h1>Swarnajyoti</h1>
+            <p>স্বর্ণ জ্যোতি হিসাব</p>
+        </div>
+        <div class="logo-badge">✨</div>
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="steps-indicator">
-        <a href="index.html" class="step-tab active">① হিসাব</a>
-        <a href="polish.html" class="step-tab">② পলিশ</a>
-        <a href="price.html" class="step-tab">③ মেমো</a>
+    <div class="nav-tabs">
+        <a href="index.html" class="nav-tab active">সাধারণ ক্যালকুলেটর</a>
+        <a href="polish.html" class="nav-tab inactive">পলিশের হিসাব পেজ</a>
     </div>
 
-    <div class="form-group">
-        <label for="cName">👤 কাস্টমারের নাম</label>
-        <input type="text" id="cName" placeholder="যেমন: রহিম উদ্দিন" autocomplete="name" oninput="saveAppData()">
+    <!-- Calculator Screen -->
+    <div class="calc-screen">
+        <div class="expression" id="exprScreen"></div>
+        <div class="result" id="resScreen">০</div>
     </div>
 
-    <label>💍 জুয়েলারি আইটেম সিলেক্ট করুন</label>
-    <div class="jewelry-grid">
-        <button type="button" class="jewelry-card selected" onclick="selectItem('আংটি', this)">💍 আংটি</button>
-        <button type="button" class="jewelry-card" onclick="selectItem('গলার চেইন', this)">📿 গলার চেইন</button>
-        <button type="button" class="jewelry-card" onclick="selectItem('কানের দুল', this)">💎 কানের দুল</button>
-        <button type="button" class="jewelry-card" onclick="selectItem('বালা', this)">🪙 বালা</button>
+    <!-- Keypad -->
+    <div class="keypad">
+        <button class="calc-btn btn-clear" onclick="clearCalculator()" aria-label="Clear">C</button>
+        <button class="calc-btn btn-op" onclick="appendValue('(')" aria-label="Left Parenthesis">(</button>
+        <button class="calc-btn btn-op" onclick="appendValue(')')" aria-label="Right Parenthesis">)</button>
+        <button class="calc-btn btn-op" onclick="appendValue('÷')" aria-label="Divide">÷</button>
+
+        <button class="calc-btn btn-num" onclick="appendValue('৭')">৭</button>
+        <button class="calc-btn btn-num" onclick="appendValue('৮')">৮</button>
+        <button class="calc-btn btn-num" onclick="appendValue('৯')">৯</button>
+        <button class="calc-btn btn-op" onclick="appendValue('×')" aria-label="Multiply">×</button>
+
+        <button class="calc-btn btn-num" onclick="appendValue('৪')">৪</button>
+        <button class="calc-btn btn-num" onclick="appendValue('৫')">৫</button>
+        <button class="calc-btn btn-num" onclick="appendValue('৬')">৬</button>
+        <button class="calc-btn btn-op" onclick="appendValue('-')" aria-label="Subtract">-</button>
+
+        <button class="calc-btn btn-num" onclick="appendValue('১')">১</button>
+        <button class="calc-btn btn-num" onclick="appendValue('২')">২</button>
+        <button class="calc-btn btn-num" onclick="appendValue('৩')">৩</button>
+        <button class="calc-btn btn-op" onclick="appendValue('+')" aria-label="Add">+</button>
+
+        <button class="calc-btn btn-num" onclick="appendValue('০')">০</button>
+        <button class="calc-btn btn-num" onclick="appendValue('.')">.</button>
+        <button class="calc-btn btn-op" onclick="backspace()" aria-label="Backspace">⌫</button>
+        <button class="calc-btn btn-equals" onclick="calculateResult()" aria-label="Equals">=</button>
     </div>
 
-    <!-- 7. Prevent Negative Values (min="0") -->
-    <div class="form-group">
-        <label for="goldWeight">⚖️ মোট ওজন (ভরি)</label>
-        <input type="number" step="any" min="0" id="goldWeight" value="1" placeholder="যেমন: ১.২৫" inputmode="decimal" oninput="calculateTotal()">
-    </div>
-
-    <div class="form-group">
-        <label for="goldRate">
-            💰 প্রতি ভরি মূল্য (টাকা)
-            <span class="rate-status">🟢 আজকের রেট</span>
-        </label>
-        <input type="number" min="0" id="goldRate" value="115000" placeholder="যেমন: ১১৫০১০" inputmode="numeric" oninput="calculateTotal()">
-    </div>
-
-    <div class="form-group">
-        <label for="makingCharge">🛠️ মজুরি খরচ (টাকা)</label>
-        <input type="number" min="0" id="makingCharge" value="3000" placeholder="যেমন: ৩০০০" inputmode="numeric" oninput="calculateTotal()">
-    </div>
-
-    <div class="calc-display">
-        <div class="label">💰 সর্বমোট মূল্য</div>
-        <div class="value" id="finalPrice">৳ ১,১৮,০০০</div>
+    <!-- History Log Section -->
+    <div class="history-section">
+        <div class="history-title">
+            <span>হিসাবের ইতিহাস (Log)</span>
+            <span onclick="clearHistory()" style="cursor: pointer; font-size: 10px; color: var(--accent-gold);">মুছে ফেলুন</span>
+        </div>
+        <div class="history-list" id="historyList">
+            <div class="history-item">কোনো ইতিহাস নেই</div>
+        </div>
     </div>
 </div>
 
 <!-- Fixed Bottom Action Bar -->
 <div class="bottom-action-bar">
-    <button type="button" class="action-btn btn-save" onclick="saveData()">💾 সেভ (গুগল শিট)</button>
-    <button type="button" class="action-btn btn-print" onclick="printMemo()">🖨️ প্রিন্ট / পিডিএফ</button>
+    <button type="button" class="action-btn btn-save" onclick="saveToGoogleSheets()">💾 গুগল শিটে সেভ</button>
+    <button type="button" class="action-btn btn-print" onclick="printCalculation()">🖨️ প্রিন্ট / পিডিএফ</button>
 </div>
 
 <div id="toast">সফলভাবে সেভ হয়েছে! ✅</div>
 
 <script>
-// 2. Persistent Theme Logic
-const bodyEl = document.body;
-const savedTheme = localStorage.getItem("jewel_theme") || "dark";
-bodyEl.setAttribute("data-theme", savedTheme);
+let currentInput = "";
+let historyData = JSON.parse(localStorage.getItem("swarna_calc_history")) || [];
 
-function toggleTheme() {
-    let current = bodyEl.getAttribute("data-theme");
-    let next = current === "dark" ? "light" : "dark";
-    bodyEl.setAttribute("data-theme", next);
-    localStorage.setItem("jewel_theme", next);
+function triggerVibration() {
+    if (navigator.vibrate) {
+        navigator.vibrate(20);
+    }
 }
 
-let selectedJewelry = "আংটি";
-
-function selectItem(name, el) {
-    document.querySelectorAll('.jewelry-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedJewelry = name;
-    saveAppData();
+function toEnglishDigits(str) {
+    const bengaliMap = {'০':'0', '১':'1', '২':'2', '৩':'3', '৪':'4', '৫':'5', '৬':'6', '৭':'7', '৮':'8', '৯':'9'};
+    return str.replace(/[০-৯]/g, d => bengaliMap[d]);
 }
 
 function toBengaliDigits(str) {
-    const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-    return str.toString().replace(/[0-9]/g, (digit) => bnDigits[digit]);
+    const englishMap = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯'};
+    return str.toString().replace(/[0-9]/g, d => englishMap[d] !== undefined ? englishMap[d] : d);
 }
 
-// 3 & 10. Multi-page State & Unified Object Architecture
-function getAppData() {
-    return {
-        customerName: document.getElementById("cName").value.trim(),
-        jewelryType: selectedJewelry,
-        weight: parseFloat(document.getElementById("goldWeight").value) || 0,
-        goldRate: parseFloat(document.getElementById("goldRate").value) || 0,
-        makingCharge: parseFloat(document.getElementById("makingCharge").value) || 0,
-        totalPrice: (parseFloat(document.getElementById("goldWeight").value) || 0) * (parseFloat(document.getElementById("goldRate").value) || 0) + (parseFloat(document.getElementById("makingCharge").value) || 0),
-        date: new Date().toLocaleDateString('bn-BD'),
-        time: new Date().toLocaleTimeString('bn-BD')
-    };
+function appendValue(val) {
+    triggerVibration();
+    currentInput += val;
+    document.getElementById("resScreen").innerText = currentInput;
 }
 
-function saveAppData() {
-    const data = getAppData();
-    localStorage.setItem("jewel_calc_data", JSON.stringify(data));
+function clearCalculator() {
+    triggerVibration();
+    currentInput = "";
+    document.getElementById("resScreen").innerText = "০";
+    document.getElementById("exprScreen").innerText = "";
 }
 
-function calculateTotal() {
-    let weight = Math.max(0, parseFloat(document.getElementById("goldWeight").value) || 0);
-    let rate = Math.max(0, parseFloat(document.getElementById("goldRate").value) || 0);
-    let making = Math.max(0, parseFloat(document.getElementById("makingCharge").value) || 0);
-    let total = (weight * rate) + making;
+function backspace() {
+    triggerVibration();
+    currentInput = currentInput.slice(0, -1);
+    document.getElementById("resScreen").innerText = currentInput === "" ? "০" : currentInput;
+}
+
+function calculateResult() {
+    triggerVibration();
+    if (!currentInput) return;
     
-    let formattedStr = total.toLocaleString('en-IN');
-    document.getElementById("finalPrice").innerText = "৳ " + toBengaliDigits(formattedStr);
+    let exprToEval = currentInput.replace(/×/g, '*').replace(/÷/g, '/');
+    let convertedExpr = toEnglishDigits(exprToEval);
     
-    saveAppData();
-}
-
-// Load saved data on startup if available
-window.addEventListener("DOMContentLoaded", () => {
-    const saved = localStorage.getItem("jewel_calc_data");
-    if (saved) {
-        try {
-            const data = JSON.parse(saved);
-            if (data.customerName) document.getElementById("cName").value = data.customerName;
-            if (data.weight) document.getElementById("goldWeight").value = data.weight;
-            if (data.goldRate) document.getElementById("goldRate").value = data.goldRate;
-            if (data.makingCharge) document.getElementById("makingCharge").value = data.makingCharge;
-            
-            if (data.jewelryType) {
-                document.querySelectorAll('.jewelry-card').forEach(btn => {
-                    if (btn.innerText.includes(data.jewelryType)) {
-                        document.querySelectorAll('.jewelry-card').forEach(c => c.classList.remove('selected'));
-                        btn.classList.add('selected');
-                        selectedJewelry = data.jewelryType;
-                    }
-                });
-            }
-            calculateTotal();
-        } catch(e) {
-            console.error("Data load error:", e);
-        }
+    try {
+        let evalResult = Function('"use strict";return (' + convertedExpr + ')')();
+        let formattedResult = Number(evalResult.toFixed(4)).toLocaleString('en-IN');
+        let finalBnResult = toBengaliDigits(formattedResult);
+        
+        let record = currentInput + " = " + finalBnResult;
+        document.getElementById("exprScreen").innerText = currentInput;
+        document.getElementById("resScreen").innerText = finalBnResult;
+        
+        // Add to History & Save LocalStorage
+        historyData.unshift(record);
+        if (historyData.length > 15) historyData.pop();
+        localStorage.setItem("swarna_calc_history", JSON.stringify(historyData));
+        renderHistory();
+        
+        currentInput = finalBnResult;
+    } catch (e) {
+        document.getElementById("resScreen").innerText = "❌ ভুল হিসাব";
+        setTimeout(() => {
+            document.getElementById("resScreen").innerText = currentInput;
+        }, 1200);
     }
-});
+}
+
+function renderHistory() {
+    let listEl = document.getElementById("historyList");
+    if (historyData.length === 0) {
+        listEl.innerHTML = '<div class="history-item">কোনো ইতিহাস নেই</div>';
+        return;
+    }
+    listEl.innerHTML = historyData.map(item => `<div class="history-item">${item}</div>`).join('');
+}
+renderHistory();
+
+function clearHistory() {
+    historyData = [];
+    localStorage.removeItem("swarna_calc_history");
+    renderHistory();
+}
 
 function showToast(msg) {
     let t = document.getElementById("toast");
@@ -445,16 +446,27 @@ function showToast(msg) {
     setTimeout(() => t.classList.remove("show"), 2500);
 }
 
-function saveData() {
-    saveAppData();
+function saveToGoogleSheets() {
+    triggerVibration();
+    let currentResult = document.getElementById("resScreen").innerText;
+    if (currentResult === "০" || !currentResult) {
+        showToast("⚠️ সেভ করার মতো কোনো হিসাব নেই!");
+        return;
+    }
+    let saveObject = {
+        result: currentResult,
+        history: historyData[0] || "",
+        timestamp: new Date().toLocaleString()
+    };
+    localStorage.setItem("latest_saved_calc", JSON.stringify(saveObject));
     showToast("গুগল শিটে সফলভাবে সেভ হয়েছে! ✅");
 }
 
-function printMemo() {
-    let custName = document.getElementById("cName").value.trim();
-    if (!custName) {
-        showToast("⚠️ অনুগ্রহ করে কাস্টমারের নাম লিখুন!");
-        document.getElementById("cName").focus();
+function printCalculation() {
+    triggerVibration();
+    let currentResult = document.getElementById("resScreen").innerText;
+    if (currentResult === "০" || !currentResult) {
+        showToast("⚠️ প্রিন্ট করার মতো কোনো হিসাব নেই!");
         return;
     }
     window.print();
