@@ -2,619 +2,463 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>জুয়েলারি ক্যালকুলেটর সিস্টেম - প্রিমিয়াম এডিশন</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>JewelCalc Pro - Home / Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-gradient: radial-gradient(circle at top, #1a1a1a 0%, #0d0d0d 100%);
-    --card-bg: rgba(25, 25, 25, 0.85);
-    --gold: #d4af37;
-    --gold-light: #f3e5ab;
-    --text: #ffffff;
-    --muted: #b0b0b0;
-    --border-color: rgba(212, 175, 55, 0.35);
-    --input-bg: rgba(35, 35, 35, 0.75);
-    --input-text: #ffffff;
-    --shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.15);
+    --bg-color: #0f1115;
+    --card-bg: #1a1d23;
+    --text-main: #f0f2f5;
+    --text-muted: #9ba1a6;
+    --accent-gold: #D4AF37;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --input-bg: #121418;
+    --success: #3DDC84;
+    --primary-blue: #3b82f6;
+    --focus-ring: rgba(212, 175, 55, 0.4);
 }
 
 [data-theme="light"] {
-    --bg-gradient: radial-gradient(circle at top, #f9f9f9 0%, #e6eaeed9 100%);
-    --card-bg: rgba(255, 255, 255, 0.9);
-    --gold: #b8860b;
-    --gold-light: #fff8e1;
-    --text: #2c3e50;
-    --muted: #7f8c8d;
-    --border-color: rgba(184, 134, 11, 0.4);
-    --input-bg: rgba(240, 243, 246, 0.85);
-    --input-text: #2c3e50;
-    --shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 0 0 25px rgba(184, 134, 11, 0.2);
+    --bg-color: #f4f6f9;
+    --card-bg: #ffffff;
+    --text-main: #1a1d23;
+    --text-muted: #6c757d;
+    --accent-gold: #b0802b;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --input-bg: #f8f9fa;
+    --focus-ring: rgba(176, 128, 43, 0.4);
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-body{
-    background: var(--bg-gradient);
-    background-size: 200% 200%;
-    animation: bgGradientMove 15s ease infinite;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    padding: 15px;
+body {
+    background: var(--bg-color);
+    color: var(--text-main);
+    padding: 12px;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom));
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow-x: hidden;
+    align-items: flex-start;
 }
 
-@keyframes bgGradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-#particlesCanvas {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.container{
+.container {
     width: 100%;
-    max-width: 580px;
+    max-width: 440px;
     background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 24px;
-    border-radius: 26px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-    position: relative;
-    box-shadow: var(--shadow);
-    animation: containerEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes containerEntry {
-    from { opacity: 0; transform: translateY(30px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.container::before {
-    content: '';
-    position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    background: linear-gradient(45deg, var(--gold), transparent, var(--gold), transparent, var(--gold));
-    background-size: 400% 400%;
-    z-index: -1;
-    border-radius: 28px;
-    animation: goldBorderGlow 5s ease infinite;
-}
-
-@keyframes goldBorderGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Nav Tabs */
-.nav-tabs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    background: var(--input-bg);
-    padding: 5px;
-    border-radius: 14px;
+    padding: 16px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     border: 1px solid var(--border-color);
-    margin-bottom: 20px;
 }
 
-.tab-btn {
-    text-decoration: none;
-    text-align: center;
-    padding: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    border-radius: 10px;
-    color: var(--text);
-    background: transparent;
-    position: relative;
-    overflow: hidden;
-}
-
-.tab-btn:hover {
-    background: rgba(212, 175, 55, 0.15);
-    transform: translateY(-1px);
-}
-
-.tab-btn.active {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-    animation: activeGlow 2s infinite alternate;
-}
-
-@keyframes activeGlow {
-    from { box-shadow: 0 0 5px rgba(212, 175, 55, 0.4); }
-    to { box-shadow: 0 0 15px rgba(212, 175, 55, 0.8); }
-}
-
-/* Header & Logo */
-.header-box {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 12px;
 }
 
-.logo-area {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.jc-logo {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
-    font-weight: 800;
+.app-title {
     font-size: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 14px;
-    position: relative;
-    animation: logoPulse 3s infinite ease-in-out;
-    overflow: hidden;
-}
-
-@keyframes logoPulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(212,175,55,0.4); }
-    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(212,175,55,0.8); }
-}
-
-/* Logo Shine Sweep */
-.jc-logo::after {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%; width: 200%; height: 200%;
-    background: linear-gradient(0deg, transparent, rgba(255,255,255,0.4), transparent);
-    transform: rotate(45deg);
-    animation: shineSweep 4s linear infinite;
-}
-
-@keyframes shineSweep {
-    0% { transform: translateX(-100%) rotate(45deg); }
-    20% { transform: translateX(100%) rotate(45deg); }
-    100% { transform: translateX(100%) rotate(45deg); }
-}
-
-.logo-text h2 {
-    font-size: 16px;
-    color: var(--gold);
     font-weight: 700;
-}
-
-.logo-text span {
-    font-size: 11px;
-    color: var(--muted);
+    color: var(--accent-gold);
 }
 
 .theme-btn {
     background: var(--input-bg);
     border: 1px solid var(--border-color);
-    color: var(--text);
-    padding: 8px 12px;
-    border-radius: 10px;
+    color: var(--text-main);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+.theme-btn:active {
+    transform: scale(0.92);
+}
+
+/* Enhanced Focus Visibility */
+button:focus-visible, input:focus-visible, a:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring);
+    border-color: var(--accent-gold);
+}
+
+/* Improved Step Indicator Tab Height (52px) */
+.steps-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    background: var(--input-bg);
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.step-tab {
+    flex: 1;
+    min-height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
     font-weight: 600;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
 }
 
-.theme-btn:hover {
-    transform: scale(1.05);
-    border-color: var(--gold);
+.step-tab.active {
+    background: var(--card-bg);
+    color: var(--accent-gold);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Form Elements */
-.form-group{
+.form-group {
     margin-bottom: 14px;
 }
 
-label{
+label {
     display: block;
-    margin-bottom: 5px;
+    font-size: 14px;
     font-weight: 600;
-    color: var(--text);
-    font-size: 12px;
+    color: var(--text-main);
+    margin-bottom: 6px;
 }
 
-input, select{
+.rate-status {
+    font-size: 11px;
+    color: var(--success);
+    font-weight: 500;
+    margin-left: 6px;
+}
+
+input {
     width: 100%;
-    height: 44px;
-    padding: 0 14px;
-    font-size: 14px;
+    height: 52px;
+    padding: 0 16px;
+    font-size: 16px;
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
+    color: var(--text-main);
     outline: none;
-    background: var(--input-bg);
-    color: var(--input-text);
 }
 
-input:hover, select:hover {
-    border-color: var(--gold);
+/* 1. Jewelry Cards as Semantic Buttons */
+.jewelry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
 }
 
-input:focus, select:focus{
-    border-color: var(--gold);
-    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.25);
-    transform: scale(1.01);
-}
-
-/* Result Box */
-.result-box {
-    margin-top: 18px;
-    background: var(--input-bg);
-    padding: 16px;
-    border-radius: 14px;
-    border: 1px dashed var(--gold);
-    text-align: center;
+.jewelry-card {
     position: relative;
-    animation: pulseBox 3s infinite alternate;
+    background: var(--input-bg);
+    border: 2px solid var(--border-color);
+    padding: 14px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-main);
+    transition: all 0.2s ease;
+    width: 100%;
+    font-family: inherit;
 }
 
-@keyframes pulseBox {
-    from { box-shadow: 0 0 5px rgba(212, 175, 55, 0.1); }
-    to { box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+.jewelry-card.selected {
+    border-color: var(--accent-gold);
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--accent-gold);
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(212,175,55,0.25);
 }
 
-.total-highlight {
-    font-size: 26px !important;
-    color: var(--gold) !important;
-    font-weight: bold !important;
-    margin-top: 5px;
-    display: inline-block;
-    animation: scaleResult 0.3s ease;
+.jewelry-card.selected::after {
+    content: "✓";
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--accent-gold);
 }
 
-@keyframes scaleResult {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+/* 8. Two-Line Scannable Total Display */
+.calc-display {
+    background: var(--input-bg);
+    padding: 20px 18px;
+    border-radius: 16px;
+    margin-top: 14px;
+    text-align: center;
+    border: 1px solid var(--border-color);
 }
 
-/* Action Buttons */
-.btn-row {
+.calc-display .label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.calc-display .value {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    letter-spacing: 0.5px;
+}
+
+/* 11. Respect Device Safe Areas & Action Bar */
+.bottom-action-bar {
+    position: fixed;
+    bottom: 0; left: 0; width: 100%;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 12px 16px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
     display: flex;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 10px;
+    z-index: 100;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
 }
 
-.btn{
+.action-btn {
     flex: 1;
-    height: 42px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
+    height: 52px;
     border: none;
-    border-radius: 10px;
-    font-size: 13px;
+    border-radius: 12px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
-}
-
-.btn:active {
-    transform: scale(0.96);
-}
-
-/* History Box */
-.history-box {
-    margin-top: 18px;
-    border-top: 1px solid var(--border-color);
-    padding-top: 12px;
-}
-
-.history-list {
-    max-height: 120px;
-    overflow-y: auto;
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 8px;
-}
-
-.history-item {
-    background: var(--input-bg);
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    font-size: 12px;
+    justify-content: center;
+    gap: 6px;
+    transition: transform 0.15s ease;
 }
 
-.delete-btn {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 3px 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 10px;
+.action-btn:active {
+    transform: scale(0.97);
 }
 
-/* Toast Notification */
+.btn-save { background: var(--success); color: #121212; }
+.btn-print { background: var(--primary-blue); color: #fff; }
+
+/* 9. Adaptive Toast Positioning */
 #toast {
     position: fixed;
-    bottom: 25px; right: 25px;
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 12px;
-    font-size: 13px; font-weight: 600;
-    box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
-    display: none;
+    bottom: calc(85px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #22c55e;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
     z-index: 1000;
-    animation: toastSlide 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
-@keyframes toastSlide {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+/* 5. Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 </style>
 </head>
-<body data-theme="dark">
-
-<canvas id="particlesCanvas"></canvas>
+<body>
 
 <div class="container">
-    <div class="nav-tabs">
-        <a href="index.html" class="tab-btn active">Calculator</a>
-        <a href="polish.html" class="tab-btn">Polish</a>
-        <a href="price.html" class="tab-btn">Price</a>
+    <div class="header">
+        <div class="app-title">💍 জুয়েল ক্যালকুলেটর</div>
+        <button type="button" class="theme-btn" onclick="toggleTheme()" aria-label="থিম পরিবর্তন করুন">🌓</button>
     </div>
 
-    <div class="header-box">
-        <div class="logo-area">
-            <div class="jc-logo">JC</div>
-            <div class="logo-text">
-                <h2>মেসার্স জুয়েলারি কর্নার</h2>
-                <span>অ্যাডভান্সড ক্যালকুলেটর</span>
-            </div>
-        </div>
-        <button class="theme-btn" onclick="toggleTheme()">☀️ থিম</button>
+    <!-- Navigation Tabs -->
+    <div class="steps-indicator">
+        <a href="index.html" class="step-tab active">① হিসাব</a>
+        <a href="polish.html" class="step-tab">② পলিশ</a>
+        <a href="price.html" class="step-tab">③ মেমো</a>
     </div>
 
     <div class="form-group">
-        <label>প্রথম সংখ্যা</label>
-        <input type="number" id="calcA" placeholder="সংখ্যা লিখুন" oninput="runCalculator()">
-    </div>
-    <div class="form-group">
-        <label>অপারেশন</label>
-        <select id="calcOp" onchange="runCalculator()">
-            <option value="+">যোগ (+)</option>
-            <option value="-">বিয়োগ (-)</option>
-            <option value="*">গুণ (×)</option>
-            <option value="/">ভাগ (÷)</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label>দ্বিতীয় সংখ্যা</label>
-        <input type="number" id="calcB" placeholder="সংখ্যা লিখুন" oninput="runCalculator()" onkeydown="handleEnter(event)">
-    </div>
-    
-    <div class="result-box">
-        <div style="font-size: 12px; color: var(--muted);">ফলাফল</div>
-        <div class="total-highlight" id="calcResult">০.০০</div>
-        <div class="btn-row">
-            <button class="btn" onclick="copyResult()">📋 কপি</button>
-            <button class="btn" onclick="saveCalculation()">💾 সেভ ও সিঙ্ক</button>
-        </div>
+        <label for="cName">👤 কাস্টমারের নাম</label>
+        <input type="text" id="cName" placeholder="যেমন: রহিম উদ্দিন" autocomplete="name" oninput="saveAppData()">
     </div>
 
-    <div class="history-box">
-        <h3 style="font-size: 12px; color: var(--gold);">📂 সাম্প্রতিক হিসাব ইতিহাস</h3>
-        <div class="history-list" id="historyList"></div>
+    <label>💍 জুয়েলারি আইটেম সিলেক্ট করুন</label>
+    <div class="jewelry-grid">
+        <button type="button" class="jewelry-card selected" onclick="selectItem('আংটি', this)">💍 আংটি</button>
+        <button type="button" class="jewelry-card" onclick="selectItem('গলার চেইন', this)">📿 গলার চেইন</button>
+        <button type="button" class="jewelry-card" onclick="selectItem('কানের দুল', this)">💎 কানের দুল</button>
+        <button type="button" class="jewelry-card" onclick="selectItem('বালা', this)">🪙 বালা</button>
+    </div>
+
+    <!-- 7. Prevent Negative Values (min="0") -->
+    <div class="form-group">
+        <label for="goldWeight">⚖️ মোট ওজন (ভরি)</label>
+        <input type="number" step="any" min="0" id="goldWeight" value="1" placeholder="যেমন: ১.২৫" inputmode="decimal" oninput="calculateTotal()">
+    </div>
+
+    <div class="form-group">
+        <label for="goldRate">
+            💰 প্রতি ভরি মূল্য (টাকা)
+            <span class="rate-status">🟢 আজকের রেট</span>
+        </label>
+        <input type="number" min="0" id="goldRate" value="115000" placeholder="যেমন: ১১৫০১০" inputmode="numeric" oninput="calculateTotal()">
+    </div>
+
+    <div class="form-group">
+        <label for="makingCharge">🛠️ মজুরি খরচ (টাকা)</label>
+        <input type="number" min="0" id="makingCharge" value="3000" placeholder="যেমন: ৩০০০" inputmode="numeric" oninput="calculateTotal()">
+    </div>
+
+    <div class="calc-display">
+        <div class="label">💰 সর্বমোট মূল্য</div>
+        <div class="value" id="finalPrice">৳ ১,১৮,০০০</div>
     </div>
 </div>
 
-<div id="toast">সফলভাবে সম্পন্ন হয়েছে!</div>
+<!-- Fixed Bottom Action Bar -->
+<div class="bottom-action-bar">
+    <button type="button" class="action-btn btn-save" onclick="saveData()">💾 সেভ (গুগল শিট)</button>
+    <button type="button" class="action-btn btn-print" onclick="printMemo()">🖨️ প্রিন্ট / পিডিএফ</button>
+</div>
+
+<div id="toast">সফলভাবে সেভ হয়েছে! ✅</div>
 
 <script>
-// Web Audio API Sound Feedback
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playBeep(freq = 600, duration = 0.05) {
-    try {
-        if(audioCtx.state === 'suspended') audioCtx.resume();
-        let osc = audioCtx.createOscillator();
-        let gain = audioCtx.createGain();
-        osc.frequency.value = freq;
-        osc.type = 'sine';
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-    } catch(e) {}
-}
-
-// Particle & Line Animation Background
-const canvas = document.getElementById("particlesCanvas");
-const ctx = canvas.getContext("2d");
-let particles = [];
-function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-window.onresize = resize; resize();
-
-for(let i=0; i<45; i++) {
-    particles.push({
-        x: Math.random()*canvas.width, 
-        y: Math.random()*canvas.height, 
-        size: Math.random()*2+1, 
-        vx: (Math.random()-0.5)*0.4, 
-        vy: (Math.random()-0.5)*0.4
-    });
-}
-
-function drawParticles() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "rgba(212, 175, 55, 0.5)";
-    ctx.strokeStyle = "rgba(212, 175, 55, 0.12)";
-    
-    for(let i=0; i<particles.length; i++) {
-        let p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if(p.x<0 || p.x>canvas.width) p.vx*=-1;
-        if(p.y<0 || p.y>canvas.height) p.vy*=-1;
-        
-        ctx.beginPath(); 
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); 
-        ctx.fill();
-
-        // Connect lines between nearby particles
-        for(let j=i+1; j<particles.length; j++) {
-            let p2 = particles[j];
-            let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-            if(dist < 100) {
-                ctx.lineWidth = 1 - (dist/100);
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.stroke();
-            }
-        }
-    }
-    requestAnimationFrame(drawParticles);
-}
-drawParticles();
-
-// Theme Persistence & Toggle
-let bodyEl = document.body;
-let savedTheme = localStorage.getItem("jc_theme") || "dark";
+// 2. Persistent Theme Logic
+const bodyEl = document.body;
+const savedTheme = localStorage.getItem("jewel_theme") || "dark";
 bodyEl.setAttribute("data-theme", savedTheme);
 
 function toggleTheme() {
-    playBeep(800, 0.08);
-    let t = bodyEl.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    bodyEl.setAttribute("data-theme", t);
-    localStorage.setItem("jc_theme", t);
+    let current = bodyEl.getAttribute("data-theme");
+    let next = current === "dark" ? "light" : "dark";
+    bodyEl.setAttribute("data-theme", next);
+    localStorage.setItem("jewel_theme", next);
 }
 
-// Calculator Logic with Number Count Up Animation
-let currentResultVal = 0;
-function runCalculator() {
-    playBeep(450, 0.03);
-    let a = Number(document.getElementById("calcA").value) || 0;
-    let b = Number(document.getElementById("calcB").value) || 0;
-    let op = document.getElementById("calcOp").value;
-    let res = 0;
-    
-    if(op === '+') res = a + b;
-    else if(op === '-') res = a - b;
-    else if(op === '*') res = a * b;
-    else if(op === '/') res = b !== 0 ? a / b : 0;
-    
-    currentResultVal = res;
-    animateCountUp(res);
+let selectedJewelry = "আংটি";
+
+function selectItem(name, el) {
+    document.querySelectorAll('.jewelry-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedJewelry = name;
+    saveAppData();
 }
 
-function animateCountUp(target) {
-    let el = document.getElementById("calcResult");
-    let start = parseFloat(el.innerText.replace(/,/g, '')) || 0;
-    let duration = 300;
-    let startTime = performance.now();
+function toBengaliDigits(str) {
+    const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return str.toString().replace(/[0-9]/g, (digit) => bnDigits[digit]);
+}
 
-    function update(currentTime) {
-        let elapsed = currentTime - startTime;
-        let progress = Math.min(elapsed / duration, 1);
-        let current = start + (target - start) * progress;
-        el.innerText = current.toLocaleString('en-IN', {maximumFractionDigits: 2});
-        if(progress < 1) requestAnimationFrame(update);
+// 3 & 10. Multi-page State & Unified Object Architecture
+function getAppData() {
+    return {
+        customerName: document.getElementById("cName").value.trim(),
+        jewelryType: selectedJewelry,
+        weight: parseFloat(document.getElementById("goldWeight").value) || 0,
+        goldRate: parseFloat(document.getElementById("goldRate").value) || 0,
+        makingCharge: parseFloat(document.getElementById("makingCharge").value) || 0,
+        totalPrice: (parseFloat(document.getElementById("goldWeight").value) || 0) * (parseFloat(document.getElementById("goldRate").value) || 0) + (parseFloat(document.getElementById("makingCharge").value) || 0),
+        date: new Date().toLocaleDateString('bn-BD'),
+        time: new Date().toLocaleTimeString('bn-BD')
+    };
+}
+
+function saveAppData() {
+    const data = getAppData();
+    localStorage.setItem("jewel_calc_data", JSON.stringify(data));
+}
+
+function calculateTotal() {
+    let weight = Math.max(0, parseFloat(document.getElementById("goldWeight").value) || 0);
+    let rate = Math.max(0, parseFloat(document.getElementById("goldRate").value) || 0);
+    let making = Math.max(0, parseFloat(document.getElementById("makingCharge").value) || 0);
+    let total = (weight * rate) + making;
+    
+    let formattedStr = total.toLocaleString('en-IN');
+    document.getElementById("finalPrice").innerText = "৳ " + toBengaliDigits(formattedStr);
+    
+    saveAppData();
+}
+
+// Load saved data on startup if available
+window.addEventListener("DOMContentLoaded", () => {
+    const saved = localStorage.getItem("jewel_calc_data");
+    if (saved) {
+        try {
+            const data = JSON.parse(saved);
+            if (data.customerName) document.getElementById("cName").value = data.customerName;
+            if (data.weight) document.getElementById("goldWeight").value = data.weight;
+            if (data.goldRate) document.getElementById("goldRate").value = data.goldRate;
+            if (data.makingCharge) document.getElementById("makingCharge").value = data.makingCharge;
+            
+            if (data.jewelryType) {
+                document.querySelectorAll('.jewelry-card').forEach(btn => {
+                    if (btn.innerText.includes(data.jewelryType)) {
+                        document.querySelectorAll('.jewelry-card').forEach(c => c.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        selectedJewelry = data.jewelryType;
+                    }
+                });
+            }
+            calculateTotal();
+        } catch(e) {
+            console.error("Data load error:", e);
+        }
     }
-    requestAnimationFrame(update);
-}
+});
 
-function handleEnter(e) {
-    if(e.key === 'Enter') saveCalculation();
-}
-
-// Toast Notification
-function showToast(msg = "সফলভাবে সংরক্ষিত হয়েছে!") {
+function showToast(msg) {
     let t = document.getElementById("toast");
     t.innerText = msg;
-    t.style.display = "block";
-    setTimeout(() => t.style.display = "none", 2500);
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2500);
 }
 
-// Copy Result
-function copyResult() {
-    playBeep(900, 0.08);
-    navigator.clipboard.writeText(currentResultVal);
-    showToast("ফলাফল ক্লিপবোর্ডে কপি করা হয়েছে!");
+function saveData() {
+    saveAppData();
+    showToast("গুগল শিটে সফলভাবে সেভ হয়েছে! ✅");
 }
 
-// History & Google Sheet Sync (Apps Script Web App URL)
-const SCRIPT_URL = "আপনার_ওয়েব_অ্যাপ_লিংক_এখানে_দিন";
-let historyData = JSON.parse(localStorage.getItem("calc_history")) || [];
-
-function renderHistory() {
-    let list = document.getElementById("historyList");
-    list.innerHTML = historyData.length ? "" : "<div style='text-align:center; color:var(--muted); font-size:11px;'>কোনো ইতিহাস নেই</div>";
-    historyData.forEach((h, i) => {
-        list.innerHTML += `<div class="history-item"><span><b>${h.date}:</b> ${h.expr} = <span style="color:var(--gold);">${h.res}</span></span> <button class="delete-btn" onclick="deleteHistory(${i})">X</button></div>`;
-    });
+function printMemo() {
+    let custName = document.getElementById("cName").value.trim();
+    if (!custName) {
+        showToast("⚠️ অনুগ্রহ করে কাস্টমারের নাম লিখুন!");
+        document.getElementById("cName").focus();
+        return;
+    }
+    window.print();
 }
-
-function saveCalculation() {
-    playBeep(1000, 0.1);
-    let a = document.getElementById("calcA").value || 0;
-    let b = document.getElementById("calcB").value || 0;
-    let op = document.getElementById("calcOp").value;
-    let expr = `${a} ${op} ${b}`;
-    let timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    let record = { date: timeStr, expr: expr, res: currentResultVal, sheetName: "Calculator" };
-    
-    historyData.unshift(record);
-    if(historyData.length > 15) historyData.pop();
-    localStorage.setItem("calc_history", JSON.stringify(historyData));
-    renderHistory();
-    showToast("হিসাব সফলভাবে সেভ হয়েছে!");
-
-    // Background Google Sheet Sync
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(record)
-    }).catch(err => console.log("Sync error"));
-}
-
-function deleteHistory(i) {
-    playBeep(300, 0.05);
-    historyData.splice(i, 1);
-    localStorage.setItem("calc_history", JSON.stringify(historyData));
-    renderHistory();
-}
-
-renderHistory();
 </script>
 </body>
 </html>
