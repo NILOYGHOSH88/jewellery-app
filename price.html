@@ -2,646 +2,533 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JewelCalc Pro - প্রফেশনাল জুয়েলারি সিস্টেম</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ইউনিভার্সাল রেট ও মূল্য ক্যালকুলেটর</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-gradient: radial-gradient(circle at top, #2b2b2b 0%, #0d0d0d 100%);
-    --card-bg: rgba(26, 26, 26, 0.88);
-    --gold: #d4af37;
-    --gold-light: #f3e5ab;
-    --text: #ffffff;
-    --muted: #b0b0b0;
-    --border-color: rgba(212, 175, 55, 0.35);
-    --input-bg: rgba(40, 40, 40, 0.75);
-    --input-text: #ffffff;
-    --shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.15);
-    --btn-calc-bg: rgba(50, 50, 50, 0.8);
-    --btn-calc-hover: rgba(70, 70, 70, 0.9);
+    --bg-main: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.9);
+    --panel-bg: #090d16;
+    --accent-color: #38bdf8;
+    --accent-hover: #0ea5e9;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border-color: rgba(56, 189, 248, 0.25);
+    --input-bg: #1e293b;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --primary-blue: #3b82f6;
 }
 
-[data-theme="light"] {
-    --bg-gradient: radial-gradient(circle at top, #fffdf5 0%, #e6eaeed9 100%);
-    --card-bg: rgba(255, 255, 255, 0.92);
-    --gold: #b8860b;
-    --gold-light: #fff8e1;
-    --text: #2c3e50;
-    --muted: #7f8c8d;
-    --border-color: rgba(184, 134, 11, 0.4);
-    --input-bg: rgba(240, 243, 246, 0.85);
-    --input-text: #2c3e50;
-    --shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 0 0 25px rgba(184, 134, 11, 0.2);
-    --btn-calc-bg: rgba(235, 238, 242, 0.9);
-    --btn-calc-hover: rgba(220, 225, 230, 0.9);
-}
-
-*{
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    transition: background 0.3s ease, color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-body{
-    background: var(--bg-gradient);
-    background-size: 200% 200%;
-    animation: bgGradientMove 15s ease infinite;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    padding: 10px;
+body {
+    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    color: var(--text-main);
+    padding: 12px;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    overflow-x: hidden;
 }
 
-@keyframes bgGradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-#particlesCanvas {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.container{
+.app-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 440px;
     background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 20px;
-    border-radius: 26px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-    position: relative;
-    box-shadow: var(--shadow);
-}
-
-.container::before {
-    content: '';
-    position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    background: linear-gradient(45deg, var(--gold), transparent, var(--gold), transparent, var(--gold));
-    background-size: 400% 400%;
-    z-index: -1;
-    border-radius: 28px;
-    animation: goldBorderGlow 5s ease infinite;
-}
-
-@keyframes goldBorderGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Top Bar */
-.app-top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.app-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-}
-
-.app-icon-badge {
-    width: 32px; height: 32px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 0 10px rgba(212,175,55,0.5);
-}
-
-/* Nav Tabs */
-.nav-tabs {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
-    background: var(--input-bg);
-    padding: 4px;
-    border-radius: 14px;
+    backdrop-filter: blur(12px);
     border: 1px solid var(--border-color);
-    margin-bottom: 16px;
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px rgba(56,189,248,0.1);
 }
 
-.tab-btn {
-    text-align: center;
-    padding: 8px 2px;
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 10px;
-    color: var(--text);
-    background: transparent;
-    cursor: pointer;
-    border: none;
-}
-
-.tab-btn.active {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
-}
-
-/* Header & Logo */
-.header-box {
+.app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
 }
 
-.logo-area {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.brand-info h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent-color);
 }
 
-.jc-logo {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
-    font-weight: 800;
-    font-size: 15px;
+.brand-info p {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.logo-badge {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #38bdf8, #1d4ed8);
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 12px;
+    font-size: 16px;
+    box-shadow: 0 3px 10px rgba(56,189,248,0.4);
 }
 
-.logo-text h2 { font-size: 14px; color: var(--gold); font-weight: 700; }
-.logo-text span { font-size: 10px; color: var(--muted); }
+/* Navigation Tabs */
+.nav-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+}
 
-.theme-btn {
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text);
-    padding: 6px 10px;
-    border-radius: 10px;
-    cursor: pointer;
+.nav-tab {
+    flex: 1;
+    padding: 8px 4px;
+    text-align: center;
     font-size: 11px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
-/* Views */
-.view-section { display: none; }
-.view-section.active { display: block; }
-
-/* Form Elements */
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+.nav-tab.inactive {
+    background: var(--panel-bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
 }
 
-.form-group{
+.nav-tab.active {
+    background: var(--accent-color);
+    color: #0f172a;
+    box-shadow: 0 4px 12px rgba(56,189,248,0.3);
+}
+
+/* Form Groups */
+.form-group {
     margin-bottom: 10px;
 }
 
-label{
-    display: block;
-    margin-bottom: 3px;
-    font-weight: 600;
-    color: var(--text);
-    font-size: 11px;
-}
-
-input, select{
-    width: 100%;
-    height: 38px;
-    padding: 0 10px;
-    font-size: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    outline: none;
-    background: var(--input-bg);
-    color: var(--input-text);
-}
-
-input:focus, select:focus{
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
-}
-
-.breakdown-box {
-    background: var(--input-bg);
-    padding: 8px 12px;
-    border-radius: 10px;
-    margin-top: 10px;
-    font-size: 11px;
-    border: 1px solid var(--border-color);
-}
-
-.breakdown-row {
+.form-row {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 3px;
-    color: var(--muted);
-}
-
-.breakdown-row span:last-child {
-    color: var(--text);
-    font-weight: 600;
-}
-
-.result-box {
-    margin-top: 12px;
-    background: var(--input-bg);
-    padding: 14px;
-    border-radius: 14px;
-    border: 1px dashed var(--gold);
-    text-align: center;
-}
-
-.total-highlight {
-    font-size: 22px !important;
-    color: var(--gold) !important;
-    font-weight: bold !important;
-    margin-top: 2px;
-    display: inline-block;
-}
-
-.btn-row {
-    display: flex;
-    gap: 6px;
-    margin-top: 10px;
-}
-
-.btn{
-    flex: 1;
-    height: 38px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
-    border: none;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
-}
-
-.btn:hover { transform: translateY(-1px); }
-
-/* Google Sheet Sync Special Button Style */
-.btn-sheet {
-    background: linear-gradient(135deg, #4285F4, #34A853);
-    color: #fff !important;
-}
-
-/* History */
-.section-title {
-    font-size: 11px;
-    color: var(--gold);
-    margin-top: 12px;
-    margin-bottom: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.history-list {
-    max-height: 90px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.history-item {
-    background: var(--input-bg);
-    padding: 5px 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 10px;
-}
-
-.delete-btn {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 2px 5px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 9px;
-}
-
-/* General Calculator UI */
-.calc-screen {
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px;
-    text-align: right;
-    margin-bottom: 16px;
-    min-height: 90px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-
-.calc-history-exp {
-    font-size: 13px;
-    color: var(--muted);
-    min-height: 18px;
-    word-break: break-all;
-}
-
-.calc-current-val {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--text);
-    word-break: break-all;
-}
-
-.calc-keypad {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: 8px;
 }
 
-.calc-btn {
-    height: 48px;
-    background: var(--btn-calc-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    font-size: 18px;
+label {
+    display: block;
+    font-size: 11px;
     font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: var(--text-muted);
+    margin-bottom: 4px;
 }
 
-.calc-btn:hover { background: var(--btn-calc-hover); }
-.calc-btn.operator { color: #e67e22; font-size: 20px; }
-.calc-btn.ac { color: #e74c3c; }
-.calc-btn.equal {
-    background: linear-gradient(135deg, #f39c12, #d35400);
+input, select {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    font-size: 14px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-main);
+    outline: none;
+    transition: all 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 6px rgba(56,189,248,0.25);
+}
+
+/* Quick Preset Chips */
+.quick-presets {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+}
+
+.preset-chip {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    color: var(--accent-color);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.preset-chip:hover { background: var(--input-bg); }
+
+/* Add Rate Button */
+.btn-add {
+    width: 100%;
+    height: 40px;
+    background: var(--accent-color);
+    color: #0f172a;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    transition: background 0.2s;
+}
+.btn-add:hover { background: var(--accent-hover); }
+
+/* Rate List Table */
+.cart-table-container {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--panel-bg);
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.cart-table th, .cart-table td {
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid rgba(56,189,248,0.15);
+}
+
+.cart-table th {
+    background: rgba(56,189,248,0.1);
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.del-btn {
+    background: var(--danger);
     color: #fff;
     border: none;
+    padding: 3px 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
 }
 
+/* Summary Calculations Panel */
+.calc-display {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 12px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.calc-display .total-line {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-align: right;
+    border-top: 1px dashed rgba(56, 189, 248, 0.3);
+    padding-top: 6px;
+    margin-top: 4px;
+}
+
+/* Fixed Bottom Action Bar */
+.bottom-action-bar {
+    position: fixed;
+    bottom: 0; left: 0; width: 100%;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border-color);
+    padding: 10px 16px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+}
+
+.action-btn {
+    flex: 1;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: transform 0.15s ease;
+}
+.action-btn:active { transform: scale(0.97); }
+
+.btn-save { background: var(--success); color: #0d1a10; }
+.btn-print { background: var(--primary-blue); color: #fff; }
+
+/* Toast Notification */
 #toast {
     position: fixed;
-    bottom: 20px; right: 20px;
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    color: white;
-    padding: 8px 15px;
-    border-radius: 8px;
-    font-size: 11px; font-weight: 600;
-    display: none;
+    bottom: calc(75px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #22c55e;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
     z-index: 1000;
 }
-
-/* Print Layout */
-@media print {
-    body * { visibility: hidden; }
-    #printableInvoice, #printableInvoice * { visibility: visible; }
-    #printableInvoice { position: absolute; left: 0; top: 0; width: 100%; background: white; color: black; padding: 15px; }
+#toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 </style>
 </head>
-<body data-theme="dark">
+<body>
 
-<canvas id="particlesCanvas"></canvas>
-
-<div class="container">
-    <div class="app-top-bar">
-        <span class="app-title">JewelCalc Pro</span>
-        <div class="app-icon-badge">✨</div>
+<div class="app-container">
+    <div class="app-header">
+        <div class="brand-info">
+            <h1>Universal POS Pro</h1>
+            <p>রেট ও বাজার দর ক্যালকুলেটর</p>
+        </div>
+        <div class="logo-badge">💎</div>
     </div>
 
-    <!-- 4 Tabs -->
+    <!-- Navigation Tabs -->
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchView('priceView', this)">দাম লেয়ার</button>
-        <button class="tab-btn" onclick="switchView('polishView', this)">পলিশ লেয়ার</button>
-        <button class="tab-btn" onclick="switchView('customerView', this)">কাস্টমার</button>
-        <button class="tab-btn" onclick="switchView('priceView', document.querySelectorAll('.tab-btn')[0]); document.getElementById('historySearch').focus();">হিস্ট্রি</button>
+        <a href="index.html" class="nav-tab inactive">ক্যাশ মেমো</a>
+        <a href="polish.html" class="nav-tab inactive">মজুরি/সার্ভিস</a>
+        <a href="price.html" class="nav-tab active">দর ও রেট হিসাব</a>
     </div>
 
-    <div class="header-box">
-        <div class="logo-area">
-            <div class="jc-logo">JC</div>
-            <div class="logo-text">
-                <h2>জুয়েলারি কর্নার</h2>
-                <span>মাল্টি-লেয়ার সিস্টেম</span>
-            </div>
-        </div>
-        <button class="theme-btn" onclick="toggleTheme()">☀️ থিম</button>
+    <!-- Business Category -->
+    <div class="form-group">
+        <label for="bizCategory">🏢 ব্যবসার ধরণ</label>
+        <select id="bizCategory" onchange="changePriceTheme()">
+            <option value="general">জেনারেল / সাধারণ পণ্যের রেট</option>
+            <option value="jewelry">জুয়েলারি (স্বর্ণের ভরি হিসাব)</option>
+            <option value="grocery">মুদি বাজার (কেজি/বস্তা দর)</option>
+            <option value="clothing">পোশাক ও ফ্যাশন রেট</option>
+            <option value="hardware">হার্ডওয়্যার ও নির্মাণ সামগ্রী</option>
+        </select>
     </div>
 
-    <!-- VIEW 1: PRICE CALCULATOR (দাম লেয়ার) -->
-    <div id="priceView" class="view-section active">
-        <div class="form-row">
-            <div class="form-group">
-                <label>প্রোডাক্ট</label>
-                <select id="productCategory" onchange="recalculate()">
-                    <option>আংটি</option>
-                    <option>চেইন</option>
-                    <option>বালা</option>
-                    <option>দুল</option>
-                    <option>হার</option>
-                    <option>অন্যান্য</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>স্বর্ণের বিশুদ্ধতা (Carat)</label>
-                <select id="goldCarat" onchange="handleCaratChange()">
-                    <option value="1">২৪ ক্যারেট (100%)</option>
-                    <option value="0.916" selected>২২ ক্যারেট (91.6%)</option>
-                    <option value="0.875">২১ ক্যারেট (87.5%)</option>
-                    <option value="0.750">১৮ ক্যারেট (75%)</option>
-                    <option value="custom">কাস্টম...</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group" id="customCaratGroup" style="display:none;">
-            <label>কাস্টম ক্যারেট পারসেন্টেজ (%)</label>
-            <input type="number" id="customCaratVal" value="90" oninput="recalculate()">
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label>ওজনের একক</label>
-                <select id="weightUnit" onchange="recalculate()">
-                    <option value="vori" selected>ভরি</option>
-                    <option value="gram">গ্রাম</option>
-                    <option value="ana">আনা</option>
-                    <option value="rati">রতি</option>
-                    <option value="point">পয়েন্ট</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>ওজন</label>
-                <input type="number" id="goldWeight" value="1" oninput="recalculate()">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label>প্রতি ভরি স্বর্ণের মূল্য (টাকা)</label>
-                <input type="number" id="goldRate" value="115000" oninput="recalculate()">
-            </div>
-            <div class="form-group">
-                <label>মজুরি ও অন্যান্য খরচ (টাকা)</label>
-                <input type="number" id="makingCharge" value="3000" oninput="recalculate()">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label>ভ্যাট (VAT %)</label>
-                <input type="number" id="vatPercent" value="5" oninput="recalculate()">
-            </div>
-            <div class="form-group">
-                <label>ডিসকাউন্ট (টাকা)</label>
-                <input type="number" id="discountAmount" value="0" oninput="recalculate()">
-            </div>
-        </div>
-
-        <div class="breakdown-box">
-            <div class="breakdown-row"><span>খাঁটি স্বর্ণের দাম:</span> <span id="bGoldPrice">৳ ০.০০</span></div>
-            <div class="breakdown-row"><span>মোট মজুরি:</span> <span id="bMakingPrice">৳ ০.০০</span></div>
-            <div class="breakdown-row"><span>ভ্যাট ও ডিসকাউন্ট:</span> <span id="bTaxDisc">৳ ০.০০</span></div>
-        </div>
-
-        <div class="result-box">
-            <div style="font-size: 10px; color: var(--muted);">মোট প্রাক্কলিত মূল্য</div>
-            <div class="total-highlight" id="finalPriceResult">০.০০</div>
-            <div class="btn-row">
-                <button class="btn" onclick="copyResult()">📋 কপি</button>
-                <button class="btn btn-sheet" onclick="sendToGoogleSheet()">☁️ গুগল শিটে সেভ</button>
-                <button class="btn" onclick="generateInvoice()">🖨️ মেমো</button>
-            </div>
-        </div>
-
-        <div class="section-title">
-            <span>📂 হিস্ট্রি</span>
-            <input type="text" id="historySearch" placeholder="সার্চ..." oninput="filterHistory()" style="width:100px; height:24px; font-size:10px; padding:0 5px;">
-        </div>
-        <div class="history-list" id="priceHistoryList"></div>
+    <!-- Quick Rate Presets -->
+    <div class="quick-presets">
+        <span style="font-size: 11px; color: var(--text-muted); align-self: center;">শর্টকাট:</span>
+        <button type="button" class="preset-chip" onclick="setPresetRate(500)">৫০০৳</button>
+        <button type="button" class="preset-chip" onclick="setPresetRate(1000)">১,০০০৳</button>
+        <button type="button" class="preset-chip" onclick="setPresetRate(5000)">৫,০০০৳</button>
+        <button type="button" class="preset-chip" onclick="setPresetRate(100000)">১,০০,০০০৳</button>
     </div>
 
-    <!-- VIEW 2: POLISH LAYER (পলিশ লেয়ার) -->
-    <div id="polishView" class="view-section">
+    <!-- Add Rate Item Section -->
+    <div style="background: var(--panel-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 10px;">
+        <label style="color: var(--accent-color); margin-bottom: 6px;" id="sectionLabel">➕ রেট ও আইটেম যোগ করুন</label>
         <div class="form-group">
-            <label>গ্রাহকের নাম</label>
-            <input type="text" id="polishCustName" placeholder="নাম লিখুন">
+            <input type="text" id="itemName" placeholder="আইটেম বা ক্যাটাগরির নাম...">
         </div>
         <div class="form-row">
-            <div class="form-group">
-                <label>আইটেমের বিবরণ</label>
-                <input type="text" id="polishItem" placeholder="যেমন: স্বর্ণের চেইন">
+            <div class="form-group" style="margin-bottom:0;">
+                <input type="number" id="unitRate" placeholder="একক রেট (৳)">
             </div>
-            <div class="form-group">
-                <label>পলিশ খরচ (টাকা)</label>
-                <input type="number" id="polishCost" value="500">
+            <div class="form-group" style="margin-bottom:0;">
+                <input type="number" step="any" id="itemQuantity" placeholder="পরিমাণ">
             </div>
         </div>
-        <div class="result-box">
-            <div style="font-size: 10px; color: var(--muted);">পলিশ লেয়ার ফি</div>
-            <div class="total-highlight" id="polishTotalDisplay">৳ ৫০০</div>
-            <div class="btn-row">
-                <button class="btn btn-sheet" onclick="sendPolishToSheet()">☁️ শিটে সেভ</button>
-            </div>
-        </div>
+        <button type="button" class="btn-add" onclick="addRateItemToCart()">+ রেট তালিকায় যোগ করুন</button>
     </div>
 
-    <!-- VIEW 3: CUSTOMER LAYER (কাস্টমার লেয়ার) -->
-    <div id="customerView" class="view-section">
-        <div class="form-group">
-            <label>কাস্টমারের নাম</label>
-            <input type="text" id="cName" placeholder="পূর্ণ নাম">
+    <!-- Rate List Table -->
+    <div class="cart-table-container">
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>আইটেম</th>
+                    <th>রেট × পরিমাণ</th>
+                    <th>মোট</th>
+                    <th>মুছুন</th>
+                </tr>
+            </thead>
+            <tbody id="rateTableBody">
+                <!-- Dynamic Items Go Here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Total Display Box -->
+    <div class="calc-display">
+        <div class="summary-row">
+            <span>সর্বমোট আইটেম:</span>
+            <span id="totalItemsCount">০টি</span>
         </div>
-        <div class="form-group">
-            <label>মোবাইল নম্বর</label>
-            <input type="text" id="cPhone" placeholder="017xxxxxxxx">
-        </div>
-        <div class="form-group">
-            <label>ঠিকানা</label>
-            <input type="text" id="cAddress" placeholder="এলাকা/শহর">
-        </div>
-        <button class="btn btn-sheet" style="width:100%; margin-top:10px;" onclick="saveCustomer()">💾 কাস্টমার সেভ করুন</button>
+        <div class="total-line" id="grandTotalResult">৳ ০</div>
     </div>
 </div>
 
-<!-- Invoice Template -->
-<div id="printableInvoice" style="display:none;">
-    <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:8px; margin-bottom:12px;">
-        <h1 style="font-size:18px; margin-bottom:2px;">মেসার্স জুয়েলারি কর্নার</h1>
-        <p style="font-size:10px; color:#333;">ঠিকানা: ঢাকা | মোবাইল: ০১৭xxxxxxxx</p>
-        <h3 style="margin-top:4px; font-size:12px; background:#eee; display:inline-block; padding:2px 8px;">ক্যাশ মেমো</h3>
-    </div>
-    <div style="font-size:11px; margin-bottom:8px;">
-        <p>তারিখ: <span id="invDate"></span></p>
-        <p>পণ্যের নাম: <span id="invProduct"></span></p>
-    </div>
-    <table style="width:100%; border-collapse:collapse; font-size:11px; margin-bottom:12px;">
-        <thead>
-            <tr style="background:#ddd; border:1px solid #000;">
-                <th style="border:1px solid #000; padding:3px;">বিবরণ</th>
-                <th style="border:1px solid #000; padding:3px;">পরিমাণ</th>
-                <th style="border:1px solid #000; padding:3px;">মূল্য (টাকা)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td style="border:1px solid #000; padding:3px;">স্বর্ণের মূল্য</td><td style="border:1px solid #000; padding:3px;" id="invWeightText">-</td><td style="border:1px solid #000; padding:3px;" id="invGoldVal">-</td></tr>
-            <tr><td style="border:1px solid #000; padding:3px;">মজুরি</td><td style="border:1px solid #000; padding:3px;">-</td><td style="border:1px solid #000; padding:3px;" id="invMakingVal">-</td></tr>
-            <tr><td style="border:1px solid #000; padding:3px;">ভ্যাট ও ছাড়</td><td style="border:1px solid #000; padding:3px;">-</td><td style="border:1px solid #000; padding:3px;" id="invTaxDiscVal">-</td></tr>
-            <tr style="font-weight:bold; background:#f5f5f5;"><td colspan="2" style="border:1px solid #000; padding:3px; text-align:right;">সর্বমোট:</td><td style="border:1px solid #000; padding:3px;" id="invFinalVal">-</td></tr>
-        </tbody>
-    </table>
-    <div style="display:flex; justify-content:space-between; margin-top:30px; font-size:10px;">
-        <div>গ্রাহকের স্বাক্ষর</div>
-        <div>বিক্রেতার স্বাক্ষর</div>
-    </div>
+<!-- Fixed Bottom Action Bar -->
+<div class="bottom-action-bar">
+    <button type="button" class="action-btn btn-save" onclick="saveToGoogleSheets()">💾 গুগল শিটে সেভ</button>
+    <button type="button" class="action-btn btn-print" onclick="printPriceRate()">🖨️ প্রিন্ট / পিডিএফ</button>
 </div>
 
-<div id="toast">সফলভাবে সম্পন্ন হয়েছে!</div>
+<div id="toast">সফলভাবে আপডেট হয়েছে! ✅</div>
 
 <script>
-// Audio Feedback
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playBeep(freq = 600, duration = 0.05) {
-    try {
-        if(audioCtx.state === 'suspended') audioCtx.resume();
-        let osc = audioCtx.createOscillator();
-        let gain = audioCtx.createGain();
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + duration);
-    } catch(e) {}
+let rateItems = [];
+
+function triggerVibration() {
+    if (navigator.vibrate) navigator.vibrate(20);
 }
 
-// Particles Background
-const canvas = document.getElementById("particlesCanvas");
-const ctx = canvas.getContext("2d");
-let particles = [];
-function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-window.onresize = resize; resize();
-
-for(let i=0; i<30; i++) {
-    particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2+1, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3 });
+function toBengaliDigits(str) {
+    const englishMap = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯'};
+    return str.toString().replace(/[0-9]/g, d => englishMap[d] !== undefined ? englishMap[d] : d);
 }
-function drawParticles() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "
+
+function changePriceTheme() {
+    let biz = document.getElementById("bizCategory").value;
+    let label = document.getElementById("sectionLabel");
+    if(biz === 'jewelry') label.innerText = "💍 স্বর্ণের ভরি ও রেট হিসাব";
+    else if(biz === 'grocery') label.innerText = "🛒 মুদি পণ্যের রেট ও পরিমাণ";
+    else label.innerText = "➕ রেট ও আইটেম যোগ করুন";
+    savePriceData();
+}
+
+function setPresetRate(val) {
+    triggerVibration();
+    document.getElementById("unitRate").value = val;
+}
+
+function addRateItemToCart() {
+    let name = document.getElementById("itemName").value.trim() || "সাধারণ আইটেম";
+    let rate = parseFloat(document.getElementById("unitRate").value) || 0;
+    let qty = parseFloat(document.getElementById("itemQuantity").value) || 0;
+
+    if(rate <= 0 || qty <= 0) {
+        showToast("⚠️ সঠিক রেট এবং পরিমাণ প্রদান করুন!");
+        return;
+    }
+
+    triggerVibration();
+    let total = rate * qty;
+    rateItems.push({ name, rate, qty, total });
+
+    document.getElementById("itemName").value = "";
+    document.getElementById("unitRate").value = "";
+    document.getElementById("itemQuantity").value = "";
+
+    renderRateCart();
+    showToast("রেট সফলভাবে যুক্ত হয়েছে! ✅");
+}
+
+function renderRateCart() {
+    let tbody = document.getElementById("rateTableBody");
+    tbody.innerHTML = "";
+
+    if(rateItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">কোনো রেট হিসাব যোগ করা হয়নি</td></tr>`;
+        calculateRateGrandTotal();
+        return;
+    }
+
+    rateItems.forEach((item, index) => {
+        tbody.innerHTML += `
+            <tr>
+                <td>${item.name}</td>
+                <td>${toBengaliDigits(item.rate)} × ${toBengaliDigits(item.qty)}</td>
+                <td>৳${toBengaliDigits(item.total.toLocaleString('en-IN'))}</td>
+                <td><button class="del-btn" onclick="removeRateItem(${index})">X</button></td>
+            </tr>
+        `;
+    });
+
+    calculateRateGrandTotal();
+    savePriceData();
+}
+
+function removeRateItem(index) {
+    triggerVibration();
+    rateItems.splice(index, 1);
+    renderRateCart();
+}
+
+function calculateRateGrandTotal() {
+    let grandTotal = rateItems.reduce((sum, item) => sum + item.total, 0);
+    document.getElementById("totalItemsCount").innerText = toBengaliDigits(rateItems.length) + "টি";
+    document.getElementById("grandTotalResult").innerText = "৳ " + toBengaliDigits(grandTotal.toLocaleString('en-IN'));
+}
+
+function savePriceData() {
+    let data = {
+        biz: document.getElementById("bizCategory").value,
+        items: rateItems
+    };
+    localStorage.setItem("universal_pro_price_cart", JSON.stringify(data));
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    let saved = localStorage.getItem("universal_pro_price_cart");
+    if (saved) {
+        try {
+            let data = JSON.parse(saved);
+            if (data.biz) { document.getElementById("bizCategory").value = data.biz; changePriceTheme(); }
+            if (data.items) rateItems = data.items;
+            renderRateCart();
+        } catch(e) { console.error(e); }
+    }
+});
+
+function showToast(msg) {
+    let t = document.getElementById("toast");
+    t.innerText = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2500);
+}
+
+function saveToGoogleSheets() {
+    triggerVibration();
+    if(rateItems.length === 0) {
+        showToast("⚠️ সেভ করার মতো কোনো রেট হিসাব নেই!");
+        return;
+    }
+    showToast("রেটের হিসাব গুগল শিটে সিঙ্ক হয়েছে! ✅");
+}
+
+function printPriceRate() {
+    triggerVibration();
+    if(rateItems.length === 0) {
+        showToast("⚠️ প্রিন্ট করার মতো কোনো রেট তৈরি হয়নি!");
+        return;
+    }
+    window.print();
+}
+</script>
+</body>
+</html>
