@@ -2,567 +2,413 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>জুয়েলারি ম্যানেজমেন্ট সিস্টেম - মাল্টি-লেয়ার প্রিমিয়াম এডিশন</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>স্বর্ণ জ্যোতি হিসাব - পলিশের হিসাব</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-gradient: radial-gradient(circle at top, #1a1a1a 0%, #0d0d0d 100%);
-    --card-bg: rgba(25, 25, 25, 0.85);
-    --gold: #d4af37;
-    --gold-light: #f3e5ab;
-    --text: #ffffff;
-    --muted: #b0b0b0;
-    --border-color: rgba(212, 175, 55, 0.35);
-    --input-bg: rgba(35, 35, 35, 0.75);
-    --input-text: #ffffff;
-    --shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.15);
+    --bg-main: #140c06;
+    --card-bg: rgba(31, 20, 10, 0.85);
+    --panel-bg: #110904;
+    --accent-gold: #e6af2e;
+    --accent-gold-hover: #f4c430;
+    --text-main: #fcf6ec;
+    --text-muted: #b39c83;
+    --border-gold: rgba(230, 175, 46, 0.3);
+    --input-bg: #2a1c10;
+    --success: #22c55e;
+    --primary-blue: #3b82f6;
 }
 
-[data-theme="light"] {
-    --bg-gradient: radial-gradient(circle at top, #f9f9f9 0%, #e6eaeed9 100%);
-    --card-bg: rgba(255, 255, 255, 0.9);
-    --gold: #b8860b;
-    --gold-light: #fff8e1;
-    --text: #2c3e50;
-    --muted: #7f8c8d;
-    --border-color: rgba(184, 134, 11, 0.4);
-    --input-bg: rgba(240, 243, 246, 0.85);
-    --input-text: #2c3e50;
-    --shadow: 0 25px 50px rgba(0, 0, 0, 0.1), 0 0 25px rgba(184, 134, 11, 0.2);
-}
-
-*{
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-body{
-    background: var(--bg-gradient);
-    background-size: 200% 200%;
-    animation: bgGradientMove 15s ease infinite;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    padding: 15px;
+body {
+    background: radial-gradient(circle at center, #2b1708 0%, #140c06 100%);
+    color: var(--text-main);
+    padding: 12px;
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-gold);
+    border-radius: 24px;
+    padding: 18px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 15px rgba(230,175,46,0.1);
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-gold);
+}
+
+.brand-info h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+.brand-info p {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.logo-badge {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #e6af2e, #996515);
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
+    font-size: 16px;
+    box-shadow: 0 3px 10px rgba(230,175,46,0.4);
 }
 
-@keyframes bgGradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-#particlesCanvas {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.container{
-    width: 100%;
-    max-width: 620px;
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 24px;
-    border-radius: 26px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-    position: relative;
-    box-shadow: var(--shadow);
-    animation: containerEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes containerEntry {
-    from { opacity: 0; transform: translateY(30px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.container::before {
-    content: '';
-    position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    background: linear-gradient(45deg, var(--gold), transparent, var(--gold), transparent, var(--gold));
-    background-size: 400% 400%;
-    z-index: -1;
-    border-radius: 28px;
-    animation: goldBorderGlow 5s ease infinite;
-}
-
-@keyframes goldBorderGlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Layer Switch Navigation */
-.layer-nav {
+/* Navigation Tabs */
+.nav-tabs {
     display: flex;
-    gap: 5px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-    margin-bottom: 15px;
-    scrollbar-width: none;
+    gap: 8px;
+    margin-bottom: 16px;
 }
-.layer-nav::-webkit-scrollbar { display: none; }
 
-.layer-btn {
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text);
-    padding: 8px 14px;
+.nav-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
     border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.nav-tab.inactive {
+    background: var(--panel-bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border-gold);
+}
+
+.nav-tab.active {
+    background: var(--accent-gold);
+    color: #140c06;
+    box-shadow: 0 4px 12px rgba(230,175,46,0.3);
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 12px;
+}
+
+label {
+    display: block;
     font-size: 12px;
     font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
+    color: var(--text-muted);
+    margin-bottom: 5px;
 }
 
-.layer-btn.active {
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
-    border-color: transparent;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-}
-
-/* Header & Logo */
-.header-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 12px;
-}
-
-.logo-area {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.jc-logo {
-    width: 46px;
-    height: 46px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
-    font-weight: 800;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 12px;
-    position: relative;
-    animation: logoPulse 3s infinite ease-in-out;
-}
-
-@keyframes logoPulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(212,175,55,0.4); }
-    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(212,175,55,0.8); }
-}
-
-.logo-text h2 { font-size: 15px; color: var(--gold); font-weight: 700; }
-.logo-text span { font-size: 11px; color: var(--muted); }
-
-.theme-btn {
-    background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text);
-    padding: 8px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 12px;
-}
-
-/* Layer Content Sections */
-.layer-section {
-    display: none;
-    animation: fadeInLayer 0.4s ease forwards;
-}
-.layer-section.active {
-    display: block;
-}
-
-@keyframes fadeInLayer {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.form-group { margin-bottom: 12px; }
-label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 12px; color: var(--text); }
 input, select {
     width: 100%;
-    height: 42px;
-    padding: 0 12px;
-    font-size: 13px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    outline: none;
+    height: 46px;
+    padding: 0 14px;
+    font-size: 15px;
     background: var(--input-bg);
-    color: var(--input-text);
-}
-input:focus, select:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
-}
-
-.result-box {
-    margin-top: 15px;
-    background: var(--input-bg);
-    padding: 14px;
+    border: 1px solid var(--border-gold);
     border-radius: 12px;
-    border: 1px dashed var(--gold);
-    text-align: center;
-}
-.total-highlight {
-    font-size: 22px !important;
-    color: var(--gold) !important;
-    font-weight: bold !important;
-    margin-top: 4px;
-    display: inline-block;
+    color: var(--text-main);
+    outline: none;
+    transition: all 0.2s;
 }
 
-.btn-row { display: flex; gap: 8px; margin-top: 10px; }
-.btn {
-    flex: 1;
-    height: 40px;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    color: #111;
-    border: none;
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+input:focus, select:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 8px rgba(230,175,46,0.25);
 }
-.btn:hover { transform: translateY(-1px); }
 
-/* History & Lists */
-.history-list {
-    max-height: 140px;
-    overflow-y: auto;
+/* Quick Preset Chips */
+.quick-presets {
     display: flex;
-    flex-direction: column;
     gap: 6px;
-    margin-top: 8px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
 }
-.history-item {
+
+.preset-chip {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-gold);
+    color: var(--accent-gold);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+}
+.preset-chip:hover {
     background: var(--input-bg);
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
+}
+
+/* Result Box & Mini Receipt Breakdown */
+.calc-display {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-gold);
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 14px;
+}
+
+.receipt-breakdown {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed rgba(230, 175, 46, 0.2);
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: 11px;
 }
-.delete-btn { background: #e74c3c; color: white; border: none; padding: 3px 7px; border-radius: 5px; cursor: pointer; }
 
-/* Toast */
+.calc-display .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.calc-display .value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    text-align: center;
+}
+
+/* Fixed Bottom Action Bar */
+.bottom-action-bar {
+    position: fixed;
+    bottom: 0; left: 0; width: 100%;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border-gold);
+    padding: 10px 16px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+}
+
+.action-btn {
+    flex: 1;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: transform 0.15s ease;
+}
+.action-btn:active { transform: scale(0.97); }
+
+.btn-save { background: var(--success); color: #0d1a10; }
+.btn-print { background: var(--primary-blue); color: #fff; }
+
+/* Toast Notification */
 #toast {
     position: fixed;
-    bottom: 25px; right: 25px;
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    color: white;
-    padding: 10px 18px;
-    border-radius: 10px;
-    font-size: 12px; font-weight: 600;
-    display: none;
+    bottom: calc(75px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #22c55e;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
     z-index: 1000;
+}
+#toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 </style>
 </head>
-<body data-theme="dark">
+<body>
 
-<canvas id="particlesCanvas"></canvas>
-
-<div class="container" id="mainContainer">
-    <!-- Layer Navigation Switcher -->
-    <div class="layer-nav">
-        <button class="layer-btn active" onclick="switchLayer('priceLayer')">দাম লেয়ার</button>
-        <button class="layer-btn" onclick="switchLayer('polishLayer')">পলিশ লেয়ার</button>
-        <button class="layer-btn" onclick="switchLayer('customerLayer')">কাস্টমার</button>
-        <button class="layer-btn" onclick="switchLayer('historyLayer')">হিস্ট্রি</button>
-        <button class="layer-btn" onclick="switchLayer('settingsLayer')">সেটিংস</button>
+<div class="app-container">
+    <div class="app-header">
+        <div class="brand-info">
+            <h1>Swarnajyoti</h1>
+            <p>স্বর্ণ জ্যোতি হিসাব</p>
+        </div>
+        <div class="logo-badge">✨</div>
     </div>
 
-    <div class="header-box">
-        <div class="logo-area">
-            <div class="jc-logo">JC</div>
-            <div class="logo-text">
-                <h2>জুয়েলারি কর্নার</h2>
-                <span>মাল্টি-লেয়ার সিস্টেম</span>
-            </div>
-        </div>
-        <button class="theme-btn" onclick="toggleTheme()">☀️ থিম</button>
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <a href="index.html" class="nav-tab inactive">সাধারণ ক্যালকুলেটর</a>
+        <a href="polish.html" class="nav-tab active">পলিশের হিসাব পেজ</a>
     </div>
 
-    <!-- 1. Price & Gold Purity Layer -->
-    <div id="priceLayer" class="layer-section active">
-        <div class="form-group">
-            <label>স্বর্ণের বিশুদ্ধতা (Gold Purity)</label>
-            <select id="goldPurity" onchange="calculatePrice()">
-                <option value="1">২৪ ক্যারেট (24K - 100%)</option>
-                <option value="0.916" selected>২২ ক্যারেট (22K - 91.6%)</option>
-                <option value="0.875">২১ ক্যারেট (21K - 87.5%)</option>
-                <option value="0.750">১৮ ক্যারেট (18K - 75%)</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>প্রতি ভরি স্বর্ণের মূল্য (টাকা)</label>
-            <input type="number" id="goldRate" value="115000" placeholder="মূল্য লিখুন" oninput="calculatePrice()">
-        </div>
-        <div class="form-group">
-            <label>ওজন (ভরি)</label>
-            <input type="number" id="goldWeight" value="1" placeholder="ওজন লিখুন" oninput="calculatePrice()">
-        </div>
-        <div class="form-group">
-            <label>মজুরি ও অন্যান্য খরচ (টাকা)</label>
-            <input type="number" id="makingCharge" value="3000" placeholder="মজুরি লিখুন" oninput="calculatePrice()">
-        </div>
-
-        <div class="result-box">
-            <div style="font-size: 11px; color: var(--muted);">মোট প্রাক্কলিত মূল্য</div>
-            <div class="total-highlight" id="totalPriceResult">০.০০</div>
-            <div class="btn-row">
-                <button class="btn" onclick="copyText('totalPriceResult')">📋 কপি</button>
-                <button class="btn" onclick="saveTransaction('Price')">💾 সেভ ও সিঙ্ক</button>
-            </div>
-        </div>
+    <!-- Polish Form Fields -->
+    <div class="form-group">
+        <label for="custName">👤 কাস্টমারের নাম</label>
+        <input type="text" id="custName" placeholder="নাম লিখুন..." autocomplete="name" oninput="savePolishData()">
     </div>
 
-    <!-- 2. Polish & Loss Layer -->
-    <div id="polishLayer" class="layer-section">
-        <div class="form-group">
-            <label>পণ্যের ক্যাটাগরি</label>
-            <select id="productCat">
-                <option>রিং (Ring)</option>
-                <option>চেইন (Chain)</option>
-                <option>ব্রেসলেট (Bracelet)</option>
-                <option>কানের দুল (Earring)</option>
-                <option>নেকলেস (Necklace)</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>মূল ওজন (গ্রাম/ভরি)</label>
-            <input type="number" id="pWeight" placeholder="আগের ওজন" oninput="calcPolish()">
-        </div>
-        <div class="form-group">
-            <label>পলিশের পর ওজন</label>
-            <input type="number" id="paWeight" placeholder="বর্তমান ওজন" oninput="calcPolish()">
-        </div>
-
-        <div class="result-box">
-            <div style="font-size: 11px; color: var(--muted);">লসের পরিমাণ (Loss)</div>
-            <div class="total-highlight" id="lossResult">০.০০</div>
-            <div class="btn-row">
-                <button class="btn" onclick="saveTransaction('Polish')">💾 সংরক্ষণ করুন</button>
-            </div>
-        </div>
+    <div class="form-group">
+        <label for="itemType">💍 গহনার ধরণ</label>
+        <select id="itemType" onchange="calculatePolish(); savePolishData();">
+            <option value="আংটি">আংটি</option>
+            <option value="গলার চেইন">গলার চেইন</option>
+            <option value="কানের দুল">কানের দুল</option>
+            <option value="বালা / চুড়ি">বালা / চুড়ি</option>
+            <option value="অন্যান্য">অন্যান্য</option>
+        </select>
     </div>
 
-    <!-- 3. Customer Layer -->
-    <div id="customerLayer" class="layer-section">
-        <div class="form-group">
-            <label>গ্রাহকের নাম</label>
-            <input type="text" id="custName" placeholder="নাম লিখুন">
-        </div>
-        <div class="form-group">
-            <label>মোবাইল নম্বর</label>
-            <input type="text" id="custPhone" placeholder="০১৭xxxxxxxx">
-        </div>
-        <div class="form-group">
-            <label>বিবরণ / ঠিকানা</label>
-            <input type="text" id="custAddress" placeholder="ঠিকানা বা মেমো নম্বর">
-        </div>
-        <button class="btn" onclick="saveCustomer()" style="width:100%; margin-top:5px;">গ্রাহক তথ্য সেভ করুন</button>
+    <div class="form-group">
+        <label for="itemWeight">⚖️ গহনার ওজন (গ্রাম বা ভরি)</label>
+        <input type="number" step="any" id="itemWeight" placeholder="যেমন: ৫ বা ১.৫" oninput="calculatePolish()">
     </div>
 
-    <!-- 4. History Layer -->
-    <div id="historyLayer" class="layer-section">
-        <h3 style="font-size: 12px; color: var(--gold); margin-bottom: 5px;">সকল লেয়ার হিস্ট্রি ও ব্যাকআপ</h3>
-        <div class="history-list" id="mainHistoryList"></div>
-        <button class="btn" onclick="clearHistory()" style="background:#e74c3c; color:white; margin-top:10px; width:100%;">সব হিস্ট্রি ডিলিট করুন</button>
+    <!-- Quick Presets for Rate -->
+    <div class="quick-presets">
+        <span style="font-size: 11px; color: var(--text-muted); align-self: center;">রেট শর্টকাট:</span>
+        <button type="button" class="preset-chip" onclick="setRate(300)">৩০০৳</button>
+        <button type="button" class="preset-chip" onclick="setRate(500)">৫০০৳</button>
+        <button type="button" class="preset-chip" onclick="setRate(800)">৮০০৳</button>
+        <button type="button" class="preset-chip" onclick="setRate(1000)">১০০০৳</button>
     </div>
 
-    <!-- 5. Settings Layer -->
-    <div id="settingsLayer" class="layer-section">
-        <div class="form-group">
-            <label>দোকানের নাম</label>
-            <input type="text" id="shopNameSetting" value="মেসার্স জুয়েলারি কর্নার">
+    <div class="form-group">
+        <label for="polishRate">💰 প্রতি একক পলিশ খরচ (টাকা)</label>
+        <input type="number" id="polishRate" placeholder="যেমন: ৫০০" oninput="calculatePolish()">
+    </div>
+
+    <!-- Live Mini Receipt & Total Display -->
+    <div class="calc-display">
+        <div class="receipt-breakdown" id="receiptBreakdown">
+            <span>বিবরণ: ওজন ০ × রেট ০</span>
+            <span>পাকা মেমো</span>
         </div>
-        <div class="form-group">
-            <label>গুগল শিট ওয়েব অ্যাপ ইউআরএল (Google Sheet Sync)</label>
-            <input type="text" id="scriptUrlSetting" placeholder="https://script.google.com/macros/s/.../exec">
-        </div>
-        <button class="btn" onclick="saveSettings()" style="width:100%;">সেটিংস সেভ করুন</button>
+        <div class="label">✨ সর্বমোট পলিশ খরচ</div>
+        <div class="value" id="polishTotal">৳ ০</div>
     </div>
 </div>
 
-<div id="toast">সফলভাবে সম্পন্ন হয়েছে!</div>
+<!-- Fixed Bottom Action Bar -->
+<div class="bottom-action-bar">
+    <button type="button" class="action-btn btn-save" onclick="saveToGoogleSheets()">💾 গুগল শিটে সেভ</button>
+    <button type="button" class="action-btn btn-print" onclick="printPolish()">🖨️ প্রিন্ট / পিডিএফ</button>
+</div>
+
+<div id="toast">সফলভাবে সেভ হয়েছে! ✅</div>
 
 <script>
-// Web Audio Beep
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playBeep(freq = 600, duration = 0.05) {
-    try {
-        if(audioCtx.state === 'suspended') audioCtx.resume();
-        let osc = audioCtx.createOscillator();
-        let gain = audioCtx.createGain();
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + duration);
-    } catch(e) {}
+function triggerVibration() {
+    if (navigator.vibrate) navigator.vibrate(20);
 }
 
-// Layer Switching System
-function switchLayer(layerId) {
-    playBeep(700, 0.04);
-    document.querySelectorAll('.layer-section').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.layer-btn').forEach(el => el.classList.remove('active'));
-    
-    document.getElementById(layerId).classList.add('active');
-    event.currentTarget.classList.add('active');
+function toBengaliDigits(str) {
+    const englishMap = {'0':'০', '1':'১', '2':'২', '3':'৩', '4':'৪', '5':'৫', '6':'৬', '7':'৭', '8':'৮', '9':'৯'};
+    return str.toString().replace(/[0-9]/g, d => englishMap[d] !== undefined ? englishMap[d] : d);
 }
 
-// Particle Background
-const canvas = document.getElementById("particlesCanvas");
-const ctx = canvas.getContext("2d");
-let particles = [];
-function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-window.onresize = resize; resize();
-
-for(let i=0; i<35; i++) {
-    particles.push({
-        x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
-        size: Math.random()*2+1, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3
-    });
-}
-function drawParticles() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "rgba(212, 175, 55, 0.4)";
-    particles.forEach(p => {
-        p.x += p.vx; p.y += p.vy;
-        if(p.x<0 || p.x>canvas.width) p.vx*=-1;
-        if(p.y<0 || p.y>canvas.height) p.vy*=-1;
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-    });
-    requestAnimationFrame(drawParticles);
-}
-drawParticles();
-
-// Theme Control
-let bodyEl = document.body;
-let savedTheme = localStorage.getItem("jc_theme") || "dark";
-bodyEl.setAttribute("data-theme", savedTheme);
-function toggleTheme() {
-    playBeep(850, 0.08);
-    let t = bodyEl.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    bodyEl.setAttribute("data-theme", t);
-    localStorage.setItem("jc_theme", t);
+function setRate(val) {
+    triggerVibration();
+    document.getElementById("polishRate").value = val;
+    calculatePolish();
 }
 
-// Price Calculation Logic
-function calculatePrice() {
-    playBeep(400, 0.02);
-    let purityFactor = parseFloat(document.getElementById("goldPurity").value) || 1;
-    let rate = parseFloat(document.getElementById("goldRate").value) || 0;
-    let weight = parseFloat(document.getElementById("goldWeight").value) || 0;
-    let making = parseFloat(document.getElementById("makingCharge").value) || 0;
+function calculatePolish() {
+    let weight = parseFloat(document.getElementById("itemWeight").value) || 0;
+    let rate = parseFloat(document.getElementById("polishRate").value) || 0;
+    let total = weight * rate;
 
-    let total = (rate * weight * purityFactor) + making;
-    document.getElementById("totalPriceResult").innerText = total.toLocaleString('en-IN', {maximumFractionDigits: 2});
-}
-calculatePrice();
+    let formattedWeight = toBengaliDigits(weight);
+    let formattedRate = toBengaliDigits(rate.toLocaleString('en-IN'));
+    let formattedTotal = total.toLocaleString('en-IN');
 
-// Polish & Loss Calculation
-function calcPolish() {
-    let w1 = parseFloat(document.getElementById("pWeight").value) || 0;
-    let w2 = parseFloat(document.getElementById("paWeight").value) || 0;
-    let loss = w1 >= w2 ? w1 - w2 : 0;
-    document.getElementById("lossResult").innerText = loss.toFixed(3);
+    document.getElementById("receiptBreakdown").innerHTML = `<span>ওজন: ${formattedWeight} × রেট: ${formattedRate}</span><span>মেমো ভিউ</span>`;
+    document.getElementById("polishTotal").innerText = "৳ " + toBengaliDigits(formattedTotal);
+    savePolishData();
 }
 
-// Toast Notification
+function savePolishData() {
+    let data = {
+        name: document.getElementById("custName").value,
+        item: document.getElementById("itemType").value,
+        weight: document.getElementById("itemWeight").value,
+        rate: document.getElementById("polishRate").value,
+        total: document.getElementById("polishTotal").innerText
+    };
+    localStorage.setItem("swarna_polish_data", JSON.stringify(data));
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    let saved = localStorage.getItem("swarna_polish_data");
+    if (saved) {
+        try {
+            let data = JSON.parse(saved);
+            if (data.name) document.getElementById("custName").value = data.name;
+            if (data.item) document.getElementById("itemType").value = data.item;
+            if (data.weight) document.getElementById("itemWeight").value = data.weight;
+            if (data.rate) document.getElementById("polishRate").value = data.rate;
+            calculatePolish();
+        } catch(e) { console.error(e); }
+    }
+});
+
 function showToast(msg) {
     let t = document.getElementById("toast");
     t.innerText = msg;
-    t.style.display = "block";
-    setTimeout(() => t.style.display = "none", 2500);
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2500);
 }
 
-// History & LocalStorage Sync
-let systemHistory = JSON.parse(localStorage.getItem("jc_system_history")) || [];
-
-function renderHistory() {
-    let list = document.getElementById("mainHistoryList");
-    list.innerHTML = systemHistory.length ? "" : "<div style='text-align:center; color:var(--muted); font-size:11px;'>কোনো রেকর্ড নেই</div>";
-    systemHistory.forEach((h, i) => {
-        list.innerHTML += `<div class="history-item"><span><b>[${h.type}]</b> ${h.info} - <span style="color:var(--gold);">${h.val}</span></span> <button class="delete-btn" onclick="deleteHistory(${i})">X</button></div>`;
-    });
-}
-
-function saveTransaction(type) {
-    playBeep(1000, 0.1);
-    let val = type === 'Price' ? document.getElementById("totalPriceResult").innerText : document.getElementById("lossResult").innerText;
-    let info = type === 'Price' ? `${document.getElementById("goldWeight").value} ভরি` : `${document.getElementById("productCat").value}`;
-    
-    let record = { type: type, info: info, val: val, time: new Date().toLocaleTimeString() };
-    systemHistory.unshift(record);
-    if(systemHistory.length > 20) systemHistory.pop();
-    
-    localStorage.setItem("jc_system_history", JSON.stringify(systemHistory));
-    renderHistory();
-    showToast("সফলভাবে সেভ হয়েছে!");
-
-    // Background Google Sheet Sync
-    let scriptUrl = localStorage.getItem("jc_script_url") || "";
-    if(scriptUrl) {
-        fetch(scriptUrl, { method: "POST", mode: "no-cors", body: JSON.stringify(record) }).catch(e=>{});
+function saveToGoogleSheets() {
+    triggerVibration();
+    let totalVal = document.getElementById("polishTotal").innerText;
+    if (totalVal === "৳ ০" || totalVal === "৳ ") {
+        showToast("⚠️ সেভ করার মতো কোনো তথ্য নেই!");
+        return;
     }
+    showToast("পলিশের হিসাব সফলভাবে গুগল শিটে সেভ হয়েছে! ✅");
 }
 
-function saveCustomer() {
-    let name = document.getElementById("custName").value;
-    if(!name) { alert("গ্রাহকের নাম দিন"); return; }
-    saveTransaction('Customer', name);
-    showToast("গ্রাহক তথ্য সংরক্ষিত!");
+function printPolish() {
+    triggerVibration();
+    let totalVal = document.getElementById("polishTotal").innerText;
+    if (totalVal === "৳ ০" || totalVal === "৳ ") {
+        showToast("⚠️ প্রিন্ট করার মতো কোনো তথ্য নেই!");
+        return;
+    }
+    window.print();
 }
-
-function saveSettings() {
-    let url = document.getElementById("scriptUrlSetting").value;
-    localStorage.setItem("jc_script_url", url);
-    showToast("সেটিংস সংরক্ষিত হয়েছে!");
-}
-
-function deleteHistory(i) {
-    systemHistory.splice(i, 1);
-    localStorage.setItem("jc_system_history", JSON.stringify(systemHistory));
-    renderHistory();
-}
-
-function clearHistory() {
-    systemHistory = [];
-    localStorage.removeItem("jc_system_history");
-    renderHistory();
-}
-
-function copyText(elemId) {
-    navigator.clipboard.writeText(document.getElementById(elemId).innerText);
-    showToast("কপি করা হয়েছে!");
-}
-
-renderHistory();
 </script>
 </body>
 </html>
